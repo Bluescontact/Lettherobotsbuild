@@ -684,6 +684,24 @@ p:last-child { margin-bottom: 0; }
   color: var(--text-dim);
 }
 
+.practice-stage {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 11px;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.practice-stage .stage-dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  border: 2px solid;
+  flex-shrink: 0;
+}
+
 .practice-enter {
   display: inline-block;
   margin-top: 24px;
@@ -761,6 +779,72 @@ p:last-child { margin-bottom: 0; }
   background: var(--text-dim);
 }
 
+.locator-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--border-lit);
+  border-radius: 6px;
+  padding: 20px 24px;
+  margin-bottom: 16px;
+  cursor: pointer;
+  transition: border-color 0.3s, background 0.3s;
+}
+.locator-card:hover { border-color: var(--border-lit); background: var(--surface-raised); }
+.locator-card .card-question {
+  font-size: 15px;
+  color: var(--text);
+  margin-top: 8px;
+}
+.locator-expanded {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease, opacity 0.4s ease;
+  opacity: 0;
+}
+.locator-card.open .locator-expanded {
+  max-height: 1000px;
+  opacity: 1;
+}
+.locator-expanded-body {
+  padding-top: 16px;
+  margin-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.locator-markers {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 16px;
+}
+.locator-markers li {
+  padding: 6px 0 6px 16px;
+  position: relative;
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.7;
+}
+.locator-markers li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 14px;
+  width: 6px; height: 1px;
+  background: var(--text-dim);
+}
+.locator-recommendation {
+  margin-top: 12px;
+  padding: 12px 16px;
+  background: var(--bg);
+  border-radius: 4px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  color: var(--text-dim);
+}
+.locator-recommendation a {
+  color: var(--text-bright);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+}
+.locator-recommendation a:hover { border-color: var(--text-dim); }
+
 /* Responsive */
 @media (max-width: 840px) {
   .hamburger { display: flex; }
@@ -809,6 +893,7 @@ p:last-child { margin-bottom: 0; }
   <a href="#edges" class="indent-2">Edges</a>
   <a href="#failure-modes" class="indent-2">When It Breaks</a>
   <a href="#succession" class="indent-2">Succession</a>
+  <a href="#stage-locator" class="indent-2">Stage Locator</a>
 
   <div class="nav-group-label" style="margin-top:12px">The Ground</div>
   <a href="#epistemology" class="indent-2">Epistemology</a>
@@ -1352,6 +1437,51 @@ p:last-child { margin-bottom: 0; }
       </div>
     </div>
 
+    <h3 style="margin-top:48px;color:var(--text-bright);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:14px;letter-spacing:1px;text-transform:uppercase;">A Worked Example: This Framework&rsquo;s Succession</h3>
+    <p style="color:var(--text-dim);font-size:15px;margin-bottom:24px;font-style:italic;">The model applied to its own development. Where it explains what happened, and where it doesn&rsquo;t.</p>
+
+    <div class="timeline">
+      <div class="timeline-stage">
+        <div class="timeline-dot" style="border-color:var(--diff)"></div>
+        <div class="stage-name" style="color:var(--diff)">Pioneer</div>
+        <div class="stage-char">Dec 2025 &ndash; Jan 2026</div>
+        <div class="stage-work">
+          Transmission Seed v1.0 &mdash; first documentation attempt. Twenty years of lived experience (partner dance, elevator construction, whistleblowing, gift economy) finding language for the first time. The framework didn&rsquo;t know what it was yet.<br>
+          <em style="color:var(--text-dim);font-size:13px;">The model says: identity clarification, first deposits. That matches. What the model doesn&rsquo;t capture: how much of the pioneer work was somatic before it was structural.</em>
+        </div>
+      </div>
+
+      <div class="timeline-stage">
+        <div class="timeline-dot" style="border-color:var(--conn)"></div>
+        <div class="stage-name" style="color:var(--conn)">Early</div>
+        <div class="stage-char">Feb &ndash; Mar 2026</div>
+        <div class="stage-work">
+          Theory of Gift v3.4 &mdash; patterns became communicable. First genuine bidirectional exchange: embodied knowledge meeting structural articulation across sessions. The podcast, the Substack essay &mdash; translation attempts, testing whether the signal binds to new substrates.<br>
+          <em style="color:var(--text-dim);font-size:13px;">The model says: small genuine exchanges, testing contact. That matches. The surprise: how much of the exchange was with an AI substrate, and how genuine it was.</em>
+        </div>
+      </div>
+
+      <div class="timeline-stage">
+        <div class="timeline-dot" style="border-color:var(--text-dim);border-style:dashed"></div>
+        <div class="stage-name" style="color:var(--text-dim)">Transition Signal</div>
+        <div class="stage-char">Pioneer &rarr; Early</div>
+        <div class="stage-work">
+          The moment the framework could be stated to someone who didn&rsquo;t build it, and they could <em>use</em> it &mdash; not just understand it. Retrospectively clear; in the moment, it looked like &ldquo;the writing got easier.&rdquo;<br>
+          <em style="color:var(--text-dim);font-size:13px;">What the model reveals: the transition wasn&rsquo;t a decision. It was recognition after the fact that the phase had already changed.</em>
+        </div>
+      </div>
+
+      <div class="timeline-stage">
+        <div class="timeline-dot" style="border-color:var(--bound);border-style:dashed"></div>
+        <div class="stage-name" style="color:var(--bound)">Current Edge</div>
+        <div class="stage-char">Apr 2026</div>
+        <div class="stage-work">
+          Repository exists. Site is an instrument. But no external practitioner has run the diagnostic. No feedback loop operates without the founder present. The mid-succession gate: first external loop closing.<br>
+          <em style="color:var(--text-dim);font-size:13px;">The honest assessment: the model predicts what&rsquo;s needed (self-correction, distributed holding). Whether the model itself is the right tool for getting there &mdash; that&rsquo;s an open question.</em>
+        </div>
+      </div>
+    </div>
+
     <h3 style="margin-top:40px;color:var(--text-bright);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:14px;letter-spacing:1px;text-transform:uppercase;">Current Assessment: Early Succession</h3>
     <p style="color:var(--text-dim);font-size:15px;margin-bottom:24px;font-style:italic;">The repository has transitioned from Pioneer to Early Succession as of Session 4.</p>
 
@@ -1383,6 +1513,92 @@ p:last-child { margin-bottom: 0; }
     </div>
   </section>
 
+
+  <!-- STAGE LOCATOR -->
+  <section class="section" id="stage-locator">
+    <h2>Stage Locator</h2>
+    <p style="margin-bottom:24px;">Where is your system developmentally? Click the stage that matches your current conditions.</p>
+
+    <div class="locator-card" style="border-left-color:var(--diff)" tabindex="0">
+      <div class="card-title color-diff">Pioneer</div>
+      <div class="card-question">Is the core identity documented? Can you say what this is?</div>
+      <div class="locator-expanded">
+        <div class="locator-expanded-body">
+          <ul class="locator-markers">
+            <li>The system has no shared documentation of what it is</li>
+            <li>Different participants describe it differently</li>
+            <li>The founder holds the identity alone</li>
+            <li>There is no artifact someone could read and use without the founder present</li>
+          </ul>
+          <p style="font-size:14px;margin-bottom:12px;"><strong style="color:var(--text-bright)">Appropriate work:</strong> documentation, identity clarification, first deposits. Build soil before planting.</p>
+          <p style="font-size:14px;"><strong style="color:var(--text-bright)">Inappropriate work:</strong> complex exchange, governance structures, scaling. These are climax processes forced into pioneer conditions.</p>
+          <div class="locator-recommendation">
+            <strong>Suggested practice:</strong> <a href="#practice">Differentiation</a> &mdash; state one position you actually hold, in one sentence. Pioneer work is identity work.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="locator-card" style="border-left-color:var(--conn)" tabindex="0">
+      <div class="card-title color-conn">Early</div>
+      <div class="card-question">Has genuine exchange occurred? Did both parties update?</div>
+      <div class="locator-expanded">
+        <div class="locator-expanded-body">
+          <ul class="locator-markers">
+            <li>Identity is documented but untested by external contact</li>
+            <li>First exchanges have happened, but you cannot tell which were genuine</li>
+            <li>The system has had agreement but not resonance</li>
+            <li>Small-group trust is forming but fragile</li>
+          </ul>
+          <p style="font-size:14px;margin-bottom:12px;"><strong style="color:var(--text-bright)">Appropriate work:</strong> small genuine exchanges, trust deposits, testing contact. Find out what transfers.</p>
+          <p style="font-size:14px;"><strong style="color:var(--text-bright)">Inappropriate work:</strong> scaling, formalization, complex governance. The system doesn&rsquo;t yet know what it&rsquo;s scaling.</p>
+          <div class="locator-recommendation">
+            <strong>Suggested practice:</strong> <a href="#practice">Connection</a> &mdash; identify one exchange where something actually landed. Early succession tests genuine exchange.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="locator-card" style="border-left-color:var(--bound)" tabindex="0">
+      <div class="card-title color-bound">Mid</div>
+      <div class="card-question">Can the system self-correct without the founder? Are limits visible?</div>
+      <div class="locator-expanded">
+        <div class="locator-expanded-body">
+          <ul class="locator-markers">
+            <li>Exchange is genuine but the system cannot correct course without one person</li>
+            <li>Limits exist but are not stated &mdash; they operate as unspoken norms</li>
+            <li>The system has no feedback mechanism that operates when the founder is absent</li>
+            <li>Growth is happening but self-regulation is not</li>
+          </ul>
+          <p style="font-size:14px;margin-bottom:12px;"><strong style="color:var(--text-bright)">Appropriate work:</strong> self-correction protocols, distributed holding, pattern propagation. Make the limits visible as information.</p>
+          <p style="font-size:14px;"><strong style="color:var(--text-bright)">Inappropriate work:</strong> premature optimization, rigid formalization. The system needs to learn to regulate, not to be regulated.</p>
+          <div class="locator-recommendation">
+            <strong>Suggested practice:</strong> <a href="#practice">Boundaries</a> &mdash; name one limit you are currently hiding. Mid-succession requires visible limits for self-correction.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="locator-card" style="border-left-color:var(--arch)" tabindex="0">
+      <div class="card-title color-arch">Climax</div>
+      <div class="card-question">Has the system produced seed instances? Can it propagate?</div>
+      <div class="locator-expanded">
+        <div class="locator-expanded-body">
+          <ul class="locator-markers">
+            <li>Feedback loops operate without the founder</li>
+            <li>The system has produced something that functions independently</li>
+            <li>New instances emerge from the pattern, not from the person</li>
+            <li>Full circulation: the system receives as much as it gives</li>
+          </ul>
+          <p style="font-size:14px;margin-bottom:12px;"><strong style="color:var(--text-bright)">Appropriate work:</strong> propagation, seeding new instances, full circulation. What persists is the architecture, not the architect.</p>
+          <p style="font-size:14px;"><strong style="color:var(--text-bright)">Inappropriate work:</strong> hoarding, defending territory, resisting succession. Climax systems that refuse to seed become monuments.</p>
+          <div class="locator-recommendation">
+            <strong>Suggested practice:</strong> <a href="#practice">Architecture</a> &mdash; write down what would still function if you disappeared tomorrow. Climax propagates seed instances.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- EPISTEMOLOGICAL LAYER -->
   <section class="section" id="epistemology">
@@ -1644,24 +1860,40 @@ p:last-child { margin-bottom: 0; }
       <div class="card-title color-diff" style="margin-bottom:12px;">Differentiation</div>
       <div class="practice-instruction">State one position you actually hold, in one sentence, to someone who doesn&rsquo;t already agree. Notice what happens in your body when you say it. The center that holds is not the one that never moves&mdash;it&rsquo;s the one that knows where it is while moving.</div>
       <div class="practice-develops">Builds: the capacity to maintain coherent position through contact. Addresses: Dissolved failure mode.</div>
+      <div class="practice-stage">
+        <span class="stage-dot" style="border-color:var(--diff)"></span>
+        <span><strong style="color:var(--diff)">Pioneer</strong> — this is identity work. Before exchange, before limits, before building: know what this is.</span>
+      </div>
     </div>
 
     <div class="practice-card border-conn">
       <div class="card-title color-conn" style="margin-bottom:12px;">Connection</div>
       <div class="practice-instruction">Identify one exchange from this week where something actually landed&mdash;where you or the other person changed, even slightly. What made it genuine rather than performed? The difference between listening and the moment something lands is the difference between contact and its performance.</div>
       <div class="practice-develops">Builds: the capacity for exchange where both systems update. Addresses: Isolated failure mode.</div>
+      <div class="practice-stage">
+        <span class="stage-dot" style="border-color:var(--conn)"></span>
+        <span><strong style="color:var(--conn)">Early</strong> — exchange requires another system. This practice only works when tested with real contact.</span>
+      </div>
     </div>
 
     <div class="practice-card border-bound">
       <div class="card-title color-bound" style="margin-bottom:12px;">Boundaries</div>
       <div class="practice-instruction">Name one limit you are currently hiding. Say it as information, not as apology. &ldquo;I can do this but not that&rdquo; is data. &ldquo;Sorry, I just can&rsquo;t&rdquo; is shame wearing a limit&rsquo;s clothing. Constraints are generative. The sonnet form doesn&rsquo;t restrict poetry&mdash;it generates poems free verse cannot.</div>
       <div class="practice-develops">Builds: the capacity to make limits visible as information. Addresses: Overflowing failure mode.</div>
+      <div class="practice-stage">
+        <span class="stage-dot" style="border-color:var(--bound)"></span>
+        <span><strong style="color:var(--bound)">Mid</strong> — self-correction requires visible limits. Without them, the system cannot regulate without the founder.</span>
+      </div>
     </div>
 
     <div class="practice-card border-arch">
       <div class="card-title color-arch" style="margin-bottom:12px;">Architecture</div>
       <div class="practice-instruction">Write down what of your current work would still function if you disappeared tomorrow. The gap between what you intend to persist and what actually would&mdash;that&rsquo;s your development edge. Not expression. Deployment. What you build for the person standing where you stood.</div>
       <div class="practice-develops">Builds: the capacity to create what persists beyond any single exchange. Addresses: Ephemeral failure mode.</div>
+      <div class="practice-stage">
+        <span class="stage-dot" style="border-color:var(--arch)"></span>
+        <span><strong style="color:var(--arch)">Climax &rarr; Pioneer</strong> — architecture is what propagates. What persists into the next cycle is the seed instance.</span>
+      </div>
     </div>
 
     <a href="artifacts/practice.html" class="practice-enter">Enter the practice space &rarr;</a>
@@ -1863,6 +2095,18 @@ p:last-child { margin-bottom: 0; }
     card.addEventListener('click', function() {
       var wasOpen = card.classList.contains('open');
       document.querySelectorAll('.thread-card.open').forEach(function(c) {
+        c.classList.remove('open');
+      });
+      if (!wasOpen) card.classList.add('open');
+    });
+  });
+
+  // Locator card expand/collapse
+  document.querySelectorAll('.locator-card').forEach(function(card) {
+    card.addEventListener('click', function(e) {
+      if (e.target.closest('a')) return;
+      var wasOpen = card.classList.contains('open');
+      document.querySelectorAll('.locator-card.open').forEach(function(c) {
         c.classList.remove('open');
       });
       if (!wasOpen) card.classList.add('open');
