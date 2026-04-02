@@ -845,6 +845,129 @@ p:last-child { margin-bottom: 0; }
 }
 .locator-recommendation a:hover { border-color: var(--text-dim); }
 
+/* System entries */
+.system-entry {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 28px;
+  margin-bottom: 24px;
+}
+.system-header {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-white);
+  margin-bottom: 4px;
+}
+.system-function {
+  font-size: 15px;
+  color: var(--text);
+  margin-bottom: 20px;
+  font-style: italic;
+}
+.system-field {
+  margin-bottom: 14px;
+}
+.system-field-label {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 4px;
+}
+.system-field-value {
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.7;
+}
+.system-streams {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 20px 0;
+}
+@media (max-width: 520px) {
+  .system-streams { grid-template-columns: 1fr; }
+}
+.system-stream-box {
+  background: var(--bg);
+  border-radius: 4px;
+  padding: 14px 16px;
+}
+.system-stream-box h4 {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+}
+.system-stream-box ul {
+  list-style: none;
+  padding: 0;
+}
+.system-stream-box ul li {
+  font-size: 13px;
+  color: var(--text);
+  padding: 3px 0 3px 14px;
+  position: relative;
+}
+.system-stream-box ul li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 11px;
+  width: 5px; height: 1px;
+  background: var(--text-dim);
+}
+.system-paths {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 20px 0;
+}
+@media (max-width: 520px) {
+  .system-paths { grid-template-columns: 1fr; }
+}
+.system-path-box {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 14px 16px;
+}
+.system-path-box h4 {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.system-loop-viz {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0;
+  margin: 20px 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 12px;
+}
+.loop-node {
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 6px 12px;
+  color: var(--text-bright);
+  white-space: nowrap;
+}
+.loop-arrow {
+  color: var(--text-dim);
+  padding: 0 6px;
+  font-size: 14px;
+}
+
 /* Responsive */
 @media (max-width: 840px) {
   .hamburger { display: flex; }
@@ -910,6 +1033,11 @@ p:last-child { margin-bottom: 0; }
 
   <div class="nav-group-label" style="margin-top:12px">Open Questions</div>
   <a href="#open-questions">What Remains Open</a>
+
+  <div class="nav-group-label" style="margin-top:12px">The Domain</div>
+  <a href="#domain" class="indent-2">Core Question</a>
+  <a href="#gaviotas" class="indent-2">Gaviotas</a>
+  <a href="#system-sleeve-pump" class="indent-2">Sleeve Pump</a>
 </nav>
 
 <!-- Main -->
@@ -1994,6 +2122,177 @@ p:last-child { margin-bottom: 0; }
           </ul>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- THE DOMAIN -->
+  <section class="section" id="domain">
+    <h2>The Domain</h2>
+    <p style="margin-bottom:8px;font-size:17px;color:var(--text-bright);font-style:italic;">How does a person or small community acquire, build, and maintain the physical systems they need &mdash; partially or fully outside the general economy?</p>
+    <p style="margin-bottom:28px;">The Recognition Infrastructure framework is the operating system. This is the domain layer &mdash; the practical knowledge commons it builds toward. Not encyclopedic documentation. Closed-loop system mapping, adversarial-condition testing, and two-path documentation that keeps the knowledge honest about who it actually serves.</p>
+
+    <div class="edge-card" style="margin-bottom:20px">
+      <h3 style="color:var(--diff)">The Adversarial-Condition Principle</h3>
+      <p>Knowledge developed under hostile conditions transfers to easier conditions. Knowledge developed under ideal conditions often doesn&rsquo;t. Every system is documented as if the person building it has no supply chain, no specialist access, and no guarantee the parts will be available next year.</p>
+      <p style="color:var(--text-dim);font-size:14px;margin-top:8px"><strong>Operational:</strong> If the documentation only works when everything goes right, it doesn&rsquo;t work.</p>
+    </div>
+
+    <div class="edge-card" style="margin-bottom:20px">
+      <h3 style="color:var(--conn)">Retail / Salvage Duality</h3>
+      <p>Every system has two bills of materials. The retail path: new parts, known sources, predictable cost. The salvage path: equivalent components from what&rsquo;s available &mdash; forklift batteries, scrap steel, gate valves from demolished buildings. Documentation that only serves the retail path excludes people without capital. That&rsquo;s a gate wearing a knowledge commons&rsquo; clothing.</p>
+      <p style="color:var(--text-dim);font-size:14px;margin-top:8px"><strong>Operational:</strong> If a system entry has no salvage path, it&rsquo;s incomplete.</p>
+    </div>
+
+    <div class="edge-card" style="margin-bottom:20px">
+      <h3 style="color:var(--bound)">Secondary Output Documentation</h3>
+      <p>Loops close through incidental outputs. A pine plantation designed for resin income accidentally regenerates native rainforest. Solar hot water&rsquo;s excess heat becomes space heating. The waste stream from biodiesel becomes aquaponics nutrient. The loop-closing potential of a system lives in what it produces incidentally, not what it was designed to produce.</p>
+      <p style="color:var(--text-dim);font-size:14px;margin-top:8px"><strong>Operational:</strong> Every system entry must document secondary outputs explicitly. Undocumented secondary outputs are unclosed loops.</p>
+    </div>
+
+    <div class="edge-card">
+      <h3 style="color:var(--arch)">What This Is Not</h3>
+      <p><strong style="color:var(--text-bright)">Not Appropedia</strong> &mdash; Appropedia documents everything. This documents the closed-loop path.<br>
+      <strong style="color:var(--text-bright)">Not OSE/GVCS</strong> &mdash; Open Source Ecology documents fabrication from scratch. This documents acquisition and maintenance from existing materials including salvage.<br>
+      <strong style="color:var(--text-bright)">Not ideology</strong> &mdash; the documentation serves anyone who wants energy, water, food, and shelter independence, regardless of why they want it.</p>
+    </div>
+  </section>
+
+  <!-- LAS GAVIOTAS -->
+  <section class="section" id="gaviotas">
+    <h2>The Reference Case: Las Gaviotas</h2>
+    <p style="margin-bottom:28px;">Centro Las Gaviotas, Vichada, Colombia. Founded 1971 by Paolo Lugari. 50+ years operational. Not a demonstration project &mdash; a living system that survived active drug war, paramilitaries, funding collapse, and soil conditions most agronomists declared impossible. Lugari&rsquo;s design logic: choose the hardest place deliberately, so solutions develop genuine transferability. Six patterns extracted.</p>
+
+    <div class="edge-card" style="margin-bottom:20px">
+      <h3 style="color:var(--diff)">1. Constraint-Driven Invention</h3>
+      <p>Every Gaviotas technology emerged from a specific local constraint. Water table 40 meters deep &rarr; sleeve pump operable by children on seesaws. Cloudy tropical skies &rarr; solar collectors re-engineered for diffuse light. No roads, no supply chains &rarr; everything repairable with local materials.</p>
+      <p style="color:var(--text-dim);font-size:14px;margin-top:8px"><strong>For the knowledge infrastructure:</strong> Every system entry documents the constraint it was designed to address, not just the solution. A solution without its originating constraint cannot be adapted.</p>
+    </div>
+
+    <div class="edge-card" style="margin-bottom:20px">
+      <h3 style="color:var(--conn)">2. Secondary Outputs Exceed Primary Purpose</h3>
+      <p>The pine plantation was designed to produce resin for commercial income. It accidentally regenerated 8,000 hectares of native tropical rainforest &mdash; hundreds of species returning to land barren for centuries. The biodiesel byproduct becomes aquaponics nutrient. The solar system&rsquo;s excess heat becomes space heating. Secondary outputs became more significant than primary purpose.</p>
+      <p style="color:var(--text-dim);font-size:14px;margin-top:8px"><strong>For the knowledge infrastructure:</strong> Document secondary outputs explicitly. The loop-closing potential lives in incidental production.</p>
+    </div>
+
+    <div class="edge-card" style="margin-bottom:20px">
+      <h3 style="color:var(--arch)">3. Technologies for Non-Expert Operation</h3>
+      <p>The sleeve pump works because children can operate it on a seesaw. The solar collector has no moving parts. The wind pump doesn&rsquo;t need a vane to orient itself. Every technology was designed so the operator doesn&rsquo;t need to understand the engineering &mdash; they need to understand the operation.</p>
+      <p style="color:var(--text-dim);font-size:14px;margin-top:8px"><strong>For the knowledge infrastructure:</strong> Every entry includes an operational simplicity assessment. Who can run this after the person who built it leaves?</p>
+    </div>
+
+    <div class="edge-card" style="margin-bottom:20px">
+      <h3 style="color:var(--bound)">4. Apolitical Survival</h3>
+      <p>Gaviotas survived 50 years of Colombia&rsquo;s internal conflict by maintaining strict political neutrality. No police, no mayor, no guns, no prison. It survived not through strength but through non-threatening utility &mdash; infrastructure that served everyone and threatened no one.</p>
+      <p style="color:var(--text-dim);font-size:14px;margin-top:8px"><strong>For the knowledge infrastructure:</strong> Document systems, not ideologies. A closed-loop power system works whether the person building it is a prepper, an environmentalist, a homesteader, or a community organizer.</p>
+    </div>
+
+    <div class="edge-card" style="margin-bottom:20px">
+      <h3 style="color:var(--conn)">5. Social Structure as Technology</h3>
+      <p>Egalitarian decision-making, no authority hierarchy, salary plus housing plus healthcare plus food as compensation. These aren&rsquo;t soft features &mdash; they&rsquo;re the social technology that kept the system functioning when funding collapsed, violence surrounded the village, and conventional wisdom said it should fail.</p>
+      <p style="color:var(--text-dim);font-size:14px;margin-top:8px"><strong>For the knowledge infrastructure:</strong> Governance and social structure are documented systems alongside physical systems. How decisions get made at different scales is a technology.</p>
+    </div>
+
+    <div class="edge-card">
+      <h3 style="color:var(--arch)">6. The Replication Paradox</h3>
+      <p>Lugari explicitly cautioned against copying Gaviotas. The principles transfer. The specific implementations require local adaptation. A knowledge infrastructure that documents Gaviotas-style solutions as universal templates fails. One that documents the constraint-response methodology succeeds.</p>
+      <p style="color:var(--text-dim);font-size:14px;margin-top:8px"><strong>For the knowledge infrastructure:</strong> Document connection patterns, not product specs. A knowledge agent extracts the structural relationship &mdash; constraint &rarr; invented solution &rarr; secondary outputs &rarr; loop connections &mdash; not the blueprint.</p>
+    </div>
+  </section>
+
+  <!-- FIRST SYSTEM ENTRY -->
+  <section class="section" id="system-sleeve-pump">
+    <h2>System Entry: Sleeve Pump</h2>
+    <p style="margin-bottom:8px;color:var(--text-dim);font-size:14px;font-style:italic;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;">First entry in the knowledge commons. This is the format every system follows.</p>
+
+    <div class="system-entry">
+      <div class="system-header">Manual Water Extraction &mdash; Sleeve Pump</div>
+      <div class="system-function">Extracts groundwater from depths up to 40 meters without electricity, using human power. Child-operable in seesaw configuration.</div>
+
+      <div class="system-field">
+        <div class="system-field-label">Origin Constraint</div>
+        <div class="system-field-value">Gaviotas sits on the Llanos Orientales. Water table 40 meters deep. No electrical grid. Conventional pumps require power and maintenance expertise the community didn&rsquo;t have. The constraint generated the invention: a pump so simple a child on a seesaw can operate it.</div>
+      </div>
+
+      <div class="system-field">
+        <div class="system-field-label">Scale</div>
+        <div class="system-field-value"><strong style="color:var(--diff)">Pioneer</strong> (1&ndash;5 people) &mdash; This is the first system. Everything else depends on water.</div>
+      </div>
+
+      <div class="system-streams">
+        <div class="system-stream-box">
+          <h4>Inputs</h4>
+          <ul>
+            <li>Human mechanical energy (seesaw, hand lever, or direct pump action)</li>
+            <li>Access to groundwater within 40m depth</li>
+          </ul>
+        </div>
+        <div class="system-stream-box">
+          <h4>Outputs</h4>
+          <ul>
+            <li><strong style="color:var(--text-bright)">Primary:</strong> Potable water</li>
+            <li><strong style="color:var(--conn)">Secondary:</strong> Irrigation capacity (enables food production)</li>
+            <li><strong style="color:var(--conn)">Secondary:</strong> Gravity head potential (if pumped to elevated storage &rarr; enables ram pump, gravity-fed distribution)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="system-field">
+        <div class="system-field-label">Operational Simplicity</div>
+        <div class="system-field-value">Operable by anyone who can use a seesaw. No training required for operation. Maintenance: sleeve replacement (the flexible cylinder that creates the seal) is the primary wear item &mdash; replaceable with basic tools and locally available flexible material. A non-expert can repair it.</div>
+      </div>
+
+      <div class="system-paths">
+        <div class="system-path-box">
+          <h4 style="color:var(--text-bright)">Retail Path</h4>
+          <p style="font-size:13px;color:var(--text);">PVC pipe (2&rdquo;&ndash;4&rdquo; diameter), flexible sleeve material (leather, rubber, or reinforced fabric), check valve, seesaw frame (steel or hardwood). Available through plumbing and hardware suppliers. Approximate cost: $150&ndash;$400 depending on depth.</p>
+        </div>
+        <div class="system-path-box">
+          <h4 style="color:var(--bound)">Salvage Path</h4>
+          <p style="font-size:13px;color:var(--text);">PVC pipe from construction salvage. Sleeve from old tire inner tube, leather scraps, or heavy canvas. Check valve from salvaged plumbing. Frame from scrap steel or available hardwood. Total cost: near zero if materials are available. The critical constraint: the sleeve must create a seal. Everything else is structure.</p>
+        </div>
+      </div>
+
+      <div class="system-field">
+        <div class="system-field-label">Adversarial Conditions</div>
+        <div class="system-field-value">15,000+ field deployments across rural Colombia. Operates without electricity, without specialized tools, without supply chain access. Known failure: sleeve degradation over time (replaceable). Degraded-mode operation: even a partially worn sleeve extracts water, just less efficiently.</div>
+      </div>
+
+      <div class="system-field">
+        <div class="system-field-label">Loop Connections</div>
+        <div class="system-field-value">Water is the first node in every closed-loop system. The sleeve pump enables:</div>
+      </div>
+
+      <div class="system-loop-viz">
+        <span class="loop-node" style="border-color:var(--conn)">Sleeve Pump</span>
+        <span class="loop-arrow">&rarr;</span>
+        <span class="loop-node">Potable Water</span>
+        <span class="loop-arrow">&rarr;</span>
+        <span class="loop-node">Irrigation</span>
+        <span class="loop-arrow">&rarr;</span>
+        <span class="loop-node">Food Production</span>
+        <span class="loop-arrow">&rarr;</span>
+        <span class="loop-node">Compost</span>
+        <span class="loop-arrow">&rarr;</span>
+        <span class="loop-node">Soil</span>
+      </div>
+      <div class="system-loop-viz" style="margin-top:8px;">
+        <span class="loop-node" style="border-color:var(--conn)">Sleeve Pump</span>
+        <span class="loop-arrow">&rarr;</span>
+        <span class="loop-node">Elevated Storage</span>
+        <span class="loop-arrow">&rarr;</span>
+        <span class="loop-node">Gravity Head</span>
+        <span class="loop-arrow">&rarr;</span>
+        <span class="loop-node">Ram Pump</span>
+        <span class="loop-arrow">&rarr;</span>
+        <span class="loop-node">Distribution</span>
+      </div>
+
+      <p style="margin-top:20px;color:var(--text-dim);font-size:13px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;">This is a seed entry. The full loop map &mdash; an interactive graph where nodes are systems and edges are resource flows &mdash; is future infrastructure. For now: water first. Everything else builds on water.</p>
+    </div>
+
+    <div class="edge-card" style="margin-top:24px;">
+      <h3 style="color:var(--text-dim);font-size:12px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;letter-spacing:1px;text-transform:uppercase;">Succession Note</h3>
+      <p style="font-size:14px;">The domain layer is at <strong style="color:var(--diff)">Pioneer</strong> succession. The Recognition Infrastructure operating system is at <strong style="color:var(--conn)">Early</strong>. This is appropriate: the operating system is more mature than the domain it&rsquo;s being applied to. One system entry exists. The format is established. What comes next is more entries, more loop connections, and eventually the interactive map. That&rsquo;s Early succession work for the domain &mdash; testing whether this format transfers to systems beyond the Gaviotas reference case.</p>
     </div>
   </section>
 
