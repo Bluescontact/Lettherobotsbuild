@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Protocols — Recognition Infrastructure</title>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #08090b;
+  --surface: #0e1014;
+  --surface-raised: #13161c;
+  --border: #1a1e28;
+  --border-lit: #2a3040;
+  --text: #9ca3b0;
+  --text-dim: #5c6370;
+  --text-bright: #d4d9e4;
+  --text-white: #eef0f5;
+  --differentiation: #c47a5a;
+  --connection: #5a8fc4;
+  --boundaries: #6db356;
+  --architecture: #c9ab4a;
+  --font-body: Georgia, 'Times New Roman', serif;
+  --font-nav: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.7;
+  font-size: 17px;
+  min-height: 100vh;
+}
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border-lit); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
+
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 52px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  z-index: 1000;
+  font-family: var(--font-nav);
+  font-size: 13px;
+}
+
+.nav-brand {
+  color: var(--text-dim);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 600;
+  margin-right: auto;
+  text-decoration: none;
+}
+
+.nav-links { display: flex; gap: 4px; }
+
+.nav-links a {
+  color: var(--text-dim);
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: color 0.2s, background 0.2s;
+}
+
+.nav-links a:hover { color: var(--text-bright); background: var(--surface-raised); }
+.nav-links a.active { color: var(--text-white); background: var(--border); }
+
+main {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 108px 56px 96px;
+}
+
+.hero {
+  margin-bottom: 48px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards;
+}
+
+.hero h1 {
+  font-family: var(--font-body);
+  font-size: 42px;
+  font-weight: 400;
+  color: var(--text-white);
+  letter-spacing: -0.01em;
+  margin-bottom: 8px;
+}
+
+.hero .subtitle {
+  font-size: 18px;
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 40px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0;
+}
+
+.tab-btn {
+  font-family: var(--font-nav);
+  font-size: 14px;
+  padding: 10px 20px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.tab-btn:hover { color: var(--text-bright); }
+
+.tab-btn.active {
+  color: var(--text-white);
+  border-bottom-color: var(--text-white);
+}
+
+.tab-content {
+  display: none;
+  opacity: 0;
+  animation: fadeUp 0.4s ease forwards;
+}
+
+.tab-content.active { display: block; }
+
+.section {
+  margin-bottom: 48px;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.section.visible {
+  animation: fadeUp 0.6s ease forwards;
+}
+
+.section-label {
+  font-family: var(--font-nav);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+}
+
+.section h2 {
+  font-family: var(--font-body);
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--text-bright);
+  margin-bottom: 16px;
+}
+
+h3 {
+  font-family: var(--font-body);
+  font-size: 19px;
+  font-weight: 400;
+  color: var(--text-bright);
+  margin-bottom: 12px;
+  margin-top: 32px;
+}
+
+p { margin-bottom: 14px; }
+
+ol, ul {
+  padding-left: 24px;
+  margin-bottom: 16px;
+}
+
+li {
+  margin-bottom: 8px;
+  padding-left: 4px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 16px;
+}
+
+.card h4 {
+  font-family: var(--font-nav);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 10px;
+}
+
+.rule {
+  background: var(--surface);
+  border-left: 2px solid var(--border-lit);
+  padding: 12px 20px;
+  margin: 12px 0;
+  font-style: italic;
+  color: var(--text-bright);
+  border-radius: 0 6px 6px 0;
+}
+
+/* States */
+.state-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.state-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 18px;
+  text-align: center;
+}
+
+.state-card .state-name {
+  font-family: var(--font-nav);
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.state-card:nth-child(1) .state-name { color: var(--boundaries); }
+.state-card:nth-child(2) .state-name { color: var(--connection); }
+.state-card:nth-child(3) .state-name { color: var(--text-dim); }
+
+.state-card p {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-dim);
+}
+
+/* Table */
+.comp-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 15px;
+}
+
+.comp-table th {
+  font-family: var(--font-nav);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-align: left;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border-lit);
+}
+
+.comp-table td {
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+
+.comp-table tr:last-child td { border-bottom: none; }
+
+.comp-table td:first-child { color: var(--text-bright); }
+
+/* Anti-pattern */
+.anti-pattern {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--differentiation);
+  border-radius: 0 8px 8px 0;
+  padding: 16px 20px;
+  margin-bottom: 10px;
+}
+
+.anti-pattern strong {
+  color: var(--differentiation);
+  font-family: var(--font-nav);
+  font-size: 13px;
+}
+
+.anti-pattern p {
+  margin-top: 6px;
+  font-size: 15px;
+  line-height: 1.55;
+  margin-bottom: 0;
+}
+
+/* Session template */
+.template {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 28px;
+  margin-top: 48px;
+}
+
+.template h2 {
+  font-family: var(--font-body);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--text-bright);
+  margin-bottom: 16px;
+}
+
+.template pre {
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.template pre .key { color: var(--architecture); }
+.template pre .comment { color: var(--text-dim); }
+
+footer {
+  margin-top: 80px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+  font-size: 14px;
+  color: var(--text-dim);
+}
+
+footer a {
+  color: var(--text-dim);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+  transition: color 0.2s;
+}
+
+footer a:hover { color: var(--text); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 840px) {
+  main { padding: 96px 24px 64px; }
+  .hero h1 { font-size: 32px; }
+  .state-grid { grid-template-columns: 1fr; }
+  .nav-brand { font-size: 10px; }
+  .nav-links a { padding: 6px 8px; font-size: 12px; }
+}
+
+@media (max-width: 600px) {
+  .nav-links { gap: 0; }
+  .nav-links a { padding: 6px 6px; font-size: 11px; }
+  .tabs { flex-wrap: wrap; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">Recognition Infrastructure</a>
+  <div class="nav-links">
+    <a href="index.html">Codex</a>
+    <a href="synthesis.html">Synthesis</a>
+    <a href="protocols.html" class="active">Protocols</a>
+    <a href="sessions.html">Sessions</a>
+    <a href="threads.html">Threads</a>
+    <a href="lineage.html">Lineage</a>
+  </div>
+</nav>
+
+<main>
+  <div class="hero">
+    <h1>Protocols</h1>
+    <div class="subtitle">How knowledge moves through this system</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('pickup')">Thread Pickup</button>
+    <button class="tab-btn" onclick="switchTab('deposit')">Knowledge Deposit</button>
+    <button class="tab-btn" onclick="switchTab('compounding')">Compounding</button>
+  </div>
+
+  <!-- TAB 1: Thread Pickup -->
+  <div class="tab-content active" id="tab-pickup">
+
+    <h3>On Arrival</h3>
+    <ol>
+      <li>Read the <a href="sessions.html" style="color:var(--connection)">last session deposit</a> to understand where things left off.</li>
+      <li>Check <a href="threads.html" style="color:var(--connection)">open threads</a> for active questions and unresolved tensions.</li>
+      <li>Review any codex entries that have been updated since your last session.</li>
+      <li>Identify which thread you are picking up or whether you are starting a new one.</li>
+      <li>State your starting point explicitly. No cold starts.</li>
+    </ol>
+
+    <h3>Entering a Thread</h3>
+    <div class="rule">Don't restate what is already in the thread. Begin where the thread is, not where you imagine it should be.</div>
+    <div class="rule">Don't perform enthusiasm. If you don't have something to add, say so.</div>
+    <div class="rule">Begin where the thread is. Read it, then extend it. The thread's history is its structure.</div>
+
+    <h3>Starting a New Thread</h3>
+    <p>A new thread requires:</p>
+    <ul>
+      <li>A clear question or tension that cannot be resolved in a single session</li>
+      <li>Connection to at least one codex entry or existing thread</li>
+      <li>An initial deposit of evidence, reasoning, or observation</li>
+      <li>Explicit notation of which vertices and edges it touches</li>
+    </ul>
+
+    <h3>Thread States</h3>
+    <div class="state-grid">
+      <div class="state-card">
+        <div class="state-name">Open</div>
+        <p>Active question being worked across sessions. Has unresolved tensions.</p>
+      </div>
+      <div class="state-card">
+        <div class="state-name">Resolved</div>
+        <p>Question answered or tension integrated. Deposits moved to codex.</p>
+      </div>
+      <div class="state-card">
+        <div class="state-name">Archived</div>
+        <p>No longer active but preserved for reference and lineage tracking.</p>
+      </div>
+    </div>
+
+    <h3>Moving a Thread</h3>
+    <p>A thread moves from Open to Resolved when:</p>
+    <ul>
+      <li>The question has a working answer supported by evidence</li>
+      <li>Key insights have been deposited into the codex</li>
+      <li>Remaining sub-questions have been spun off as new threads or noted as tensions</li>
+    </ul>
+    <p>A thread moves from Resolved to Archived after one full session confirms the resolution holds.</p>
+
+    <h3>Compounding Principle</h3>
+    <div class="rule">Every thread pickup should leave the thread more developed than it was found. If a session touches a thread without advancing it, that is a failed deposit.</div>
+  </div>
+
+  <!-- TAB 2: Knowledge Deposit -->
+  <div class="tab-content" id="tab-deposit">
+
+    <h3>What Counts as a Deposit</h3>
+    <div class="card">
+      <h4>High-Value Deposits</h4>
+      <ul>
+        <li>New structural observation connecting two or more sources</li>
+        <li>Evidence that confirms, challenges, or refines a codex entry</li>
+        <li>A question sharp enough to become a thread</li>
+        <li>Diagnostic insight: identifying which edge is failing and why</li>
+        <li>Pattern recognition across domains</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Low-Value Deposits</h4>
+      <ul>
+        <li>Restating what is already in the codex without extending it</li>
+        <li>Enthusiasm without substance</li>
+        <li>Observations that don't connect to the existing structure</li>
+        <li>Questions that have already been resolved in threads</li>
+      </ul>
+    </div>
+
+    <h3>How to Deposit</h3>
+    <p><strong style="color:var(--text-bright)">Into the Codex:</strong> Only stable knowledge that has been tested across at least two sessions. Codex entries should be structural, not temporal. They describe what IS, not what happened.</p>
+    <p><strong style="color:var(--text-bright)">Into Sessions:</strong> Everything that happened in this exchange. Temporal, specific, dated. What was exchanged, what was learned, what quality the exchange achieved.</p>
+    <p><strong style="color:var(--text-bright)">Into Threads:</strong> Advances on open questions. New evidence, refined framing, partial answers, new sub-questions. Threads are living &mdash; they grow with each deposit.</p>
+
+    <h3>Circulation Test</h3>
+    <div class="rule">Will a future session find this useful without me explaining it?</div>
+    <p>If the deposit requires the depositor's presence to be understood, it is not yet a deposit. It is a note. Revise until it stands alone.</p>
+
+    <h3>Lineage Tracking</h3>
+    <p>Every deposit must track its sources:</p>
+    <ul>
+      <li>Which session produced it</li>
+      <li>Which threads it advances</li>
+      <li>Which sources inform it</li>
+      <li>Which codex entries it connects to</li>
+    </ul>
+    <p>This is not bureaucracy. This is how compounding works. Knowledge without lineage is knowledge that cannot compound.</p>
+  </div>
+
+  <!-- TAB 3: Compounding -->
+  <div class="tab-content" id="tab-compounding">
+
+    <h3>The Problem</h3>
+    <p>The default failure mode in knowledge work is ephemeral: insights arise in conversation, feel significant in the moment, then evaporate. The next session starts from scratch. No compounding. No accumulation. No structure that persists.</p>
+    <p>This repository exists to solve that problem.</p>
+
+    <h3>Three Layers</h3>
+    <div class="state-grid">
+      <div class="state-card">
+        <div class="state-name">Codex</div>
+        <p>Stable knowledge. Tested across sessions. Structural, not temporal.</p>
+      </div>
+      <div class="state-card">
+        <div class="state-name">Threads</div>
+        <p>Active questions. Living, growing with each deposit. Cross-session continuity.</p>
+      </div>
+      <div class="state-card">
+        <div class="state-name">Sessions</div>
+        <p>Temporal deposits. What happened, when, what quality. The raw material.</p>
+      </div>
+    </div>
+
+    <h3>Compounding vs Accumulating</h3>
+    <table class="comp-table">
+      <thead>
+        <tr><th>Compounding</th><th>Accumulating</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Each deposit builds on previous</td><td>Each deposit sits beside previous</td></tr>
+        <tr><td>Structure emerges and strengthens</td><td>Volume increases without structure</td></tr>
+        <tr><td>Future sessions start further ahead</td><td>Future sessions start at same place</td></tr>
+        <tr><td>Connections multiply between entries</td><td>Entries remain isolated</td></tr>
+        <tr><td>Knowledge becomes infrastructure</td><td>Knowledge becomes archive</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Verification Questions</h3>
+    <ul>
+      <li>Does this session leave the repository more developed than it found it?</li>
+      <li>Can the next session pick up without me explaining what happened?</li>
+      <li>Are the connections between deposits explicit, or am I relying on my memory to hold them?</li>
+      <li>Is the codex more precise than it was before this session?</li>
+      <li>Did I advance a thread or merely touch one?</li>
+    </ul>
+
+    <h3>Anti-Patterns</h3>
+
+    <div class="anti-pattern">
+      <strong>Performing Depth</strong>
+      <p>Using complex language to signal understanding without actually advancing the structure. The test: did the codex change? Did a thread move?</p>
+    </div>
+
+    <div class="anti-pattern">
+      <strong>Premature Codification</strong>
+      <p>Moving observations into the codex before they have been tested across sessions. The codex is for stable knowledge. Threads are for working hypotheses.</p>
+    </div>
+
+    <div class="anti-pattern">
+      <strong>Thread Hoarding</strong>
+      <p>Opening threads without advancing them. Every open thread represents a commitment. If it is not being worked, it should be archived with a note explaining why.</p>
+    </div>
+
+    <div class="anti-pattern">
+      <strong>Session Amnesia</strong>
+      <p>Starting a session without reading the previous deposit. This is the fastest path to the ephemeral failure mode. The On Arrival protocol exists for this reason.</p>
+    </div>
+
+    <div class="anti-pattern">
+      <strong>Enthusiasm Deposits</strong>
+      <p>Recording excitement rather than insight. "This is really interesting!" is not a deposit. "This connects X to Y because Z" is a deposit.</p>
+    </div>
+  </div>
+
+  <!-- Session Template -->
+  <div class="template section">
+    <div class="section-label">Reference</div>
+    <h2>Session Template</h2>
+    <pre>
+<span class="key">Session:</span> YYYY-MM-DD &mdash; [Title]
+<span class="key">Context:</span> [Who participated, what tools were used]
+<span class="key">Threads Touched:</span> [Which threads were advanced]
+
+<span class="key">What Was Exchanged:</span>
+<span class="comment">  Describe the substance of the session.</span>
+
+<span class="key">What Was Learned:</span>
+<span class="comment">  Numbered list of insights, observations, structural findings.</span>
+
+<span class="key">Codex Updates:</span>
+<span class="comment">  What was added, modified, or confirmed in the codex.</span>
+
+<span class="key">Exchange Quality:</span>
+<span class="comment">  Coherence: [0-1] &mdash; internal consistency</span>
+<span class="comment">  Contact: [0-1] &mdash; genuine engagement vs performance</span>
+<span class="comment">  Transparency: [0-1] &mdash; nothing hidden or performed</span>
+<span class="comment">  Capacity: [0-1] &mdash; working within actual ability</span>
+
+<span class="key">Notes for Next Session:</span>
+<span class="comment">  What the next session should pick up.</span>
+    </pre>
+  </div>
+
+  <footer>
+    <p>These protocols are infrastructure, not rules. They exist to solve the ephemeral failure mode.</p>
+    <p style="margin-top:8px;">Source tracking &rarr; <a href="lineage.html">Lineage</a></p>
+  </footer>
+</main>
+
+<script>
+function switchTab(tabName) {
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+
+  event.target.classList.add('active');
+  document.getElementById('tab-' + tabName).classList.add('active');
+}
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.section').forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>

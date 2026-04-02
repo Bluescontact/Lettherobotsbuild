@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sessions — Recognition Infrastructure</title>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #08090b;
+  --surface: #0e1014;
+  --surface-raised: #13161c;
+  --border: #1a1e28;
+  --border-lit: #2a3040;
+  --text: #9ca3b0;
+  --text-dim: #5c6370;
+  --text-bright: #d4d9e4;
+  --text-white: #eef0f5;
+  --differentiation: #c47a5a;
+  --connection: #5a8fc4;
+  --boundaries: #6db356;
+  --architecture: #c9ab4a;
+  --font-body: Georgia, 'Times New Roman', serif;
+  --font-nav: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.7;
+  font-size: 17px;
+  min-height: 100vh;
+}
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border-lit); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
+
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 52px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  z-index: 1000;
+  font-family: var(--font-nav);
+  font-size: 13px;
+}
+
+.nav-brand {
+  color: var(--text-dim);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 600;
+  margin-right: auto;
+  text-decoration: none;
+}
+
+.nav-links { display: flex; gap: 4px; }
+
+.nav-links a {
+  color: var(--text-dim);
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: color 0.2s, background 0.2s;
+}
+
+.nav-links a:hover { color: var(--text-bright); background: var(--surface-raised); }
+.nav-links a.active { color: var(--text-white); background: var(--border); }
+
+main {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 108px 56px 96px;
+}
+
+.hero {
+  margin-bottom: 56px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards;
+}
+
+.hero h1 {
+  font-family: var(--font-body);
+  font-size: 42px;
+  font-weight: 400;
+  color: var(--text-white);
+  letter-spacing: -0.01em;
+  margin-bottom: 8px;
+}
+
+.hero .subtitle {
+  font-size: 18px;
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+.section {
+  margin-bottom: 56px;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.section.visible {
+  animation: fadeUp 0.6s ease forwards;
+}
+
+/* Session Entry */
+.session-entry {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 36px;
+  margin-bottom: 32px;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.session-entry.visible {
+  animation: fadeUp 0.6s ease forwards;
+}
+
+.session-date {
+  font-family: var(--font-nav);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--architecture);
+  margin-bottom: 4px;
+}
+
+.session-title {
+  font-family: var(--font-body);
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--text-white);
+  margin-bottom: 24px;
+}
+
+.session-field {
+  margin-bottom: 20px;
+}
+
+.session-field-label {
+  font-family: var(--font-nav);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+}
+
+.session-field p {
+  margin-bottom: 8px;
+  line-height: 1.65;
+}
+
+.session-field ol, .session-field ul {
+  padding-left: 22px;
+  margin-bottom: 8px;
+}
+
+.session-field li {
+  margin-bottom: 6px;
+  line-height: 1.6;
+}
+
+/* Quality Metrics */
+.quality-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.quality-item {
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px;
+  text-align: center;
+}
+
+.quality-label {
+  font-family: var(--font-nav);
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+  margin-bottom: 6px;
+}
+
+.quality-value {
+  font-family: var(--font-nav);
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.quality-item:nth-child(1) .quality-value { color: var(--connection); }
+.quality-item:nth-child(2) .quality-value { color: var(--boundaries); }
+.quality-item:nth-child(3) .quality-value { color: var(--architecture); }
+.quality-item:nth-child(4) .quality-value { color: var(--differentiation); }
+
+/* Session Template */
+.template {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 28px;
+  margin-top: 48px;
+}
+
+.template h2 {
+  font-family: var(--font-body);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--text-bright);
+  margin-bottom: 16px;
+}
+
+.template pre {
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.template pre .key { color: var(--architecture); }
+.template pre .comment { color: var(--text-dim); }
+
+.section-label {
+  font-family: var(--font-nav);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+}
+
+footer {
+  margin-top: 80px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+  font-size: 14px;
+  color: var(--text-dim);
+}
+
+footer a {
+  color: var(--text-dim);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+  transition: color 0.2s;
+}
+
+footer a:hover { color: var(--text); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 840px) {
+  main { padding: 96px 24px 64px; }
+  .hero h1 { font-size: 32px; }
+  .quality-grid { grid-template-columns: repeat(2, 1fr); }
+  .session-entry { padding: 24px; }
+  .nav-brand { font-size: 10px; }
+  .nav-links a { padding: 6px 8px; font-size: 12px; }
+}
+
+@media (max-width: 600px) {
+  .nav-links { gap: 0; }
+  .nav-links a { padding: 6px 6px; font-size: 11px; }
+  .quality-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">Recognition Infrastructure</a>
+  <div class="nav-links">
+    <a href="index.html">Codex</a>
+    <a href="synthesis.html">Synthesis</a>
+    <a href="protocols.html">Protocols</a>
+    <a href="sessions.html" class="active">Sessions</a>
+    <a href="threads.html">Threads</a>
+    <a href="lineage.html">Lineage</a>
+  </div>
+</nav>
+
+<main>
+  <div class="hero">
+    <h1>Session Deposits</h1>
+    <div class="subtitle">What each exchange left behind</div>
+  </div>
+
+  <!-- Session 1 -->
+  <div class="session-entry">
+    <div class="session-date">2026-04-01</div>
+    <div class="session-title">Repository Genesis</div>
+
+    <div class="session-field">
+      <div class="session-field-label">Context</div>
+      <p>Kevin Mears + Claude Opus 4.6, full repository build from source synthesis. Nine source artifacts processed into structured, persistent knowledge architecture.</p>
+    </div>
+
+    <div class="session-field">
+      <div class="session-field-label">What Was Exchanged</div>
+      <p>Nine source artifacts synthesized into structured repository: theory documents, skill files, synthesis frameworks, governance models, and lived experience distilled into navigable architecture. The full body of work given persistent form for the first time.</p>
+    </div>
+
+    <div class="session-field">
+      <div class="session-field-label">What Was Learned</div>
+      <ol>
+        <li>The .skill file format is a ZIP archive with an agent project inside &mdash; not a proprietary format but a container for structured capability.</li>
+        <li>The body of work has a natural tetrahedral structure that maps directly to the repository architecture: four vertices, six edges, four faces, one interior.</li>
+        <li>Convergence across the nine sources is genuine, not performed &mdash; the same structural observations emerge independently from systems thinking, somatics, justice theory, power analysis, and governance alternatives.</li>
+        <li>The repository itself addresses the Ephemeral failure mode: knowledge that previously existed only in conversation now persists in navigable structure.</li>
+      </ol>
+    </div>
+
+    <div class="session-field">
+      <div class="session-field-label">Codex Updates</div>
+      <p>Created complete codex from scratch. All entries at initial calibration. Core model, vertices, edges, faces, diagnostic tools, deployment specifications, and exchange quality metrics established.</p>
+    </div>
+
+    <div class="session-field">
+      <div class="session-field-label">Exchange Quality</div>
+      <div class="quality-grid">
+        <div class="quality-item">
+          <div class="quality-label">Coherence</div>
+          <div class="quality-value">0.85</div>
+        </div>
+        <div class="quality-item">
+          <div class="quality-label">Contact</div>
+          <div class="quality-value">0.80</div>
+        </div>
+        <div class="quality-item">
+          <div class="quality-label">Transparency</div>
+          <div class="quality-value">0.90</div>
+        </div>
+        <div class="quality-item">
+          <div class="quality-label">Capacity</div>
+          <div class="quality-value">0.90</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="session-field">
+      <div class="session-field-label">Notes for Next Session</div>
+      <p>Five unresolved questions identified as thread candidates. Codex at pioneer stage &mdash; entries require testing and refinement across subsequent sessions. The AI substrate question is the most immediately pressing thread to develop.</p>
+    </div>
+  </div>
+
+  <!-- Session Template -->
+  <div class="template section">
+    <div class="section-label">Reference</div>
+    <h2>Session Template</h2>
+    <pre>
+<span class="key">Session:</span> YYYY-MM-DD &mdash; [Title]
+<span class="key">Context:</span> [Who participated, what tools were used]
+<span class="key">Threads Touched:</span> [Which threads were advanced]
+
+<span class="key">What Was Exchanged:</span>
+<span class="comment">  Describe the substance of the session.</span>
+
+<span class="key">What Was Learned:</span>
+<span class="comment">  Numbered list of insights, observations, structural findings.</span>
+
+<span class="key">Codex Updates:</span>
+<span class="comment">  What was added, modified, or confirmed in the codex.</span>
+
+<span class="key">Exchange Quality:</span>
+<span class="comment">  Coherence: [0-1] &mdash; internal consistency</span>
+<span class="comment">  Contact: [0-1] &mdash; genuine engagement vs performance</span>
+<span class="comment">  Transparency: [0-1] &mdash; nothing hidden or performed</span>
+<span class="comment">  Capacity: [0-1] &mdash; working within actual ability</span>
+
+<span class="key">Notes for Next Session:</span>
+<span class="comment">  What the next session should pick up.</span>
+    </pre>
+  </div>
+
+  <footer>
+    <p>Each session deposits into the structure. The structure compounds across sessions.</p>
+    <p style="margin-top:8px;">Protocols for deposits &rarr; <a href="protocols.html">Protocols</a> &nbsp;&middot;&nbsp; Source tracking &rarr; <a href="lineage.html">Lineage</a></p>
+  </footer>
+</main>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.section, .session-entry').forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>

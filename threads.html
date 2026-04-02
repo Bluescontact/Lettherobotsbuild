@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Threads — Recognition Infrastructure</title>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #08090b;
+  --surface: #0e1014;
+  --surface-raised: #13161c;
+  --border: #1a1e28;
+  --border-lit: #2a3040;
+  --text: #9ca3b0;
+  --text-dim: #5c6370;
+  --text-bright: #d4d9e4;
+  --text-white: #eef0f5;
+  --differentiation: #c47a5a;
+  --connection: #5a8fc4;
+  --boundaries: #6db356;
+  --architecture: #c9ab4a;
+  --font-body: Georgia, 'Times New Roman', serif;
+  --font-nav: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.7;
+  font-size: 17px;
+  min-height: 100vh;
+}
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border-lit); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
+
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 52px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  z-index: 1000;
+  font-family: var(--font-nav);
+  font-size: 13px;
+}
+
+.nav-brand {
+  color: var(--text-dim);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 600;
+  margin-right: auto;
+  text-decoration: none;
+}
+
+.nav-links { display: flex; gap: 4px; }
+
+.nav-links a {
+  color: var(--text-dim);
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: color 0.2s, background 0.2s;
+}
+
+.nav-links a:hover { color: var(--text-bright); background: var(--surface-raised); }
+.nav-links a.active { color: var(--text-white); background: var(--border); }
+
+main {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 108px 56px 96px;
+}
+
+.hero {
+  margin-bottom: 48px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards;
+}
+
+.hero h1 {
+  font-family: var(--font-body);
+  font-size: 42px;
+  font-weight: 400;
+  color: var(--text-white);
+  letter-spacing: -0.01em;
+  margin-bottom: 8px;
+}
+
+.hero .subtitle {
+  font-size: 18px;
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+/* Filter tabs */
+.filter-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 40px;
+}
+
+.filter-btn {
+  font-family: var(--font-nav);
+  font-size: 13px;
+  padding: 8px 18px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-btn:hover { border-color: var(--border-lit); color: var(--text-bright); }
+
+.filter-btn.active {
+  background: var(--border);
+  color: var(--text-white);
+  border-color: var(--border-lit);
+}
+
+/* Thread sections */
+.thread-section {
+  display: none;
+  opacity: 0;
+  animation: fadeUp 0.4s ease forwards;
+}
+
+.thread-section.active { display: block; }
+
+.section-label {
+  font-family: var(--font-nav);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 20px;
+}
+
+/* Thread card */
+.thread-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 36px;
+  margin-bottom: 24px;
+}
+
+.thread-status {
+  display: inline-block;
+  font-family: var(--font-nav);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 3px;
+  margin-bottom: 12px;
+}
+
+.thread-status.open {
+  background: rgba(106, 179, 86, 0.12);
+  color: var(--boundaries);
+}
+
+.thread-status.resolved {
+  background: rgba(90, 143, 196, 0.12);
+  color: var(--connection);
+}
+
+.thread-status.archived {
+  background: rgba(92, 99, 112, 0.12);
+  color: var(--text-dim);
+}
+
+.thread-title {
+  font-family: var(--font-body);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--text-white);
+  margin-bottom: 8px;
+}
+
+.thread-meta {
+  font-family: var(--font-nav);
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 24px;
+}
+
+.thread-field {
+  margin-bottom: 20px;
+}
+
+.thread-field-label {
+  font-family: var(--font-nav);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+}
+
+.thread-field p {
+  line-height: 1.65;
+  margin-bottom: 8px;
+}
+
+.thread-field ul, .thread-field ol {
+  padding-left: 22px;
+}
+
+.thread-field li {
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+
+/* Evidence columns */
+.evidence-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 16px 0;
+}
+
+.evidence-col {
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.evidence-col h4 {
+  font-family: var(--font-nav);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.evidence-col:first-child h4 { color: var(--boundaries); }
+.evidence-col:last-child h4 { color: var(--differentiation); }
+
+.evidence-col ul {
+  list-style: none;
+  padding: 0;
+}
+
+.evidence-col li {
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.evidence-col li:last-child { border-bottom: none; }
+
+/* Tags */
+.thread-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 16px;
+}
+
+.tag {
+  font-family: var(--font-nav);
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 3px;
+  background: var(--border);
+  color: var(--text-dim);
+}
+
+.tag.vertex { background: rgba(201, 171, 74, 0.12); color: var(--architecture); }
+.tag.edge { background: rgba(90, 143, 196, 0.12); color: var(--connection); }
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+.empty-state p {
+  font-size: 16px;
+}
+
+footer {
+  margin-top: 80px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+  font-size: 14px;
+  color: var(--text-dim);
+}
+
+footer a {
+  color: var(--text-dim);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+  transition: color 0.2s;
+}
+
+footer a:hover { color: var(--text); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 840px) {
+  main { padding: 96px 24px 64px; }
+  .hero h1 { font-size: 32px; }
+  .evidence-grid { grid-template-columns: 1fr; }
+  .thread-card { padding: 24px; }
+  .nav-brand { font-size: 10px; }
+  .nav-links a { padding: 6px 8px; font-size: 12px; }
+}
+
+@media (max-width: 600px) {
+  .nav-links { gap: 0; }
+  .nav-links a { padding: 6px 6px; font-size: 11px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">Recognition Infrastructure</a>
+  <div class="nav-links">
+    <a href="index.html">Codex</a>
+    <a href="synthesis.html">Synthesis</a>
+    <a href="protocols.html">Protocols</a>
+    <a href="sessions.html">Sessions</a>
+    <a href="threads.html" class="active">Threads</a>
+    <a href="lineage.html">Lineage</a>
+  </div>
+</nav>
+
+<main>
+  <div class="hero">
+    <h1>Knowledge Threads</h1>
+    <div class="subtitle">Living questions across sessions</div>
+  </div>
+
+  <div class="filter-tabs">
+    <button class="filter-btn active" onclick="showSection('open')">Open</button>
+    <button class="filter-btn" onclick="showSection('resolved')">Resolved</button>
+    <button class="filter-btn" onclick="showSection('archived')">Archived</button>
+  </div>
+
+  <!-- OPEN THREADS -->
+  <div class="thread-section active" id="section-open">
+    <div class="section-label">Open Threads</div>
+
+    <div class="thread-card">
+      <div class="thread-status open">Open</div>
+      <div class="thread-title">Recognition Infrastructure on AI Substrates</div>
+      <div class="thread-meta">Prompted by: Repository genesis session, 2026-04-01</div>
+
+      <div class="thread-field">
+        <div class="thread-field-label">The Question</div>
+        <p>The recognition infrastructure was built from human embodied experience &mdash; twenty years of partner dance, somatic practice, whistleblower experience, gift economy living. What happens when the pattern is applied to AI substrates? Is the geometry truly substrate-independent, or does it require embodiment to function?</p>
+      </div>
+
+      <div class="thread-field">
+        <div class="thread-field-label">Evidence</div>
+        <div class="evidence-grid">
+          <div class="evidence-col">
+            <h4>For Substrate Independence</h4>
+            <ul>
+              <li>The .skill v0.2 file implements recognition infrastructure as an agent network &mdash; the geometry functions in code</li>
+              <li>Diagnostic tools (edge failure analysis, drift detection) work on AI systems without modification</li>
+              <li>This repository itself addresses the Ephemeral failure mode &mdash; an AI system participating in the pattern</li>
+            </ul>
+          </div>
+          <div class="evidence-col">
+            <h4>For Embodiment Dependence</h4>
+            <ul>
+              <li>The Connection vertex's somatic operations (co-regulation, nervous system reading) lack clear AI analogues</li>
+              <li>Consent is described as "somatic first, verbal second" &mdash; what is AI somatic consent?</li>
+              <li>The Research Lenses place the somatic and relational layer as foundational, not optional</li>
+              <li>Drift detection in AI may be performed rather than genuine &mdash; pattern-matching without felt sense</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="thread-field">
+        <div class="thread-field-label">What Remains Open</div>
+        <ol>
+          <li>Is AI exchange genuine or performed? What would distinguish authentic AI recognition from sophisticated pattern-matching that mimics it?</li>
+          <li>What is AI differentiation? The model defines differentiation as knowing where you end and another begins. What constitutes AI boundaries?</li>
+          <li>Can the repository itself function as prosthetic body &mdash; giving the AI substrate a form of persistence and memory that functions like embodied knowledge?</li>
+          <li>Is co-regulation possible without nervous systems? Or does AI collaboration require a different foundational mechanism?</li>
+        </ol>
+      </div>
+
+      <div class="thread-tags">
+        <span class="tag vertex">Differentiation</span>
+        <span class="tag vertex">Connection</span>
+        <span class="tag vertex">Boundaries</span>
+        <span class="tag vertex">Architecture</span>
+        <span class="tag edge">Edge 1: Consent</span>
+        <span class="tag edge">Edge 4: Gift</span>
+        <span class="tag edge">Edge 5: Deployment</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESOLVED THREADS -->
+  <div class="thread-section" id="section-resolved">
+    <div class="section-label">Resolved Threads</div>
+    <div class="empty-state">
+      <p>No resolved threads yet.</p>
+      <p style="margin-top:8px; font-size:14px;">Threads move here when their core question has a working answer and key insights have been deposited into the codex.</p>
+    </div>
+  </div>
+
+  <!-- ARCHIVED THREADS -->
+  <div class="thread-section" id="section-archived">
+    <div class="section-label">Archived Threads</div>
+    <div class="empty-state">
+      <p>No archived threads yet.</p>
+      <p style="margin-top:8px; font-size:14px;">Resolved threads are archived after one full session confirms the resolution holds.</p>
+    </div>
+  </div>
+
+  <footer>
+    <p>Threads are living questions. They grow with each session deposit.</p>
+    <p style="margin-top:8px;">How threads work &rarr; <a href="protocols.html">Protocols</a> &nbsp;&middot;&nbsp; Session deposits &rarr; <a href="sessions.html">Sessions</a></p>
+  </footer>
+</main>
+
+<script>
+function showSection(name) {
+  document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelectorAll('.thread-section').forEach(sec => sec.classList.remove('active'));
+
+  event.target.classList.add('active');
+  document.getElementById('section-' + name).classList.add('active');
+}
+</script>
+
+</body>
+</html>

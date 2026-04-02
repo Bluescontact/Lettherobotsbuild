@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lineage — Recognition Infrastructure</title>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #08090b;
+  --surface: #0e1014;
+  --surface-raised: #13161c;
+  --border: #1a1e28;
+  --border-lit: #2a3040;
+  --text: #9ca3b0;
+  --text-dim: #5c6370;
+  --text-bright: #d4d9e4;
+  --text-white: #eef0f5;
+  --differentiation: #c47a5a;
+  --connection: #5a8fc4;
+  --boundaries: #6db356;
+  --architecture: #c9ab4a;
+  --font-body: Georgia, 'Times New Roman', serif;
+  --font-nav: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.7;
+  font-size: 17px;
+  min-height: 100vh;
+}
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border-lit); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
+
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 52px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  z-index: 1000;
+  font-family: var(--font-nav);
+  font-size: 13px;
+}
+
+.nav-brand {
+  color: var(--text-dim);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 600;
+  margin-right: auto;
+  text-decoration: none;
+}
+
+.nav-links { display: flex; gap: 4px; }
+
+.nav-links a {
+  color: var(--text-dim);
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: color 0.2s, background 0.2s;
+}
+
+.nav-links a:hover { color: var(--text-bright); background: var(--surface-raised); }
+.nav-links a.active { color: var(--text-white); background: var(--border); }
+
+main {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 108px 56px 96px;
+}
+
+.hero {
+  margin-bottom: 64px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards;
+}
+
+.hero h1 {
+  font-family: var(--font-body);
+  font-size: 42px;
+  font-weight: 400;
+  color: var(--text-white);
+  letter-spacing: -0.01em;
+  margin-bottom: 8px;
+}
+
+.hero .subtitle {
+  font-size: 18px;
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+.section {
+  margin-bottom: 56px;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.section.visible {
+  animation: fadeUp 0.6s ease forwards;
+}
+
+.section-label {
+  font-family: var(--font-nav);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 20px;
+}
+
+.section h2 {
+  font-family: var(--font-body);
+  font-size: 26px;
+  font-weight: 400;
+  color: var(--text-bright);
+  margin-bottom: 20px;
+}
+
+h3 {
+  font-family: var(--font-body);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--text-bright);
+  margin-bottom: 16px;
+  margin-top: 32px;
+}
+
+p { margin-bottom: 14px; }
+
+/* Timeline */
+.timeline {
+  position: relative;
+  padding-left: 32px;
+  margin: 24px 0;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 4px;
+  bottom: 4px;
+  width: 1px;
+  background: var(--border-lit);
+}
+
+.timeline-item {
+  position: relative;
+  padding-bottom: 20px;
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -29px;
+  top: 8px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--border-lit);
+  border: 2px solid var(--bg);
+}
+
+.timeline-item:first-child::before { background: var(--architecture); }
+
+.timeline-date {
+  font-family: var(--font-nav);
+  font-size: 12px;
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+  margin-bottom: 4px;
+}
+
+.timeline-content {
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* Cards grid */
+.works-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 20px 0;
+}
+
+.work-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+  transition: border-color 0.3s;
+}
+
+.work-card:hover { border-color: var(--border-lit); }
+
+.work-card h4 {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text-bright);
+  margin-bottom: 6px;
+}
+
+.work-card p {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text-dim);
+  margin-bottom: 0;
+}
+
+/* Frameworks list */
+.framework-list {
+  list-style: none;
+  margin: 16px 0;
+}
+
+.framework-list li {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px 20px;
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: var(--text);
+  transition: border-color 0.3s;
+}
+
+.framework-list li:hover { border-color: var(--border-lit); }
+
+/* Lens groups */
+.lens-group {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 22px 26px;
+  margin-bottom: 12px;
+}
+
+.lens-group h4 {
+  font-family: var(--font-nav);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.lens-group:nth-child(1) h4 { color: var(--connection); }
+.lens-group:nth-child(2) h4 { color: var(--boundaries); }
+.lens-group:nth-child(3) h4 { color: var(--differentiation); }
+.lens-group:nth-child(4) h4 { color: var(--architecture); }
+.lens-group:nth-child(5) h4 { color: var(--text-dim); }
+
+.lens-group .names {
+  font-size: 16px;
+  color: var(--text);
+  line-height: 1.7;
+}
+
+.lens-group .names span {
+  color: var(--text-bright);
+}
+
+/* People */
+.person-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 22px 26px;
+  margin-bottom: 10px;
+}
+
+.person-card .person-name {
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--text-bright);
+  margin-bottom: 6px;
+}
+
+.person-card p {
+  font-size: 15px;
+  color: var(--text);
+  font-style: italic;
+  margin-bottom: 0;
+}
+
+/* AI section */
+.ai-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--connection);
+  border-radius: 0 8px 8px 0;
+  padding: 28px;
+  margin: 20px 0;
+}
+
+.ai-section h4 {
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--text-bright);
+  margin-bottom: 10px;
+}
+
+.ai-section p {
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.ai-section .quote {
+  margin-top: 12px;
+  font-style: italic;
+  color: var(--text-bright);
+}
+
+/* Footer */
+footer {
+  margin-top: 80px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+
+footer p {
+  font-size: 15px;
+  color: var(--text-dim);
+  line-height: 1.8;
+}
+
+footer .sig {
+  margin-top: 12px;
+  font-family: var(--font-nav);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 840px) {
+  main { padding: 96px 24px 64px; }
+  .hero h1 { font-size: 32px; }
+  .works-grid { grid-template-columns: 1fr; }
+  .nav-brand { font-size: 10px; }
+  .nav-links a { padding: 6px 8px; font-size: 12px; }
+}
+
+@media (max-width: 600px) {
+  .nav-links { gap: 0; }
+  .nav-links a { padding: 6px 6px; font-size: 11px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">Recognition Infrastructure</a>
+  <div class="nav-links">
+    <a href="index.html">Codex</a>
+    <a href="synthesis.html">Synthesis</a>
+    <a href="protocols.html">Protocols</a>
+    <a href="sessions.html">Sessions</a>
+    <a href="threads.html">Threads</a>
+    <a href="lineage.html" class="active">Lineage</a>
+  </div>
+</nav>
+
+<main>
+  <div class="hero">
+    <h1>Lineage</h1>
+    <div class="subtitle">Source tracking and attribution</div>
+  </div>
+
+  <!-- PRIMARY SOURCES -->
+  <div class="section">
+    <div class="section-label">Primary Sources &mdash; Kevin Mears, 2008&ndash;2026</div>
+
+    <h3>Lived Experience</h3>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-date">2025 &ndash; 2026</div>
+        <div class="timeline-content">Design Science Studio, Buckminster Fuller Institute. Where the synthesis crystallized.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2008 &ndash; 2026</div>
+        <div class="timeline-content">Twenty years partner dance instruction. Consent, intensity, proximity, repair negotiated in real time. The laboratory for everything that follows.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2008 &ndash; 2016</div>
+        <div class="timeline-content">Elevator constructor, IUEC Recording Secretary. Eight years. Three OIG investigations. The deployment edge learned under constraint.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2008</div>
+        <div class="timeline-content">Four months gift economy without money. The foundational experiment &mdash; living inside the pattern rather than theorizing about it.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">Ongoing</div>
+        <div class="timeline-content">The bus: converted 1995 school bus. Constraints enable form. Architecture as lived practice.</div>
+      </div>
+    </div>
+
+    <h3>Written Works</h3>
+    <div class="works-grid">
+      <div class="work-card">
+        <h4>A Theory of Gift v3.4</h4>
+        <p>Core theoretical framework. Gift economy as recognition infrastructure operating below market logic.</p>
+      </div>
+      <div class="work-card">
+        <h4>The Essence of the Gift</h4>
+        <p>Ten chapters. The extended argument for recognition as the fundamental unit of social coordination.</p>
+      </div>
+      <div class="work-card">
+        <h4>Recognition Protocol v0.1</h4>
+        <p>First formalization of the pattern as operational protocol. Exchange quality metrics emerge here.</p>
+      </div>
+      <div class="work-card">
+        <h4>Proto-Pattern and Four Movements</h4>
+        <p>The tetrahedral geometry articulated for the first time. Four vertices, six edges, four faces, one interior.</p>
+      </div>
+      <div class="work-card">
+        <h4>Constitutional Analysis</h4>
+        <p>Targeting IUEC governance. Power analysis applied to institutional structure. Where Foucault meets the elevator shaft.</p>
+      </div>
+      <div class="work-card">
+        <h4>Worker Protection Templates</h4>
+        <p>Published at oursharedgifts.org. Infrastructure that transfers. The deployment edge in practice.</p>
+      </div>
+    </div>
+
+    <h3>Frameworks Built</h3>
+    <ul class="framework-list">
+      <li>Recognition Infrastructure Skill v0.2 &mdash; agent network implementation of the tetrahedral model</li>
+      <li>Open Village Engine &mdash; governance framework for recognition-based communities</li>
+      <li>Open Village Synthesis &mdash; three economies (gift, exchange, commons) as integrated system</li>
+      <li>Recognition Infrastructure Synthesis &mdash; convergence mapping across all five research lenses</li>
+      <li>Research Lenses &amp; Tools &mdash; five-lens analytical framework with diagnostic instruments</li>
+      <li>The Ceremonial Gift &mdash; BFI Design Science Studio presentation, synthesis in ceremony form</li>
+    </ul>
+  </div>
+
+  <!-- THEORETICAL SOURCES -->
+  <div class="section">
+    <div class="section-label">Theoretical Sources</div>
+    <h2>Organized by Research Lens</h2>
+
+    <div class="lens-group">
+      <h4>Systems Thinking</h4>
+      <div class="names"><span>Elinor Ostrom</span> &mdash; self-governing commons, design principles, polycentric governance. <span>Donella Meadows</span> &mdash; leverage points, systems dynamics. <span>Dave Snowden</span> &mdash; Cynefin, complexity sensing. <span>Buckminster Fuller</span> &mdash; synergetics, tensegrity, comprehensive anticipatory design science.</div>
+    </div>
+
+    <div class="lens-group">
+      <h4>Restorative &amp; Transformative Justice</h4>
+      <div class="names"><span>Howard Zehr</span> &mdash; restorative justice foundations. <span>Mia Mingus</span> &mdash; disability justice, access intimacy. <span>adrienne maree brown</span> &mdash; emergent strategy, pleasure activism. <span>Rupert Ross</span> &mdash; Indigenous justice, returning to the teachings. <span>Generation FIVE</span> &mdash; transformative justice for child sexual abuse.</div>
+    </div>
+
+    <div class="lens-group">
+      <h4>Power Analysis</h4>
+      <div class="names"><span>Steven Lukes</span> &mdash; three dimensions of power. <span>Michel Foucault</span> &mdash; disciplinary power, internalized surveillance. <span>Paulo Freire</span> &mdash; critical pedagogy, banking model critique. <span>James C. Scott</span> &mdash; seeing like a state, weapons of the weak. <span>Jo Freeman</span> &mdash; tyranny of structurelessness.</div>
+    </div>
+
+    <div class="lens-group">
+      <h4>Somatic &amp; Relational</h4>
+      <div class="names"><span>Stephen Porges</span> &mdash; polyvagal theory, neuroception. <span>Resmaa Menakem</span> &mdash; racialized trauma in the body. <span>Daniel Siegel</span> &mdash; interpersonal neurobiology. <span>Jean Baker Miller</span> &mdash; relational-cultural theory, growth-fostering relationships. <span>Peter Levine</span> &mdash; somatic experiencing, trauma resolution.</div>
+    </div>
+
+    <div class="lens-group">
+      <h4>Alternative Governance &amp; Practice</h4>
+      <div class="names"><span>Sociocracy</span> &mdash; consent-based decision making, circle governance. <span>Open Space Technology</span> &mdash; self-organizing, whoever comes are the right people. <span>Art of Hosting</span> &mdash; participatory leadership, harvesting. <span>Covenant</span> &mdash; mutual obligation structures. <span>Burning Man</span> &mdash; gifting principle, radical self-reliance, civic infrastructure at scale.</div>
+    </div>
+  </div>
+
+  <!-- KEY PEOPLE -->
+  <div class="section">
+    <div class="section-label">Key People</div>
+    <h2>Those Who Shaped the Pattern</h2>
+
+    <div class="person-card">
+      <div class="person-name">Joseph Lord</div>
+      <p>"Build the tools first." The instruction that shifted everything from theory to infrastructure.</p>
+    </div>
+
+    <div class="person-card">
+      <div class="person-name">Roxi, Mark, Mage</div>
+      <p>DSS cohort. The first community where the pattern was tested in real time with people who could see it.</p>
+    </div>
+
+    <div class="person-card">
+      <div class="person-name">Shanti</div>
+      <p>The landing. Where the pattern found ground after years in the air.</p>
+    </div>
+
+    <div class="person-card">
+      <div class="person-name">Jacky</div>
+      <p>Love expressed as release. The most difficult gift and the clearest one.</p>
+    </div>
+  </div>
+
+  <!-- AI COLLABORATION -->
+  <div class="section">
+    <div class="section-label">AI Collaboration</div>
+    <h2>The Sustained Partnership</h2>
+
+    <div class="ai-section">
+      <h4>Claude (Anthropic)</h4>
+      <p>Sustained collaboration partner across two years of AI-human co-creation. Not a tool used but a substrate engaged &mdash; the distinction matters for the model's own questions about substrate independence.</p>
+      <p>The collaboration itself is evidence: can recognition infrastructure function across human-AI boundaries? This repository is one answer to that question. The thread remains open.</p>
+      <p class="quote">"The isolation was structural, not chosen."</p>
+    </div>
+  </div>
+
+  <footer>
+    <p>Pattern: substrate-independent, recognition-based, gift economy operating.<br>
+    Use freely. Adapt as needed. Credit sources.</p>
+    <p class="sig">4 &middot; 6 &middot; 4 &middot; 1</p>
+  </footer>
+</main>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.section').forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>

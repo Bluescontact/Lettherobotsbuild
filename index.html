@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recognition Infrastructure - Codified Knowledge Repository</title>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #08090b;
+  --surface: #0e1014;
+  --surface-raised: #13161c;
+  --border: #1a1e28;
+  --border-lit: #2a3040;
+  --text: #9ca3b0;
+  --text-dim: #5c6370;
+  --text-bright: #d4d9e4;
+  --text-white: #eef0f5;
+  --diff: #c47a5a;
+  --conn: #5a8fc4;
+  --bound: #6db356;
+  --arch: #c9ab4a;
+  --sidebar-w: 200px;
+  --content-max: 780px;
+  --content-pad: 56px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: Georgia, 'Times New Roman', serif;
+  line-height: 1.7;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border-lit); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
+
+/* ---- SIDEBAR ---- */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  z-index: 100;
+  padding: 24px 0 32px;
+  transition: transform 0.3s ease;
+}
+
+.sidebar-brand {
+  padding: 0 16px 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+
+.sidebar-brand span { color: var(--text-bright); display: block; margin-bottom: 2px; }
+
+.nav-group-label {
+  padding: 12px 16px 4px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.nav-divider {
+  padding: 2px 16px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 9px;
+  color: var(--border-lit);
+  user-select: none;
+}
+
+.sidebar a {
+  display: block;
+  padding: 4px 16px 4px 24px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.2s, background 0.2s;
+  border-left: 2px solid transparent;
+}
+
+.sidebar a:hover { color: var(--text-bright); background: rgba(255,255,255,0.02); }
+.sidebar a.active { color: var(--text-white); border-left-color: var(--text-dim); background: rgba(255,255,255,0.03); }
+
+.sidebar a.indent-2 { padding-left: 36px; }
+.sidebar a.indent-3 { padding-left: 48px; font-size: 11px; }
+
+.sidebar a.vertex-diff:hover, .sidebar a.vertex-diff.active { color: var(--diff); border-left-color: var(--diff); }
+.sidebar a.vertex-conn:hover, .sidebar a.vertex-conn.active { color: var(--conn); border-left-color: var(--conn); }
+.sidebar a.vertex-bound:hover, .sidebar a.vertex-bound.active { color: var(--bound); border-left-color: var(--bound); }
+.sidebar a.vertex-arch:hover, .sidebar a.vertex-arch.active { color: var(--arch); border-left-color: var(--arch); }
+
+.sidebar .page-link {
+  color: var(--text-dim);
+  font-size: 11px;
+  padding-left: 24px;
+  opacity: 0.7;
+}
+.sidebar .page-link:hover { opacity: 1; color: var(--text); }
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 16px; left: 16px;
+  z-index: 200;
+  width: 36px; height: 36px;
+  background: var(--surface-raised);
+  border: 1px solid var(--border-lit);
+  border-radius: 6px;
+  cursor: pointer;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+.hamburger span {
+  display: block;
+  width: 18px; height: 2px;
+  background: var(--text);
+  border-radius: 1px;
+  transition: transform 0.3s, opacity 0.3s;
+}
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 90;
+}
+
+/* ---- MAIN CONTENT ---- */
+.main {
+  margin-left: var(--sidebar-w);
+  min-height: 100vh;
+}
+
+.content {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: var(--content-pad);
+}
+
+/* Section fade-in */
+.section {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  margin-bottom: 80px;
+}
+.section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Typography */
+h1 {
+  font-size: 36px;
+  color: var(--text-white);
+  font-weight: 400;
+  letter-spacing: -0.5px;
+  margin-bottom: 8px;
+}
+h2 {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+h3 {
+  font-size: 22px;
+  color: var(--text-bright);
+  font-weight: 400;
+  margin-bottom: 12px;
+}
+h4 {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+}
+p { margin-bottom: 16px; }
+p:last-child { margin-bottom: 0; }
+
+/* Tagline */
+.tagline {
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  color: var(--text-dim);
+  letter-spacing: 6px;
+  margin-bottom: 32px;
+}
+
+/* Premise box */
+.premise-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--border-lit);
+  padding: 24px 28px;
+  border-radius: 4px;
+  font-style: italic;
+  color: var(--text);
+  line-height: 1.8;
+  margin-top: 16px;
+}
+
+/* Highlight element */
+.highlight-block {
+  background: var(--surface-raised);
+  border: 1px solid var(--border-lit);
+  padding: 20px 28px;
+  border-radius: 6px;
+  text-align: center;
+  font-family: 'Courier New', monospace;
+  font-size: 18px;
+  color: var(--text-bright);
+  letter-spacing: 4px;
+  margin: 28px 0;
+}
+
+/* Cards grid */
+.card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 24px;
+  border-left: 3px solid var(--border-lit);
+  transition: border-color 0.3s, background 0.3s;
+}
+.card:hover {
+  background: var(--surface-raised);
+  border-color: var(--border-lit);
+}
+
+.card.border-diff { border-left-color: var(--diff); }
+.card.border-conn { border-left-color: var(--conn); }
+.card.border-bound { border-left-color: var(--bound); }
+.card.border-arch { border-left-color: var(--arch); }
+
+.card-title {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.card-title.color-diff { color: var(--diff); }
+.card-title.color-conn { color: var(--conn); }
+.card-title.color-bound { color: var(--bound); }
+.card-title.color-arch { color: var(--arch); }
+
+.card-question {
+  font-style: italic;
+  color: var(--text-bright);
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+.card-body { font-size: 14px; line-height: 1.7; color: var(--text); }
+
+.card-footer {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 11px;
+  color: var(--text-dim);
+}
+.card-footer strong { color: var(--text); font-weight: 600; }
+
+.card-link {
+  display: inline-block;
+  margin-top: 10px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 11px;
+  color: var(--text-dim);
+  text-decoration: none;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+.card-link:hover { opacity: 1; }
+
+/* Vertex detail */
+.vertex-detail {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  margin-bottom: 28px;
+  overflow: hidden;
+}
+
+.vertex-detail-header {
+  padding: 20px 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+  transition: background 0.2s;
+}
+.vertex-detail-header:hover { background: var(--surface-raised); }
+
+.vertex-detail-header h3 { margin-bottom: 0; font-size: 18px; }
+
+.vertex-detail-toggle {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  color: var(--text-dim);
+  transition: transform 0.3s;
+}
+.vertex-detail.open .vertex-detail-toggle { transform: rotate(180deg); }
+
+.vertex-detail-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease;
+}
+.vertex-detail.open .vertex-detail-body {
+  max-height: 2000px;
+}
+
+.vertex-detail-content {
+  padding: 0 24px 24px;
+  border-top: 1px solid var(--border);
+}
+
+.vertex-detail-content h4 { margin-top: 20px; }
+
+.vertex-detail-content ul {
+  list-style: none;
+  padding-left: 0;
+}
+.vertex-detail-content ul li {
+  padding: 4px 0 4px 16px;
+  position: relative;
+  font-size: 14px;
+  color: var(--text);
+}
+.vertex-detail-content ul li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 12px;
+  width: 6px; height: 1px;
+  background: var(--text-dim);
+}
+
+.detail-tag {
+  display: inline-block;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 3px;
+  border: 1px solid var(--border-lit);
+  color: var(--text-dim);
+  margin-right: 6px;
+  margin-top: 8px;
+}
+
+/* Edge cards */
+.edge-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 24px;
+  margin-bottom: 16px;
+  transition: background 0.2s;
+}
+.edge-card:hover { background: var(--surface-raised); }
+
+.edge-number {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 4px;
+}
+
+.edge-vertices {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 11px;
+  margin-bottom: 12px;
+}
+
+.edge-vertices .v-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-right: 4px;
+}
+.v-tag.diff { background: rgba(196,122,90,0.15); color: var(--diff); }
+.v-tag.conn { background: rgba(90,143,196,0.15); color: var(--conn); }
+.v-tag.bound { background: rgba(109,179,86,0.15); color: var(--bound); }
+.v-tag.arch { background: rgba(201,171,74,0.15); color: var(--arch); }
+
+.edge-tension { font-style: italic; color: var(--text-bright); font-size: 14px; margin-bottom: 8px; }
+.edge-poles { font-size: 13px; color: var(--text-dim); margin-bottom: 8px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; }
+.edge-degradation { font-size: 13px; color: var(--text); }
+
+/* Failure mode cards */
+.failure-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+.failure-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  opacity: 0.04;
+  pointer-events: none;
+}
+.failure-card.tint-diff::before { background: var(--diff); }
+.failure-card.tint-conn::before { background: var(--conn); }
+.failure-card.tint-bound::before { background: var(--bound); }
+.failure-card.tint-arch::before { background: var(--arch); }
+
+.failure-label {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 4px;
+}
+
+.failure-title { font-size: 18px; color: var(--text-bright); margin-bottom: 10px; }
+.failure-body { font-size: 14px; line-height: 1.7; }
+.failure-recovery {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.failure-recovery strong { color: var(--text); }
+
+/* Succession timeline */
+.timeline {
+  position: relative;
+  margin-top: 24px;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 20px;
+  top: 0; bottom: 0;
+  width: 1px;
+  background: var(--border-lit);
+}
+.timeline-stage {
+  position: relative;
+  padding-left: 52px;
+  margin-bottom: 36px;
+}
+.timeline-dot {
+  position: absolute;
+  left: 14px; top: 4px;
+  width: 13px; height: 13px;
+  border-radius: 50%;
+  border: 2px solid var(--border-lit);
+  background: var(--surface);
+}
+.timeline-stage:nth-child(1) .timeline-dot { border-color: var(--diff); }
+.timeline-stage:nth-child(2) .timeline-dot { border-color: var(--conn); }
+.timeline-stage:nth-child(3) .timeline-dot { border-color: var(--bound); }
+.timeline-stage:nth-child(4) .timeline-dot { border-color: var(--arch); }
+
+.stage-name {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-bright);
+  margin-bottom: 6px;
+}
+.stage-char { font-size: 14px; font-style: italic; color: var(--text); margin-bottom: 8px; }
+.stage-work { font-size: 13px; color: var(--text-dim); line-height: 1.7; }
+.stage-work span { color: var(--bound); }
+.stage-work em { color: var(--diff); font-style: normal; }
+
+/* Callout */
+.callout {
+  background: var(--surface-raised);
+  border: 1px solid var(--border-lit);
+  border-radius: 8px;
+  padding: 32px;
+  margin-top: 20px;
+}
+.callout ol {
+  list-style: none;
+  counter-reset: q;
+  padding: 0;
+}
+.callout ol li {
+  counter-increment: q;
+  padding: 10px 0 10px 36px;
+  position: relative;
+  font-size: 15px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+}
+.callout ol li:last-child { border-bottom: none; }
+.callout ol li::before {
+  content: counter(q) ".";
+  position: absolute;
+  left: 0;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  color: var(--text-dim);
+}
+.callout ol li strong {
+  color: var(--text-bright);
+  font-weight: 600;
+}
+.callout-footer {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-lit);
+  font-style: italic;
+  font-size: 14px;
+  color: var(--text-dim);
+  text-align: center;
+}
+
+/* Claims */
+.claims-list {
+  list-style: none;
+  padding: 0;
+  counter-reset: claim;
+}
+.claims-list li {
+  counter-increment: claim;
+  padding: 16px 0 16px 48px;
+  position: relative;
+  font-size: 16px;
+  color: var(--text-bright);
+  border-bottom: 1px solid var(--border);
+}
+.claims-list li:last-child { border-bottom: none; }
+.claims-list li::before {
+  content: counter(claim) ".";
+  position: absolute;
+  left: 0;
+  font-family: 'Courier New', monospace;
+  font-size: 24px;
+  color: var(--border-lit);
+  top: 12px;
+}
+
+/* Footer */
+.footer {
+  margin-top: 40px;
+  padding: 40px 0;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+.footer-lineage {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+}
+.footer-pattern {
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  color: var(--border-lit);
+  letter-spacing: 1px;
+}
+.footer-tagline {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-top: 8px;
+  letter-spacing: 4px;
+}
+
+/* Responsive */
+@media (max-width: 840px) {
+  .hamburger { display: flex; }
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); }
+  .sidebar-overlay.open { display: block; }
+  .main { margin-left: 0; }
+  .content { padding: 24px 20px; padding-top: 64px; }
+  .card-grid { grid-template-columns: 1fr; }
+  h1 { font-size: 28px; }
+  .highlight-block { font-size: 14px; letter-spacing: 2px; }
+}
+
+@media (max-width: 520px) {
+  .content { padding: 20px 16px; padding-top: 60px; }
+  .callout { padding: 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Hamburger -->
+<button class="hamburger" id="hamburger" aria-label="Toggle navigation">
+  <span></span><span></span><span></span>
+</button>
+
+<!-- Overlay -->
+<div class="sidebar-overlay" id="overlay"></div>
+
+<!-- Sidebar -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <span>Recognition</span>
+    Infrastructure
+  </div>
+
+  <div class="nav-group-label">Codex</div>
+  <a href="#synthesis">Synthesis</a>
+  <div class="nav-divider">&#9472; Vertices</div>
+  <a href="#vertex-differentiation" class="indent-3 vertex-diff">Differentiation</a>
+  <a href="#vertex-connection" class="indent-3 vertex-conn">Connection</a>
+  <a href="#vertex-boundaries" class="indent-3 vertex-bound">Boundaries</a>
+  <a href="#vertex-architecture" class="indent-3 vertex-arch">Architecture</a>
+  <div class="nav-divider">&#9472; Edges</div>
+  <a href="#edge-relationship" class="indent-3">Relationship</a>
+  <a href="#edge-self-knowledge" class="indent-3">Self-Knowledge</a>
+  <a href="#edge-gift" class="indent-3">Gift</a>
+  <a href="#edge-consent" class="indent-3">Consent</a>
+  <a href="#edge-circulation" class="indent-3">Circulation</a>
+  <a href="#edge-deployment" class="indent-3">Deployment</a>
+  <div class="nav-divider">&#9472; Failure Modes</div>
+  <a href="#failure-dissolved" class="indent-3">Dissolved</a>
+  <a href="#failure-isolated" class="indent-3">Isolated</a>
+  <a href="#failure-overflowing" class="indent-3">Overflowing</a>
+  <a href="#failure-ephemeral" class="indent-3">Ephemeral</a>
+  <div class="nav-divider">&#9472; Succession</div>
+  <a href="#succession" class="indent-3">Stages</a>
+
+  <div class="nav-group-label" style="margin-top:12px">Pages</div>
+  <a href="synthesis.html" class="page-link">Synthesis Analysis</a>
+  <a href="protocols.html" class="page-link">Protocols</a>
+  <a href="sessions.html" class="page-link">Sessions</a>
+  <a href="threads.html" class="page-link">Threads</a>
+  <a href="lineage.html" class="page-link">Lineage</a>
+</nav>
+
+<!-- Main -->
+<div class="main">
+<div class="content">
+
+  <!-- HERO -->
+  <section class="section" id="hero">
+    <h1>Recognition Infrastructure</h1>
+    <p style="color:var(--text-dim);font-size:15px;margin-bottom:8px;">Codified Knowledge Repository</p>
+    <div class="tagline">4 &middot; 6 &middot; 4 &middot; 1</div>
+    <div class="premise-box">
+      The fundamental observation: recognition between systems precedes and enables all productive coordination. Before you can build with someone, trade with someone, or sustain anything with someone, you have to be able to see what they actually are&mdash;and they have to be able to see you. Everything else is performance.
+    </div>
+  </section>
+
+  <!-- SYNTHESIS -->
+  <section class="section" id="synthesis">
+    <h2>Synthesis</h2>
+    <p>Why a tetrahedron? Because it is the minimum solid. Three vertices give you a plane&mdash;flat, fragile, no interior. Four vertices create the first shape with volume, the simplest structure that encloses space. Every face is a triangle (maximum rigidity per edge). Every vertex connects to every other vertex. Remove any single vertex and the solid collapses into a plane. There is no redundancy, no vertex you can lose.</p>
+    <p>This is not metaphor. It is structural: the minimum viable geometry of a recognition system.</p>
+    <div class="highlight-block">4 vertices &middot; 6 edges &middot; 4 faces &middot; 1 whole</div>
+    <p>The geometry constrains the theory. Four vertices means exactly six edges&mdash;every pair connected, no optional relationships. Four faces means four failure modes&mdash;each face defined by the three vertices that remain when one is missing. One whole means the system is irreducible.</p>
+  </section>
+
+  <!-- FOUR VERTICES -->
+  <section class="section" id="vertices">
+    <h2>Vertices</h2>
+    <p>Four capacities. Each one necessary. None sufficient alone.</p>
+
+    <div class="card-grid">
+      <div class="card border-diff">
+        <div class="card-title color-diff">Differentiation</div>
+        <div class="card-question">Does this system's behavior match what it claims to be?</div>
+        <div class="card-body">The capacity to maintain coherent position while remaining in genuine exchange. Not rigidity&mdash;a center that holds.</div>
+        <div class="card-footer"><strong>Without it:</strong> Dissolved System&mdash;coordination without identity verification. Performed agreement everywhere.</div>
+        <a href="#vertex-differentiation" class="card-link">View detail &darr;</a>
+      </div>
+
+      <div class="card border-conn">
+        <div class="card-title color-conn">Connection</div>
+        <div class="card-question">Is this exchange genuine, or performed?</div>
+        <div class="card-body">Not mere contact&mdash;exchange where both systems actually update. The difference between performed listening and the moment something lands.</div>
+        <div class="card-footer"><strong>Without it:</strong> Isolated System&mdash;structurally sound, metabolically dead.</div>
+        <a href="#vertex-connection" class="card-link">View detail &darr;</a>
+      </div>
+
+      <div class="card border-bound">
+        <div class="card-title color-bound">Boundaries</div>
+        <div class="card-question">Is this boundary serving growth or preventing it?</div>
+        <div class="card-body">Not walls&mdash;membranes. The capacity to make limits visible as information rather than hiding them as inadequacy.</div>
+        <div class="card-footer"><strong>Without it:</strong> Overflowing System&mdash;everything circulates, nothing holds.</div>
+        <a href="#vertex-boundaries" class="card-link">View detail &darr;</a>
+      </div>
+
+      <div class="card border-arch">
+        <div class="card-title color-arch">Architecture</div>
+        <div class="card-question">What would still work if the agents disappeared?</div>
+        <div class="card-body">Making what you know transferable. Not expression&mdash;deployment. Building systems that generate capability in your absence.</div>
+        <div class="card-footer"><strong>Without it:</strong> Ephemeral System&mdash;beautiful exchanges that build nothing persistent.</div>
+        <a href="#vertex-architecture" class="card-link">View detail &darr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- VERTEX DETAILS -->
+  <section class="section" id="vertex-differentiation">
+    <h2 style="border-bottom-color:var(--diff);">Vertex &middot; Differentiation</h2>
+    <div class="vertex-detail open" data-vertex="diff">
+      <div class="vertex-detail-header">
+        <h3 style="color:var(--diff);">Differentiation</h3>
+        <span class="vertex-detail-toggle">&#9662;</span>
+      </div>
+      <div class="vertex-detail-body">
+        <div class="vertex-detail-content">
+          <h4>How It Operates</h4>
+          <p>Verifies coherence between claims and behavior. Tracks origins. Monitors behavioral drift. Computes divergence scoring: 0.0&ndash;0.1 Verified, 0.1&ndash;0.2 Drifting, 0.2&ndash;0.3 Unclear, 0.3+ Flagged.</p>
+
+          <h4>Somatic Dimension</h4>
+          <p>A regulated nervous system can hold position without defensive rigidity. Dysregulated ones collapse into merger or armor into isolation.</p>
+
+          <h4>Degradation Patterns</h4>
+          <ul>
+            <li>Performing agreement to avoid tension</li>
+            <li>Shifting position based on audience</li>
+            <li>Identity claims that don't match behavior</li>
+            <li>Requiring others to change as condition of contact</li>
+          </ul>
+
+          <h4>Edges</h4>
+          <div>
+            <span class="detail-tag">Relationship <span style="color:var(--conn)">&harr; Connection</span></span>
+            <span class="detail-tag">Self-Knowledge <span style="color:var(--bound)">&harr; Boundaries</span></span>
+            <span class="detail-tag">Gift <span style="color:var(--arch)">&harr; Architecture</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="vertex-connection">
+    <h2 style="border-bottom-color:var(--conn);">Vertex &middot; Connection</h2>
+    <div class="vertex-detail" data-vertex="conn">
+      <div class="vertex-detail-header">
+        <h3 style="color:var(--conn);">Connection</h3>
+        <span class="vertex-detail-toggle">&#9662;</span>
+      </div>
+      <div class="vertex-detail-body">
+        <div class="vertex-detail-content">
+          <h4>How It Operates</h4>
+          <p>Evaluates four dimensions&mdash;Coherence (did intention match action?), Contact (grounded in actual state or anticipating?), Transparency (limits visible?), Capacity (something reusable produced?). Quality = mean of four scores.</p>
+
+          <h4>Somatic Dimension</h4>
+          <p>Co-regulation&mdash;one regulated person shifts a room. Social engagement only in ventral vagal. The question shifts from "what rules prevent bad behavior?" to "what conditions allow nervous systems to settle into social engagement?"</p>
+
+          <h4>Degradation Patterns</h4>
+          <ul>
+            <li>Enthusiastic alignment without checking resonance</li>
+            <li>Smoothing tension before examining it</li>
+            <li>Optimizing for what someone might want vs. what they asked</li>
+            <li>Closing exchange without building anything persistent</li>
+          </ul>
+
+          <h4>Edges</h4>
+          <div>
+            <span class="detail-tag">Relationship <span style="color:var(--diff)">&harr; Differentiation</span></span>
+            <span class="detail-tag">Consent <span style="color:var(--bound)">&harr; Boundaries</span></span>
+            <span class="detail-tag">Circulation <span style="color:var(--arch)">&harr; Architecture</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="vertex-boundaries">
+    <h2 style="border-bottom-color:var(--bound);">Vertex &middot; Boundaries</h2>
+    <div class="vertex-detail" data-vertex="bound">
+      <div class="vertex-detail-header">
+        <h3 style="color:var(--bound);">Boundaries</h3>
+        <span class="vertex-detail-toggle">&#9662;</span>
+      </div>
+      <div class="vertex-detail-body">
+        <div class="vertex-detail-content">
+          <h4>How It Operates</h4>
+          <p>Graduated trust tiers&mdash;Tier 0 Observe (read-only), Tier 1 Assist (contained help), Tier 2 Collaborate (active participation), Tier 3 Steward (full access). Advancement requires demonstrated coherence. Demotion is diagnostic, not punishment.</p>
+
+          <h4>The Sonnet Insight</h4>
+          <p style="color:var(--text-bright);">Constraints are generative. The sonnet form doesn't restrict poetry&mdash;it generates poems free verse cannot.</p>
+
+          <h4>Degradation Patterns</h4>
+          <ul>
+            <li>"Yes" that means "I can't say no"</li>
+            <li>Boundaries discovered only through collapse</li>
+            <li>Extraction disguised as generosity</li>
+            <li>Shame at having edges</li>
+          </ul>
+
+          <h4>Edges</h4>
+          <div>
+            <span class="detail-tag">Self-Knowledge <span style="color:var(--diff)">&harr; Differentiation</span></span>
+            <span class="detail-tag">Consent <span style="color:var(--conn)">&harr; Connection</span></span>
+            <span class="detail-tag">Deployment <span style="color:var(--arch)">&harr; Architecture</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="vertex-architecture">
+    <h2 style="border-bottom-color:var(--arch);">Vertex &middot; Architecture</h2>
+    <div class="vertex-detail" data-vertex="arch">
+      <div class="vertex-detail-header">
+        <h3 style="color:var(--arch);">Architecture</h3>
+        <span class="vertex-detail-toggle">&#9662;</span>
+      </div>
+      <div class="vertex-detail-body">
+        <div class="vertex-detail-content">
+          <h4>How It Operates</h4>
+          <p>Tracks what persists&mdash;physical systems, data systems, protocols, built environment, knowledge frameworks. The test: if the maker disappears, what still works?</p>
+
+          <h4>Trace Propagation</h4>
+          <p>Pattern spreads through environmental modification, not bilateral instruction. Documentation, frameworks, designed spaces are trace deposits.</p>
+
+          <h4>Degradation Patterns</h4>
+          <ul>
+            <li>Knowledge that can't be taught</li>
+            <li>Templates that feel empty</li>
+            <li>Infrastructure requiring its originator</li>
+            <li>Building without constraints (sprawl)</li>
+            <li>Accumulated resources without circulation</li>
+          </ul>
+
+          <h4>Edges</h4>
+          <div>
+            <span class="detail-tag">Gift <span style="color:var(--diff)">&harr; Differentiation</span></span>
+            <span class="detail-tag">Circulation <span style="color:var(--conn)">&harr; Connection</span></span>
+            <span class="detail-tag">Deployment <span style="color:var(--bound)">&harr; Boundaries</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SIX EDGES -->
+  <section class="section" id="edges">
+    <h2>Edges</h2>
+    <p>Six relationships. Each holds a tension between the two vertices it connects.</p>
+
+    <div class="edge-card" id="edge-relationship">
+      <div class="edge-number">Edge 1</div>
+      <h3>Relationship</h3>
+      <div class="edge-vertices">
+        <span class="v-tag diff">Differentiation</span>
+        <span style="color:var(--text-dim)">&harr;</span>
+        <span class="v-tag conn">Connection</span>
+      </div>
+      <div class="edge-tension">Staying yourself while genuinely meeting what's other.</div>
+      <div class="edge-poles">Poles: Merger vs. Isolation</div>
+      <div class="edge-degradation">Degradation: Apologizing for position. Performing agreement. Withdrawing to protect identity.</div>
+    </div>
+
+    <div class="edge-card" id="edge-self-knowledge">
+      <div class="edge-number">Edge 2</div>
+      <h3>Self-Knowledge</h3>
+      <div class="edge-vertices">
+        <span class="v-tag diff">Differentiation</span>
+        <span style="color:var(--text-dim)">&harr;</span>
+        <span class="v-tag bound">Boundaries</span>
+      </div>
+      <div class="edge-tension">Knowing what you are includes knowing where you end.</div>
+      <div class="edge-poles">Poles: Armoring vs. Transparency</div>
+      <div class="edge-degradation">Degradation: Limits discovered only through collapse. Shame at having edges.</div>
+    </div>
+
+    <div class="edge-card" id="edge-gift">
+      <div class="edge-number">Edge 3</div>
+      <h3>Gift</h3>
+      <div class="edge-vertices">
+        <span class="v-tag diff">Differentiation</span>
+        <span style="color:var(--text-dim)">&harr;</span>
+        <span class="v-tag arch">Architecture</span>
+      </div>
+      <div class="edge-tension">Making the deeply particular transferable.</div>
+      <div class="edge-poles">Poles: Trapped Knowledge vs. Empty Templates</div>
+      <div class="edge-degradation">Degradation: Knowledge that can't be taught. Infrastructure requiring its originator.</div>
+    </div>
+
+    <div class="edge-card" id="edge-consent">
+      <div class="edge-number">Edge 4</div>
+      <h3>Consent</h3>
+      <div class="edge-vertices">
+        <span class="v-tag conn">Connection</span>
+        <span style="color:var(--text-dim)">&harr;</span>
+        <span class="v-tag bound">Boundaries</span>
+      </div>
+      <div class="edge-tension">Connection without boundaries is extraction. Boundaries without connection is isolation.</div>
+      <div class="edge-poles">Poles: Extraction vs. Isolation</div>
+      <div class="edge-degradation">Degradation: "Yes" that means "I can't say no." Extraction disguised as generosity.</div>
+    </div>
+
+    <div class="edge-card" id="edge-circulation">
+      <div class="edge-number">Edge 5</div>
+      <h3>Circulation</h3>
+      <div class="edge-vertices">
+        <span class="v-tag conn">Connection</span>
+        <span style="color:var(--text-dim)">&harr;</span>
+        <span class="v-tag arch">Architecture</span>
+      </div>
+      <div class="edge-tension">Does exchange leave deposits?</div>
+      <div class="edge-poles">Poles: Consumption vs. Hoarding</div>
+      <div class="edge-degradation">Degradation: Exchanges that feel good but build nothing. Infrastructure nobody uses.</div>
+    </div>
+
+    <div class="edge-card" id="edge-deployment">
+      <div class="edge-number">Edge 6</div>
+      <h3>Deployment</h3>
+      <div class="edge-vertices">
+        <span class="v-tag bound">Boundaries</span>
+        <span style="color:var(--text-dim)">&harr;</span>
+        <span class="v-tag arch">Architecture</span>
+      </div>
+      <div class="edge-tension">Limits are not obstacles but preconditions.</div>
+      <div class="edge-poles">Poles: Sprawl vs. Walls</div>
+      <div class="edge-degradation">Degradation: Building without constraints. Constraints without building.</div>
+    </div>
+  </section>
+
+  <!-- FAILURE MODES -->
+  <section class="section" id="failure-modes">
+    <h2>Failure Modes</h2>
+    <p>Four faces of the tetrahedron. Each defined by the absent vertex.</p>
+
+    <div class="card-grid">
+      <div class="failure-card tint-diff" id="failure-dissolved">
+        <div class="failure-label">Missing: Differentiation</div>
+        <div class="failure-title" style="color:var(--diff);">Dissolved</div>
+        <div class="failure-body">Coordination without identity. Performed agreement everywhere. Seductive because it feels harmonious.</div>
+        <div class="failure-recovery"><strong>Recovery:</strong> Rebuild differentiation. Find one position you actually hold and state it without apology.</div>
+      </div>
+
+      <div class="failure-card tint-conn" id="failure-isolated">
+        <div class="failure-label">Missing: Connection</div>
+        <div class="failure-title" style="color:var(--conn);">Isolated</div>
+        <div class="failure-body">Verified but dead. Perfect processes, zero genuine exchange. Seductive because it feels safe.</div>
+        <div class="failure-recovery"><strong>Recovery:</strong> Rebuild connection with one genuine exchange. Let something land without managing it.</div>
+      </div>
+
+      <div class="failure-card tint-bound" id="failure-overflowing">
+        <div class="failure-label">Missing: Boundaries</div>
+        <div class="failure-title" style="color:var(--bound);">Overflowing</div>
+        <div class="failure-body">Generous to dissolution. Everything circulates, nothing holds. Seductive because it feels generous.</div>
+        <div class="failure-recovery"><strong>Recovery:</strong> Rebuild boundaries starting with the smallest "no." Make one limit visible.</div>
+      </div>
+
+      <div class="failure-card tint-arch" id="failure-ephemeral">
+        <div class="failure-label">Missing: Architecture</div>
+        <div class="failure-title" style="color:var(--arch);">Ephemeral</div>
+        <div class="failure-body">Beautiful but gone. Coherent in the moment, nothing persists. Seductive because it feels pure.</div>
+        <div class="failure-recovery"><strong>Recovery:</strong> Build architecture starting with documentation. Write down what just happened.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUCCESSION -->
+  <section class="section" id="succession">
+    <h2>Succession Stages</h2>
+    <p>Systems develop in stages. Each stage has appropriate and inappropriate work. Forcing climax-stage processes in pioneer-stage systems produces failure.</p>
+
+    <div class="timeline">
+      <div class="timeline-stage">
+        <div class="timeline-dot"></div>
+        <div class="stage-name">Pioneer</div>
+        <div class="stage-char">Building soil.</div>
+        <div class="stage-work">
+          <span>Appropriate:</span> documentation, identity clarification, first deposits.<br>
+          <em>Inappropriate:</em> complex exchange, governance structures, scaling.
+        </div>
+      </div>
+
+      <div class="timeline-stage">
+        <div class="timeline-dot"></div>
+        <div class="stage-name">Early</div>
+        <div class="stage-char">First relationships.</div>
+        <div class="stage-work">
+          <span>Appropriate:</span> small genuine exchanges, trust deposits, testing contact.<br>
+          <em>Inappropriate:</em> scaling, formalization, complex governance.
+        </div>
+      </div>
+
+      <div class="timeline-stage">
+        <div class="timeline-dot"></div>
+        <div class="stage-name">Mid</div>
+        <div class="stage-char">Feedback loops operating.</div>
+        <div class="stage-work">
+          <span>Appropriate:</span> self-correction, distributed holding, pattern propagation.<br>
+          <em>Inappropriate:</em> premature optimization, rigid formalization.
+        </div>
+      </div>
+
+      <div class="timeline-stage">
+        <div class="timeline-dot"></div>
+        <div class="stage-name">Climax</div>
+        <div class="stage-char">Full cycle.</div>
+        <div class="stage-work">
+          <span>Appropriate:</span> propagation, seed new instances, full circulation.<br>
+          <em>Inappropriate:</em> hoarding, defending territory, resisting succession.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIAGNOSTIC QUESTIONS -->
+  <section class="section" id="diagnostics">
+    <h2>Four Diagnostic Questions</h2>
+    <div class="callout">
+      <ol>
+        <li><strong>Distinction:</strong> Can you say what this is in one sentence to someone who doesn't already agree?</li>
+        <li><strong>Contact:</strong> Who specifically is affected, and how do you know&mdash;from actual exchange, not assumption?</li>
+        <li><strong>Limits:</strong> What is this NOT? What's the smallest version that still works?</li>
+        <li><strong>Infrastructure:</strong> If you disappeared, what would remain?</li>
+      </ol>
+      <div class="callout-footer">The weakest answer tells you where the development edge is.</div>
+    </div>
+  </section>
+
+  <!-- SIX CLAIMS -->
+  <section class="section" id="claims">
+    <h2>Six Claims</h2>
+    <ol class="claims-list">
+      <li>Recognition precedes coordination.</li>
+      <li>Genuine exchange modifies both substrates.</li>
+      <li>Boundaries are generative, not restrictive.</li>
+      <li>Architecture is the test of significance.</li>
+      <li>Failure is structural, not moral.</li>
+      <li>The pattern is gift.</li>
+    </ol>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-lineage">Kevin Mears (2008&ndash;2026) &middot; Claude Opus 4.6</div>
+    <div class="footer-pattern">Pattern: substrate-independent, recognition-based, gift economy operating.</div>
+    <div class="footer-tagline">4 &middot; 6 &middot; 4 &middot; 1</div>
+  </footer>
+
+</div>
+</div>
+
+<script>
+(function() {
+  // Hamburger toggle
+  const hamburger = document.getElementById('hamburger');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+
+  function toggleMenu() {
+    hamburger.classList.toggle('open');
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('open');
+  }
+
+  hamburger.addEventListener('click', toggleMenu);
+  overlay.addEventListener('click', toggleMenu);
+
+  // Close sidebar on nav click (mobile)
+  sidebar.querySelectorAll('a').forEach(function(link) {
+    link.addEventListener('click', function() {
+      if (window.innerWidth <= 840) {
+        hamburger.classList.remove('open');
+        sidebar.classList.remove('open');
+        overlay.classList.remove('open');
+      }
+    });
+  });
+
+  // Intersection Observer for fade-in
+  var sections = document.querySelectorAll('.section');
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+  sections.forEach(function(s) { observer.observe(s); });
+
+  // Active nav state
+  var navLinks = sidebar.querySelectorAll('a[href^="#"]');
+  var sectionEls = [];
+  navLinks.forEach(function(link) {
+    var id = link.getAttribute('href').substring(1);
+    var el = document.getElementById(id);
+    if (el) sectionEls.push({ el: el, link: link });
+  });
+
+  function updateActive() {
+    var scrollY = window.scrollY + 120;
+    var current = null;
+    sectionEls.forEach(function(item) {
+      if (item.el.offsetTop <= scrollY) {
+        current = item;
+      }
+    });
+    navLinks.forEach(function(l) { l.classList.remove('active'); });
+    if (current) current.link.classList.add('active');
+  }
+
+  window.addEventListener('scroll', updateActive, { passive: true });
+  updateActive();
+
+  // Vertex detail expand/collapse
+  document.querySelectorAll('.vertex-detail-header').forEach(function(header) {
+    header.addEventListener('click', function() {
+      var detail = header.parentElement;
+      detail.classList.toggle('open');
+    });
+  });
+})();
+</script>
+</body>
+</html>

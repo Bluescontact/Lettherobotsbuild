@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pattern Convergence — Recognition Infrastructure</title>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #08090b;
+  --surface: #0e1014;
+  --surface-raised: #13161c;
+  --border: #1a1e28;
+  --border-lit: #2a3040;
+  --text: #9ca3b0;
+  --text-dim: #5c6370;
+  --text-bright: #d4d9e4;
+  --text-white: #eef0f5;
+  --differentiation: #c47a5a;
+  --connection: #5a8fc4;
+  --boundaries: #6db356;
+  --architecture: #c9ab4a;
+  --font-body: Georgia, 'Times New Roman', serif;
+  --font-nav: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.7;
+  font-size: 17px;
+  min-height: 100vh;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border-lit); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
+
+/* Nav */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 52px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  z-index: 1000;
+  font-family: var(--font-nav);
+  font-size: 13px;
+}
+
+.nav-brand {
+  color: var(--text-dim);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 600;
+  margin-right: auto;
+  text-decoration: none;
+}
+
+.nav-links { display: flex; gap: 4px; }
+
+.nav-links a {
+  color: var(--text-dim);
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: color 0.2s, background 0.2s;
+}
+
+.nav-links a:hover { color: var(--text-bright); background: var(--surface-raised); }
+.nav-links a.active { color: var(--text-white); background: var(--border); }
+
+/* Main */
+main {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 108px 56px 96px;
+}
+
+/* Hero */
+.hero {
+  margin-bottom: 72px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards;
+}
+
+.hero h1 {
+  font-family: var(--font-body);
+  font-size: 42px;
+  font-weight: 400;
+  color: var(--text-white);
+  letter-spacing: -0.01em;
+  margin-bottom: 8px;
+}
+
+.hero .subtitle {
+  font-size: 18px;
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+/* Sections */
+.section {
+  margin-bottom: 64px;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.section.visible {
+  animation: fadeUp 0.6s ease forwards;
+}
+
+.section-label {
+  font-family: var(--font-nav);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 20px;
+}
+
+.section h2 {
+  font-family: var(--font-body);
+  font-size: 26px;
+  font-weight: 400;
+  color: var(--text-bright);
+  margin-bottom: 20px;
+}
+
+.section p, .section li {
+  margin-bottom: 14px;
+  color: var(--text);
+}
+
+.section blockquote {
+  border-left: 2px solid var(--border-lit);
+  padding: 16px 24px;
+  margin: 24px 0;
+  color: var(--text-bright);
+  font-style: italic;
+  background: var(--surface);
+  border-radius: 0 6px 6px 0;
+}
+
+/* Cards */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 28px;
+  margin-bottom: 16px;
+  transition: border-color 0.3s;
+}
+
+.card:hover { border-color: var(--border-lit); }
+
+.card h3 {
+  font-family: var(--font-body);
+  font-size: 19px;
+  font-weight: 400;
+  color: var(--text-bright);
+  margin-bottom: 12px;
+}
+
+.card p {
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.card-index {
+  font-family: var(--font-nav);
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+/* Colored top borders for convergence cards */
+.card.diff { border-top: 2px solid var(--differentiation); }
+.card.conn { border-top: 2px solid var(--connection); }
+.card.bound { border-top: 2px solid var(--boundaries); }
+.card.arch { border-top: 2px solid var(--architecture); }
+.card.mixed { border-top: 2px solid var(--text-dim); }
+
+/* Collapsible lenses */
+.lens {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+
+.lens-header {
+  padding: 18px 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+  transition: background 0.2s;
+}
+
+.lens-header:hover { background: var(--surface-raised); }
+
+.lens-header h3 {
+  font-family: var(--font-body);
+  font-size: 17px;
+  font-weight: 400;
+  color: var(--text-bright);
+}
+
+.lens-toggle {
+  font-family: var(--font-nav);
+  font-size: 14px;
+  color: var(--text-dim);
+  transition: transform 0.3s;
+}
+
+.lens.open .lens-toggle { transform: rotate(180deg); }
+
+.lens-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.3s ease;
+}
+
+.lens.open .lens-body {
+  max-height: 600px;
+  padding: 0 24px 20px;
+}
+
+.lens-body p {
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+
+.lens-body .tag {
+  display: inline-block;
+  font-family: var(--font-nav);
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 3px;
+  background: var(--border);
+  color: var(--text-dim);
+  margin-right: 6px;
+  margin-bottom: 6px;
+}
+
+/* Three economies */
+.economy-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.economy-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 22px;
+  text-align: center;
+}
+
+.economy-card h4 {
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 400;
+  margin-bottom: 8px;
+}
+
+.economy-card .mechanism {
+  font-family: var(--font-nav);
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 10px;
+}
+
+.economy-card p {
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.economy-card:nth-child(1) h4 { color: var(--boundaries); }
+.economy-card:nth-child(2) h4 { color: var(--architecture); }
+.economy-card:nth-child(3) h4 { color: var(--connection); }
+
+/* Flow diagram */
+.flow {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 24px;
+  text-align: center;
+  margin: 20px 0;
+  font-family: var(--font-nav);
+  font-size: 14px;
+  color: var(--text-dim);
+  letter-spacing: 0.02em;
+}
+
+.flow span { color: var(--text-bright); }
+
+/* Tension list */
+.tension-list {
+  list-style: none;
+  counter-reset: tension;
+}
+
+.tension-list li {
+  counter-increment: tension;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+}
+
+.tension-list li::before {
+  content: counter(tension);
+  font-family: var(--font-nav);
+  font-size: 12px;
+  color: var(--text-dim);
+  min-width: 20px;
+}
+
+.tension-list li:last-child { border-bottom: none; }
+
+/* Footer */
+footer {
+  margin-top: 80px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+  font-size: 14px;
+  color: var(--text-dim);
+}
+
+footer a {
+  color: var(--text-dim);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+  transition: color 0.2s;
+}
+
+footer a:hover { color: var(--text); }
+
+/* Animations */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 840px) {
+  main { padding: 96px 24px 64px; }
+  .hero h1 { font-size: 32px; }
+  .economy-grid { grid-template-columns: 1fr; }
+  .nav-brand { font-size: 10px; }
+  .nav-links a { padding: 6px 8px; font-size: 12px; }
+}
+
+@media (max-width: 600px) {
+  .nav-links { gap: 0; }
+  .nav-links a { padding: 6px 6px; font-size: 11px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">Recognition Infrastructure</a>
+  <div class="nav-links">
+    <a href="index.html">Codex</a>
+    <a href="synthesis.html" class="active">Synthesis</a>
+    <a href="protocols.html">Protocols</a>
+    <a href="sessions.html">Sessions</a>
+    <a href="threads.html">Threads</a>
+    <a href="lineage.html">Lineage</a>
+  </div>
+</nav>
+
+<main>
+  <div class="hero">
+    <h1>Pattern Convergence</h1>
+    <div class="subtitle">Where All Sources Meet</div>
+  </div>
+
+  <!-- THE META-PATTERN -->
+  <div class="section">
+    <div class="section-label">The Meta-Pattern</div>
+    <blockquote>
+      Every source &mdash; from Ostrom's 800 self-governing communities to the dance floor to the converted school bus &mdash; converges on one structural observation: Coordination that works operates below the level of rules, at the level of nervous systems reading each other and bodies calibrating in real time.
+    </blockquote>
+  </div>
+
+  <!-- CONVERGENCE MAP -->
+  <div class="section">
+    <div class="section-label">Convergence Map</div>
+    <h2>Where the Sources Meet</h2>
+
+    <div class="card diff">
+      <div class="card-index">Convergence 1</div>
+      <h3>Where Systems Thinking Meets Somatics</h3>
+      <p>Ostrom's local knowledge IS nervous system knowledge. Graduated response matches nervous system capacity. The Consent edge is where Ostrom and Porges meet &mdash; polyvagal theory explains what governance design encodes.</p>
+    </div>
+
+    <div class="card conn">
+      <div class="card-index">Convergence 2</div>
+      <h3>Where Power Analysis Meets Gift Economy</h3>
+      <p>Foucault's disciplinary power creates internalized observers. Gift economy operates through recognition, not surveillance. The Gift edge is where recognition deposits into lasting structure &mdash; power through generosity rather than control.</p>
+    </div>
+
+    <div class="card bound">
+      <div class="card-index">Convergence 3</div>
+      <h3>Where Justice Theory Meets Governance</h3>
+      <p>Zehr's restorative justice asks: what harm, how repair, who responsible? The tetrahedral model asks: which edge degraded, what diagnostic, where recovery? Harm is always an edge failure &mdash; a broken connection between vertices that governance must restore.</p>
+    </div>
+
+    <div class="card arch">
+      <div class="card-index">Convergence 4</div>
+      <h3>Where the Dance Floor Meets Institutional Design</h3>
+      <p>Twenty years partner dance: consent, intensity, proximity, repair negotiated in real time. Open Village formalizes what the dance floor knows. Monthly check-in, graduated trust, visible tithe &mdash; dance-floor principles encoded as institutional design.</p>
+    </div>
+
+    <div class="card mixed">
+      <div class="card-index">Convergence 5</div>
+      <h3>Where Whistleblower Experience Meets Architecture</h3>
+      <p>Eight years elevator constructor. Three OIG investigations. "But did you die?" The Deployment edge: constraints enable form. Worker protection templates as infrastructure that transfers &mdash; experience becoming architecture.</p>
+    </div>
+  </div>
+
+  <!-- CONTAINER-HOLDER PROBLEM -->
+  <div class="section">
+    <div class="section-label">The Container-Holder Problem</div>
+    <h2>Who Holds the Space?</h2>
+    <p>The four-step pattern repeats across every domain studied:</p>
+    <div class="card">
+      <p><strong style="color:var(--text-bright)">1. Invisible labor</strong> &mdash; someone holds the container so others can participate freely.</p>
+      <p><strong style="color:var(--text-bright)">2. Extraction</strong> &mdash; the holding is consumed without recognition or reciprocity.</p>
+      <p><strong style="color:var(--text-bright)">3. The trap</strong> &mdash; stopping the holding collapses the space; continuing depletes the holder.</p>
+      <p><strong style="color:var(--text-bright)">4. The impossibility</strong> &mdash; neither option preserves both the space and the person.</p>
+    </div>
+    <p style="margin-top:16px;">The model's response: distribute the holding, rotate authority, make invisible labor visible, build architecture that functions in the holder's absence. Not a solution &mdash; a structural intervention.</p>
+  </div>
+
+  <!-- THREE ECONOMIES -->
+  <div class="section">
+    <div class="section-label">Three Economies &mdash; Open Village</div>
+    <h2>Gift, Exchange, Commons</h2>
+
+    <div class="economy-grid">
+      <div class="economy-card">
+        <h4>Gift</h4>
+        <div class="mechanism">Overflow &middot; Recognition</div>
+        <p>What is given freely from surplus. Operates through recognition, not obligation. Creates bonds that compound.</p>
+      </div>
+      <div class="economy-card">
+        <h4>Exchange</h4>
+        <div class="mechanism">Skilled Practice &middot; Money</div>
+        <p>What carries a price because it carries expertise. Honest accounting of value given and received.</p>
+      </div>
+      <div class="economy-card">
+        <h4>Commons</h4>
+        <div class="mechanism">Shared Infrastructure &middot; Tithe</div>
+        <p>What everyone contributes to and draws from. The substrate that makes gift and exchange possible.</p>
+      </div>
+    </div>
+
+    <div class="flow">
+      <span>Exchange</span> &rarr; tithe &rarr; <span>Commons</span> &rarr; knowledge &rarr; capacity &rarr; <span>Exchange</span> &rarr; compounds
+    </div>
+
+    <blockquote>Pattern is gift. Skilled practice carries a price. The commons grows from both.</blockquote>
+  </div>
+
+  <!-- FIVE LENSES -->
+  <div class="section">
+    <div class="section-label">Five Research Lenses</div>
+    <h2>How the Sources Organize</h2>
+
+    <div class="lens" id="lens1">
+      <div class="lens-header" onclick="toggleLens('lens1')">
+        <h3>Lens 1: Systems Thinking</h3>
+        <span class="lens-toggle">&#9660;</span>
+      </div>
+      <div class="lens-body">
+        <p><span class="tag">Ostrom</span><span class="tag">Meadows</span><span class="tag">Snowden</span><span class="tag">Fuller</span></p>
+        <p><strong style="color:var(--text-bright)">Key insight:</strong> Self-governing systems succeed through local knowledge, graduated sanctions, and polycentric authority &mdash; not central control.</p>
+        <p><strong style="color:var(--text-bright)">Convergence point:</strong> Ostrom's design principles map directly onto the tetrahedral model's vertices and edges. Local knowledge IS nervous system knowledge operating at institutional scale.</p>
+      </div>
+    </div>
+
+    <div class="lens" id="lens2">
+      <div class="lens-header" onclick="toggleLens('lens2')">
+        <h3>Lens 2: Restorative &amp; Transformative Justice</h3>
+        <span class="lens-toggle">&#9660;</span>
+      </div>
+      <div class="lens-body">
+        <p><span class="tag">Zehr</span><span class="tag">Mingus</span><span class="tag">brown</span><span class="tag">Ross</span></p>
+        <p><strong style="color:var(--text-bright)">Key insight:</strong> Harm is relational, not individual. Repair requires addressing what was damaged between people, not just punishing who caused it.</p>
+        <p><strong style="color:var(--text-bright)">Convergence point:</strong> Edge failure diagnostics in the tetrahedral model ARE restorative justice questions reframed as structural analysis. Which edge degraded? What repair restores it?</p>
+      </div>
+    </div>
+
+    <div class="lens" id="lens3">
+      <div class="lens-header" onclick="toggleLens('lens3')">
+        <h3>Lens 3: Power Analysis</h3>
+        <span class="lens-toggle">&#9660;</span>
+      </div>
+      <div class="lens-body">
+        <p><span class="tag">Lukes</span><span class="tag">Foucault</span><span class="tag">Freire</span><span class="tag">Scott</span><span class="tag">Freeman</span></p>
+        <p><strong style="color:var(--text-bright)">Key insight:</strong> The most effective power is invisible &mdash; shaping what people believe is possible before any decision is made. Structurelessness is tyranny by other means.</p>
+        <p><strong style="color:var(--text-bright)">Convergence point:</strong> Recognition infrastructure makes power visible without creating new surveillance. The architecture itself redistributes holding &mdash; Freeman's tyranny of structurelessness resolved through transparent structure.</p>
+      </div>
+    </div>
+
+    <div class="lens" id="lens4">
+      <div class="lens-header" onclick="toggleLens('lens4')">
+        <h3>Lens 4: Somatic &amp; Relational</h3>
+        <span class="lens-toggle">&#9660;</span>
+      </div>
+      <div class="lens-body">
+        <p><span class="tag">Porges</span><span class="tag">Menakem</span><span class="tag">Siegel</span><span class="tag">Baker Miller</span><span class="tag">Levine</span></p>
+        <p><strong style="color:var(--text-bright)">Key insight:</strong> Safety is a nervous system state, not a set of rules. Co-regulation is the foundation all coordination rests on. The body knows before the mind decides.</p>
+        <p><strong style="color:var(--text-bright)">Convergence point:</strong> The Connection vertex's somatic operations are foundational &mdash; without nervous system safety, no governance structure can function. Consent is somatic first, verbal second.</p>
+      </div>
+    </div>
+
+    <div class="lens" id="lens5">
+      <div class="lens-header" onclick="toggleLens('lens5')">
+        <h3>Lens 5: Alternative Governance</h3>
+        <span class="lens-toggle">&#9660;</span>
+      </div>
+      <div class="lens-body">
+        <p><span class="tag">Sociocracy</span><span class="tag">Open Space</span><span class="tag">Covenant</span><span class="tag">Brave Space</span></p>
+        <p><strong style="color:var(--text-bright)">Key insight:</strong> Viable alternatives exist but remain fragmented. Each addresses part of the pattern. None integrates all four vertices simultaneously.</p>
+        <p><strong style="color:var(--text-bright)">Convergence point:</strong> The tetrahedral model provides the integration framework these alternatives lack. Sociocracy addresses Architecture, brave space addresses Connection, covenant addresses Boundaries &mdash; recognition infrastructure holds all four.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- UNRESOLVED TENSIONS -->
+  <div class="section">
+    <div class="section-label">Unresolved Tensions</div>
+    <h2>What Remains Open</h2>
+    <ol class="tension-list">
+      <li>How does recognition infrastructure scale without creating the legibility problems that destroy local knowledge? Ostrom's polycentric governance suggests a path, but the digital layer introduces new failure modes.</li>
+      <li>How does a community maintain meaningful entry without gatekeeping? The graduated trust model works at village scale. What happens at network scale?</li>
+      <li>Can AI substrates genuinely participate in recognition infrastructure, or do they inevitably perform recognition without the somatic foundation that makes it real?</li>
+      <li>Can a digital repository hold somatic knowing, or does the medium inevitably strip the body from the pattern? This repository is itself an experiment in that question.</li>
+      <li>How does the particular become transferable without becoming generic? The pattern emerged from specific lived experience. Abstraction risks losing the very specificity that makes it work.</li>
+    </ol>
+  </div>
+
+  <footer>
+    <p>Source tracking and attribution &rarr; <a href="lineage.html">Lineage</a></p>
+    <p style="margin-top:8px;">Pattern: substrate-independent, recognition-based, gift economy operating. &nbsp; 4 &middot; 6 &middot; 4 &middot; 1</p>
+  </footer>
+</main>
+
+<script>
+function toggleLens(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+
+// Intersection Observer for section fade-in
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.section').forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
