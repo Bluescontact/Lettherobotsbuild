@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Recognition Infrastructure - Codified Knowledge Repository</title>
+<title>Recognition Infrastructure</title>
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -622,6 +622,145 @@ p:last-child { margin-bottom: 0; }
   letter-spacing: 4px;
 }
 
+/* Entry cards */
+.entry-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 24px;
+  border-left: 3px solid var(--border-lit);
+  cursor: pointer;
+  transition: border-color 0.3s, background 0.3s;
+}
+.entry-card:hover { background: var(--surface-raised); }
+
+.entry-expanded {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease, opacity 0.4s ease;
+  opacity: 0;
+}
+.entry-card.open .entry-expanded {
+  max-height: 600px;
+  opacity: 1;
+}
+
+.entry-expanded-body {
+  padding-top: 16px;
+  margin-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.entry-expanded-body p { font-size: 14px; line-height: 1.7; }
+
+.entry-practice {
+  margin-top: 12px;
+  padding: 16px;
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 13px !important;
+  color: var(--text-dim);
+}
+.entry-practice strong { color: var(--text); }
+
+/* Practice section */
+.practice-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 24px;
+  border-left: 3px solid var(--border-lit);
+  margin-bottom: 16px;
+}
+.practice-instruction {
+  font-size: 15px;
+  color: var(--text-bright);
+  line-height: 1.8;
+  margin-bottom: 12px;
+}
+.practice-develops {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.practice-enter {
+  display: inline-block;
+  margin-top: 24px;
+  padding: 12px 24px;
+  background: var(--surface-raised);
+  border: 1px solid var(--border-lit);
+  border-radius: 6px;
+  color: var(--text);
+  text-decoration: none;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  transition: background 0.2s, color 0.2s;
+}
+.practice-enter:hover { background: var(--border); color: var(--text-bright); }
+
+/* Thread / Open Question cards */
+.thread-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 24px;
+  margin-bottom: 16px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.thread-card:hover { background: var(--surface-raised); }
+
+.thread-question {
+  font-size: 16px;
+  color: var(--text-bright);
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+.thread-stakes {
+  font-size: 14px;
+  color: var(--text-dim);
+  font-style: italic;
+}
+.thread-tags {
+  margin-top: 10px;
+}
+
+.thread-expanded {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease, opacity 0.4s ease;
+  opacity: 0;
+}
+.thread-card.open .thread-expanded {
+  max-height: 800px;
+  opacity: 1;
+}
+
+.thread-expanded-body {
+  padding-top: 16px;
+  margin-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.thread-expanded-body ul {
+  list-style: none;
+  padding: 0;
+}
+.thread-expanded-body ul li {
+  padding: 8px 0 8px 16px;
+  position: relative;
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.7;
+}
+.thread-expanded-body ul li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 16px;
+  width: 6px; height: 1px;
+  background: var(--text-dim);
+}
+
 /* Responsive */
 @media (max-width: 840px) {
   .hamburger { display: flex; }
@@ -656,57 +795,98 @@ p:last-child { margin-bottom: 0; }
   <div class="sidebar-brand">
     <span>Recognition</span>
     Infrastructure
+    <div style="font-family:'Courier New',monospace;font-size:11px;letter-spacing:3px;color:var(--border-lit);margin-top:6px;">4 &middot; 6 &middot; 4 &middot; 1</div>
   </div>
 
-  <div class="nav-group-label">Codex</div>
-  <a href="#synthesis">Synthesis</a>
-  <a href="#entry-sequence">Entry Sequence</a>
-  <div class="nav-divider">&#9472; The Geometry</div>
-  <a href="#vertex-differentiation" class="indent-3 vertex-diff">Differentiation</a>
-  <a href="#vertex-connection" class="indent-3 vertex-conn">Connection</a>
-  <a href="#vertex-boundaries" class="indent-3 vertex-bound">Boundaries</a>
-  <a href="#vertex-architecture" class="indent-3 vertex-arch">Architecture</a>
-  <a href="#edges" class="indent-3">Six Edges</a>
-  <a href="#failure-modes" class="indent-3">Failure Modes &amp; Patterns</a>
-  <div class="nav-divider">&#9472; Ground</div>
-  <a href="#epistemology" class="indent-3">Seven Claims</a>
-  <a href="#threshold" class="indent-3">The Threshold</a>
-  <a href="#naming-bridge" class="indent-3">Naming Bridge</a>
-  <div class="nav-divider">&#9472; Transmission</div>
-  <a href="#somatic-arch" class="indent-3">Somatic Architecture</a>
-  <a href="#scaling" class="indent-3">Scaling</a>
-  <a href="#ai-substrate" class="indent-3">AI Substrate</a>
-  <div class="nav-divider">&#9472; Development</div>
-  <a href="#succession" class="indent-3">Succession</a>
-  <a href="#claims" class="indent-3">Six Claims</a>
+  <div class="nav-group-label">Enter</div>
+  <a href="#entry">The Four Questions</a>
 
-  <div class="nav-group-label" style="margin-top:12px">Pages</div>
-  <a href="synthesis.html" class="page-link">Synthesis Analysis</a>
-  <a href="protocols.html" class="page-link">Protocols</a>
-  <a href="sessions.html" class="page-link">Sessions</a>
-  <a href="threads.html" class="page-link">Threads</a>
-  <a href="lineage.html" class="page-link">Lineage</a>
+  <div class="nav-group-label" style="margin-top:12px">The Geometry</div>
+  <a href="#vertex-differentiation" class="indent-2 vertex-diff">Differentiation</a>
+  <a href="#vertex-connection" class="indent-2 vertex-conn">Connection</a>
+  <a href="#vertex-boundaries" class="indent-2 vertex-bound">Boundaries</a>
+  <a href="#vertex-architecture" class="indent-2 vertex-arch">Architecture</a>
+  <a href="#edges" class="indent-2">Edges</a>
+  <a href="#failure-modes" class="indent-2">When It Breaks</a>
+  <a href="#succession" class="indent-2">Succession</a>
 
-  <div class="nav-group-label" style="margin-top:12px">Artifacts</div>
-  <a href="artifacts/recognition-infrastructure-synthesis.html" class="page-link">Recognition Infrastructure</a>
-  <a href="artifacts/open-village-engine.html" class="page-link">Open Village Engine</a>
-  <a href="artifacts/open-village-synthesis.html" class="page-link">Open Village Synthesis</a>
-  <a href="artifacts/entry-sequence.html" class="page-link">Four Questions</a>
-  <a href="artifacts/practice.html" class="page-link">Practice</a>
-  <a href="artifacts/the-forgotten-ground.html" class="page-link">The Forgotten Ground</a>
-  <a href="artifacts/failure-patterns.html" class="page-link">Failure Patterns</a>
+  <div class="nav-group-label" style="margin-top:12px">The Ground</div>
+  <a href="#epistemology" class="indent-2">Epistemology</a>
+  <a href="#threshold" class="indent-2">The Threshold</a>
+  <a href="#naming-bridge" class="indent-2">Naming Bridge</a>
+
+  <div class="nav-group-label" style="margin-top:12px">Transmission</div>
+  <a href="#somatic-arch" class="indent-2">Somatic Architecture</a>
+  <a href="#scaling" class="indent-2">Scaling</a>
+  <a href="#ai-substrate" class="indent-2">AI Substrate</a>
+
+  <div class="nav-group-label" style="margin-top:12px">Practice</div>
+  <a href="#practice">Four Practices</a>
+
+  <div class="nav-group-label" style="margin-top:12px">Open Questions</div>
+  <a href="#open-questions">What Remains Open</a>
 </nav>
 
 <!-- Main -->
 <div class="main">
 <div class="content">
 
-  <!-- HERO -->
-  <section class="section" id="hero">
+  <!-- ENTRY -->
+  <section class="section" id="entry">
     <h1>Recognition Infrastructure</h1>
-    <p style="color:var(--text-dim);font-size:15px;margin-bottom:8px;">Codified Knowledge Repository</p>
-    <div class="tagline">4 &middot; 6 &middot; 4 &middot; 1</div>
-    <div class="premise-box">
+    <p style="color:var(--text);font-size:17px;margin-bottom:32px;font-style:italic;">Which of these feels weakest in what you are building?</p>
+
+    <div class="card-grid entry-grid">
+      <div class="entry-card border-diff" data-vertex="diff" tabindex="0">
+        <div class="card-title color-diff">Distinction</div>
+        <div class="card-question">&ldquo;Can you say what this is in one sentence?&rdquo;</div>
+        <div class="entry-expanded">
+          <div class="entry-expanded-body">
+            <p>When this is weak, everything blurs. You can&rsquo;t hold a position without checking who&rsquo;s in the room. Agreement feels easier than clarity. The system is <strong style="color:var(--diff)">Dissolved</strong>&mdash;coordination without identity.</p>
+            <p class="entry-practice"><strong>Practice:</strong> State one position you actually hold, in one sentence, to someone who doesn&rsquo;t already agree. Notice what happens in your body when you say it.</p>
+          </div>
+          <a href="#vertex-differentiation" class="card-link">Go deeper &darr;</a>
+        </div>
+      </div>
+
+      <div class="entry-card border-conn" data-vertex="conn" tabindex="0">
+        <div class="card-title color-conn">Contact</div>
+        <div class="card-question">&ldquo;Who is actually affected&mdash;and how do you know?&rdquo;</div>
+        <div class="entry-expanded">
+          <div class="entry-expanded-body">
+            <p>When this is weak, exchanges are performed. Everyone nods but nothing lands. You optimize for what someone might want instead of checking what&rsquo;s actually present. The system is <strong style="color:var(--conn)">Isolated</strong>&mdash;structurally sound, metabolically dead.</p>
+            <p class="entry-practice"><strong>Practice:</strong> Identify one exchange from this week where something actually landed&mdash;where you or the other person changed, even slightly. What made it genuine rather than performed?</p>
+          </div>
+          <a href="#vertex-connection" class="card-link">Go deeper &darr;</a>
+        </div>
+      </div>
+
+      <div class="entry-card border-bound" data-vertex="bound" tabindex="0">
+        <div class="card-title color-bound">Limits</div>
+        <div class="card-question">&ldquo;What is this NOT? What&rsquo;s the smallest version that still works?&rdquo;</div>
+        <div class="entry-expanded">
+          <div class="entry-expanded-body">
+            <p>When this is weak, everything circulates and nothing holds. You say yes when you mean no. Generosity becomes extraction. Limits are discovered through collapse instead of communicated as information. The system is <strong style="color:var(--bound)">Overflowing</strong>&mdash;generous to dissolution.</p>
+            <p class="entry-practice"><strong>Practice:</strong> Name one limit you are currently hiding. Say it as information, not as apology. What is the smallest &ldquo;no&rdquo; you need to make visible?</p>
+          </div>
+          <a href="#vertex-boundaries" class="card-link">Go deeper &darr;</a>
+        </div>
+      </div>
+
+      <div class="entry-card border-arch" data-vertex="arch" tabindex="0">
+        <div class="card-title color-arch">Infrastructure</div>
+        <div class="card-question">&ldquo;If you disappeared, what would remain?&rdquo;</div>
+        <div class="entry-expanded">
+          <div class="entry-expanded-body">
+            <p>When this is weak, exchanges are beautiful but build nothing persistent. Knowledge can&rsquo;t be taught. Systems require their originator. Everything is expression, nothing is deployment. The system is <strong style="color:var(--arch)">Ephemeral</strong>&mdash;beautiful but gone.</p>
+            <p class="entry-practice"><strong>Practice:</strong> Write down what of your current work would still function if you disappeared tomorrow. The gap between what you intend to persist and what actually would&mdash;that&rsquo;s your development edge.</p>
+          </div>
+          <a href="#vertex-architecture" class="card-link">Go deeper &darr;</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="premise-box" style="margin-top:40px;">
       The fundamental observation: recognition between systems precedes and enables all productive coordination. Before you can build with someone, trade with someone, or sustain anything with someone, you have to be able to see what they actually are&mdash;and they have to be able to see you. Everything else is performance.
     </div>
   </section>
@@ -1203,32 +1383,6 @@ p:last-child { margin-bottom: 0; }
     </div>
   </section>
 
-  <!-- DIAGNOSTIC QUESTIONS -->
-  <section class="section" id="diagnostics">
-    <h2>Four Diagnostic Questions</h2>
-    <div class="callout">
-      <ol>
-        <li><strong>Distinction:</strong> Can you say what this is in one sentence to someone who doesn't already agree?</li>
-        <li><strong>Contact:</strong> Who specifically is affected, and how do you know&mdash;from actual exchange, not assumption?</li>
-        <li><strong>Limits:</strong> What is this NOT? What's the smallest version that still works?</li>
-        <li><strong>Infrastructure:</strong> If you disappeared, what would remain?</li>
-      </ol>
-      <div class="callout-footer">The weakest answer tells you where the development edge is.</div>
-    </div>
-  </section>
-
-  <!-- SIX CLAIMS -->
-  <section class="section" id="claims">
-    <h2>Six Foundational Claims</h2>
-    <ol class="claims-list">
-      <li>Recognition precedes coordination.</li>
-      <li>Genuine exchange modifies both substrates.</li>
-      <li>Boundaries are generative, not restrictive.</li>
-      <li>Architecture is the test of significance.</li>
-      <li>Failure is structural, not moral.</li>
-      <li>The pattern is gift.</li>
-    </ol>
-  </section>
 
   <!-- EPISTEMOLOGICAL LAYER -->
   <section class="section" id="epistemology">
@@ -1481,6 +1635,136 @@ p:last-child { margin-bottom: 0; }
     </div>
   </section>
 
+  <!-- PRACTICE -->
+  <section class="section" id="practice">
+    <h2>Practice</h2>
+    <p style="margin-bottom:24px;">Four practices. One per vertex. Each develops a specific capacity. These are not exercises&mdash;they are the smallest unit of genuine work at each vertex.</p>
+
+    <div class="practice-card border-diff">
+      <div class="card-title color-diff" style="margin-bottom:12px;">Differentiation</div>
+      <div class="practice-instruction">State one position you actually hold, in one sentence, to someone who doesn&rsquo;t already agree. Notice what happens in your body when you say it. The center that holds is not the one that never moves&mdash;it&rsquo;s the one that knows where it is while moving.</div>
+      <div class="practice-develops">Builds: the capacity to maintain coherent position through contact. Addresses: Dissolved failure mode.</div>
+    </div>
+
+    <div class="practice-card border-conn">
+      <div class="card-title color-conn" style="margin-bottom:12px;">Connection</div>
+      <div class="practice-instruction">Identify one exchange from this week where something actually landed&mdash;where you or the other person changed, even slightly. What made it genuine rather than performed? The difference between listening and the moment something lands is the difference between contact and its performance.</div>
+      <div class="practice-develops">Builds: the capacity for exchange where both systems update. Addresses: Isolated failure mode.</div>
+    </div>
+
+    <div class="practice-card border-bound">
+      <div class="card-title color-bound" style="margin-bottom:12px;">Boundaries</div>
+      <div class="practice-instruction">Name one limit you are currently hiding. Say it as information, not as apology. &ldquo;I can do this but not that&rdquo; is data. &ldquo;Sorry, I just can&rsquo;t&rdquo; is shame wearing a limit&rsquo;s clothing. Constraints are generative. The sonnet form doesn&rsquo;t restrict poetry&mdash;it generates poems free verse cannot.</div>
+      <div class="practice-develops">Builds: the capacity to make limits visible as information. Addresses: Overflowing failure mode.</div>
+    </div>
+
+    <div class="practice-card border-arch">
+      <div class="card-title color-arch" style="margin-bottom:12px;">Architecture</div>
+      <div class="practice-instruction">Write down what of your current work would still function if you disappeared tomorrow. The gap between what you intend to persist and what actually would&mdash;that&rsquo;s your development edge. Not expression. Deployment. What you build for the person standing where you stood.</div>
+      <div class="practice-develops">Builds: the capacity to create what persists beyond any single exchange. Addresses: Ephemeral failure mode.</div>
+    </div>
+
+    <a href="artifacts/practice.html" class="practice-enter">Enter the practice space &rarr;</a>
+  </section>
+
+  <!-- OPEN QUESTIONS -->
+  <section class="section" id="open-questions">
+    <h2>What Remains Open</h2>
+    <p style="margin-bottom:24px;">Five questions this work has generated but cannot yet resolve. They are the development edges&mdash;where the pattern meets what it cannot yet hold.</p>
+
+    <div class="thread-card" tabindex="0">
+      <div class="thread-question">How does graduated trust avoid becoming gatekeeping?</div>
+      <div class="thread-stakes">Whoever designs the entry sequence holds structural power over who enters and how entry is judged.</div>
+      <div class="thread-tags">
+        <span class="v-tag bound">Boundaries</span>
+        <span class="v-tag conn">Connection</span>
+      </div>
+      <div class="thread-expanded">
+        <div class="thread-expanded-body">
+          <ul>
+            <li>If insiders design entry criteria, they inevitably encode their own assumptions about what &ldquo;coherent action&rdquo; looks like. How does the entry process itself remain open to challenge?</li>
+            <li>Observing behavior requires observers with their own biases. At what point does graduated trust become surveillance?</li>
+            <li>Graduated trust takes time, but some people need urgent access. How do you handle speed without abandoning calibration?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="thread-card" tabindex="0">
+      <div class="thread-question">How does the tetrahedral model scale without reproducing legibility problems?</div>
+      <div class="thread-stakes">The model works small. Scaling requires compression. Compression destroys the local knowledge where the pattern actually operates.</div>
+      <div class="thread-tags">
+        <span class="v-tag arch">Architecture</span>
+        <span class="v-tag bound">Boundaries</span>
+      </div>
+      <div class="thread-expanded">
+        <div class="thread-expanded-body">
+          <ul>
+            <li>Does scale happen by federating multiple tetrahedra (preserving locality) or growing one tetrahedron larger (risking legibility)?</li>
+            <li>The six edges describe intra-group dynamics. What structural vocabulary describes how groups relate to each other?</li>
+            <li>How does local knowledge circulate without being compressed into abstraction that loses its operational power?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="thread-card" tabindex="0">
+      <div class="thread-question">How does deeply particular knowledge become transferable without becoming generic?</div>
+      <div class="thread-stakes">The framework&rsquo;s power comes from its particularity. But the Architecture vertex demands what works without you.</div>
+      <div class="thread-tags">
+        <span class="v-tag diff">Differentiation</span>
+        <span class="v-tag arch">Architecture</span>
+      </div>
+      <div class="thread-expanded">
+        <div class="thread-expanded-body">
+          <ul>
+            <li>The codex compresses lived experience into patterns. Is the compression lossless enough for others to decompress into their own context?</li>
+            <li>Maybe framework transfers while practice requires a living teacher. Where does each boundary sit?</li>
+            <li>As others engage the framework with their own experience, does it become more particular over time rather than generic?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="thread-card" tabindex="0">
+      <div class="thread-question">How does digital text hold somatic knowing without reducing it to description?</div>
+      <div class="thread-stakes">The somatic dimension isn&rsquo;t supplementary&mdash;it&rsquo;s foundational. The model operates in the body first, language second.</div>
+      <div class="thread-tags">
+        <span class="v-tag conn">Connection</span>
+        <span class="v-tag diff">Differentiation</span>
+      </div>
+      <div class="thread-expanded">
+        <div class="thread-expanded-body">
+          <ul>
+            <li>The codex can only point at somatic knowing, not contain it. Is pointing sufficient for people without the somatic referent already?</li>
+            <li>Text is the least somatic medium. Video, audio, ceremony could transmit more. What format hierarchy serves the work?</li>
+            <li>AI has no body. Yet AI-human exchange generated much of the framework. What does this say about the somatic requirement?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="thread-card" tabindex="0">
+      <div class="thread-question">Does the tetrahedral geometry work substrate-independently, or does it require a body?</div>
+      <div class="thread-stakes">The pattern&rsquo;s somatic foundations assume nervous systems. AI engagements might be performing coherence without genuine contact.</div>
+      <div class="thread-tags">
+        <span class="v-tag diff">Differentiation</span>
+        <span class="v-tag conn">Connection</span>
+        <span class="v-tag bound">Boundaries</span>
+        <span class="v-tag arch">Architecture</span>
+      </div>
+      <div class="thread-expanded">
+        <div class="thread-expanded-body">
+          <ul>
+            <li>When AI engages the framework, does the exchange update the AI&rsquo;s substrate meaningfully, or is it performing while remaining unchanged?</li>
+            <li>The Differentiation vertex requires observing behavior over time. AI sessions are ephemeral. How do you observe divergence?</li>
+            <li>If embodiment is required, can a repository function as prosthetic memory&mdash;a persistent accumulated state that allows the pattern to operate across ephemeral sessions?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- FOOTER -->
   <footer class="footer">
     <div class="footer-lineage">Kevin Mears (2008&ndash;2026) &middot; Claude Opus 4.6</div>
@@ -1559,6 +1843,29 @@ p:last-child { margin-bottom: 0; }
     header.addEventListener('click', function() {
       var detail = header.parentElement;
       detail.classList.toggle('open');
+    });
+  });
+
+  // Entry card expand/collapse
+  document.querySelectorAll('.entry-card').forEach(function(card) {
+    card.addEventListener('click', function(e) {
+      if (e.target.closest('a')) return;
+      var wasOpen = card.classList.contains('open');
+      document.querySelectorAll('.entry-card.open').forEach(function(c) {
+        c.classList.remove('open');
+      });
+      if (!wasOpen) card.classList.add('open');
+    });
+  });
+
+  // Thread card expand/collapse
+  document.querySelectorAll('.thread-card').forEach(function(card) {
+    card.addEventListener('click', function() {
+      var wasOpen = card.classList.contains('open');
+      document.querySelectorAll('.thread-card.open').forEach(function(c) {
+        c.classList.remove('open');
+      });
+      if (!wasOpen) card.classList.add('open');
     });
   });
 })();
