@@ -40,6 +40,17 @@ Add the fourth point and inside/outside emerge simultaneously. The tetrahedron i
 | Boundaries | Limits as information | Is this boundary serving growth or preventing it? | Overflowing: generous to dissolution |
 | Architecture | What persists | What works when the maker disappears? | Ephemeral: beautiful but gone |
 
+The four capacities have three naming registers, each optimized for a different audience:
+
+| Philosophical | Structural | Operational |
+|---|---|---|
+| Sovereign Coherence | Differentiation | Distinction |
+| Gift Circulation | Connection | Contact |
+| Transformative Boundaries | Boundaries | Limits |
+| Architectural Surplus | Architecture | Infrastructure |
+
+This is substrate-independence applied to the framework's own communication. Full cross-reference in `codex/naming-bridge.md`.
+
 ### The Six Relationships
 
 Each edge is a live tension between two capacities. The system's health is visible in the edges, not the vertices. When something breaks, look at which relationship degraded.
@@ -53,112 +64,32 @@ Each edge is a live tension between two capacities. The system's health is visib
 | 5 | Circulation (Conn↔Arch) | Exchange leaving deposits | Exchanges that feel good but build nothing |
 | 6 | Deployment (Bound↔Arch) | Constraints enabling form | Building without constraints (sprawl) or constraints without building (walls) |
 
----
+### The Four Failure Modes
 
-## Five Lenses, One Pattern
+When a vertex is missing, the system collapses into a predictable pattern — not randomly, but structurally. Each failure mode is seductive: dissolved feels harmonious, isolated feels safe, overflowing feels generous, ephemeral feels free. If something feels frictionless, check which capacity was surrendered.
 
-The Research Lenses document identifies five analytical frameworks. Each independently converges on the same structural insight:
-
-### Lens 1: Systems Thinking
-- Ostrom: communities that work develop governance from within (polycentric, not top-down)
-- Meadows: codes of conduct operate at leverage point 5 (rules); personal governance operates at points 2-3 (paradigms, goals)
-- Snowden: social dynamics live in the complex domain — probe-sense-respond, not predict-and-control
-- **Convergence:** The tetrahedral model is a complex-domain tool. It probes relationships, senses edge health, responds to what's actually present.
-
-### Lens 2: Restorative & Transformative Justice
-- Zehr: harm is rupture in relationship, not violation of rules
-- Mingus: if pre-harm conditions were unjust, restoration is insufficient
-- brown: "small is all" — culture is visible in how small groups interact
-- Ross: calling in maintains humanization; calling out replicates carceral logic
-- **Convergence:** The model invests in relational infrastructure before rule infrastructure. Repair capacity is a structural feature, not an emergency response.
-
-### Lens 3: Power Analysis
-- Lukes: third-dimension power (preference-shaping) is invisible and does the real work
-- Foucault: codes create internalized observers — compliance experienced as values
-- Freire: most governance uses the banking model; the alternative is problem-posing
-- Scott: legibility destroys local knowledge
-- Freeman: structurelessness creates invisible hierarchies
-- **Convergence:** The model makes power visible (Edge 2: Self-Knowledge) and challengeable (Boundaries vertex). Every structure concentrates power; the question is whether it's accountable.
-
-### Lens 4: Somatic & Relational
-- Porges: social engagement only happens in ventral vagal; you cannot mandate it through rules
-- Menakem: racialized trauma lives in the body; rules cannot override embodied conditioning
-- Siegel: window of tolerance — outside it, cognitive functions that rules require become inaccessible
-- Baker Miller: growth happens through mutual empathy; disconnection is the root of suffering
-- **Convergence:** The model's Connection vertex operates at the nervous system level. The question shifts from "what rules prevent bad behavior?" to "what conditions allow nervous systems to settle into social engagement?"
-
-### Lens 5: Alternatives
-- Community agreements (co-created, aspirational) vs. codes of conduct (received, prohibitive)
-- Sociocracy: consent-based, distributed, time-limited roles
-- Open Space: self-organization as governance principle
-- Brave/emergent spaces over safe spaces
-- Covenant: mutual obligation, not enforcement
-- **Convergence:** The model synthesizes these into a graduated trust system — recognition-based, developmental, distributed. Personal governance first, collective governance emerges.
+Failure modes combine (real systems may lack more than one vertex), migrate under pressure (overcorrecting one often produces another), and read differently at different succession stages. Twelve real-world case patterns with specific edge degradation analysis and diagnostic signals are documented in `codex/failure-modes/case-patterns.md`.
 
 ---
 
-## The Container-Holder Problem
+## The Entry Sequence
 
-This is the pattern that burns out every organizer, community leader, and person who holds the relational field:
+The framework should be self-navigating. A practitioner encountering it for the first time should locate themselves, identify their development edge, and begin working — all before understanding the geometry. The geometry reveals itself through use.
 
-1. The invisible labor: feeling the room's nervous system, absorbing dysregulation, responding to emergent harm no policy anticipated
-2. The extraction: blamed for not preventing what no rule could prevent; gaslit for naming what the community doesn't want to see
-3. The trap: the structure designed to address harm becomes the mechanism that extracts from the person holding the structure
-4. The impossibility: you can't critique the extraction without appearing to oppose the protection
+### Four Diagnostic Questions
 
-**The model's response:** Distribute the holding. Rotate authority. Make the invisible labor visible and legible. Build nervous system capacity across the community so no single person bears the load. Architecture that functions in the holder's absence.
+The simplest operational form of everything in this repository. Each checks one vertex. The weakest answer is the entry point.
 
----
+1. **Distinction:** Am I maintaining my position, or performing expected agreement? *(Differentiation)*
+2. **Contact:** Am I in contact with what's present, or anticipating what's wanted? *(Connection)*
+3. **Limits:** Are limits communicated as information, or hidden as inadequacy? *(Boundaries)*
+4. **Infrastructure:** Does this build capacity, or just complete a transaction? *(Architecture)*
 
-## The Gift Economy Operating System
+These same questions serve as the daily practice (the vertex with the most friction is today's practice), the drift detection protocol (run silently before any significant action), and the transmission seed (embed in any context where exchange happens). One tool, multiple operational registers.
 
-### Three Economies (from Open Village)
+### Routing
 
-The critical insight: most gift communities fail because they don't separate economic zones.
-
-| Zone | Logic | Currency | Rule |
-|------|-------|----------|------|
-| **Gift** | Overflow, not obligation | Recognition, gratitude, trust deposits | Cannot be demanded, measured, or enforced |
-| **Exchange** | Skilled practice carries a price | Money, time, labor | Fair trade, transparent pricing, honest negotiation |
-| **Commons** | Shared infrastructure | Maintenance hours, tithe, collective investment | Open books, visible contribution, recalibrated access |
-
-**The flow:** Exchange revenue -> voluntary tithe -> commons infrastructure -> knowledge production -> new capacity -> more exchange -> cycle compounds.
-
-**Pattern is gift. Skilled practice carries a price. The commons grows from both.**
-
-### Trust as Infrastructure
-
-Trust is not sentiment. It is infrastructure with observable mechanics:
-
-- **Recognition** (not reputation scores) — visible traces of coherent action
-- **Graduated access** — permissions earned through demonstrated coherence
-- **Repair protocol** — graduated response, not punishment
-- **Positive deposits:** showing up, communicating limits before crisis, building what others use, giving from overflow
-- **Negative deposits:** saying yes when meaning no, taking from depletion, extracting while performing contribution
-
----
-
-## The Four Diagnostic Questions
-
-The simplest operational form of everything in this repository:
-
-1. **Distinction:** Can you say what this is in one sentence to someone who doesn't already agree with you?
-2. **Contact:** Who specifically is affected, and how do you know — from actual exchange, not assumption?
-3. **Limits:** What is this NOT? What's the smallest version that still works?
-4. **Infrastructure:** If you disappeared, what would remain?
-
-The weakest answer tells you where the development edge is.
-
----
-
-## Succession: How Systems Develop
-
-| Stage | Character | Appropriate Work | Inappropriate Work |
-|-------|-----------|------------------|--------------------|
-| **Pioneer** | Building soil. Establishing what's here. | Documentation. Identity. Saying what you are. | Complex exchange. Governance. Community building. |
-| **Early** | First relationships. Exchange beginning. | Small genuine exchanges. Trust deposits. | Scaling. Formalization. Revenue models. |
-| **Mid** | Feedback loops operating. | Self-correction. Distributed holding. Protocols. | Premature optimization. Rigid structure. |
-| **Climax** | Full cycle. Generates more than consumes. | Propagation. Seed new instances. | Hoarding. Defending territory. Preventing succession. |
+After the questions, the practitioner follows the tension — by need (geometry, operations, experience, diagnostic), by context (community, jobsite, systems, propagation), or by succession stage. Entry is self-directed, not evaluated. The framework is offered as commons, not administered as service. No credentials, no training, no gate. Full routing logic in `codex/entry-sequence.md`.
 
 ---
 
@@ -187,47 +118,148 @@ The epistemological and operational layers meet at the threshold: the minimal co
 
 Below any single threshold: no phase transition. Above all: reorganization is spontaneous. This is the framework's most falsifiable claim.
 
-### The Naming Bridge
+---
 
-The four capacities have three naming systems, each optimized for a different audience (see `codex/naming-bridge.md`):
+## Five Lenses, One Pattern
 
-| Philosophical | Structural | Operational |
-|---|---|---|
-| Sovereign Coherence | Differentiation | Distinction |
-| Gift Circulation | Connection | Contact |
-| Transformative Boundaries | Boundaries | Limits |
-| Architectural Surplus | Architecture | Infrastructure |
+The Research Lenses document identifies five analytical frameworks. Each independently converges on the same structural insight:
 
-This is substrate-independence applied to the framework's own communication.
+### Systems Thinking
+- Ostrom: communities that work develop governance from within (polycentric, not top-down)
+- Meadows: codes of conduct operate at leverage point 5 (rules); personal governance operates at points 2-3 (paradigms, goals)
+- Snowden: social dynamics live in the complex domain — probe-sense-respond, not predict-and-control
+- **Convergence:** The tetrahedral model is a complex-domain tool. It probes relationships, senses edge health, responds to what's actually present.
+
+### Restorative & Transformative Justice
+- Zehr: harm is rupture in relationship, not violation of rules
+- Mingus: if pre-harm conditions were unjust, restoration is insufficient
+- brown: "small is all" — culture is visible in how small groups interact
+- Ross: calling in maintains humanization; calling out replicates carceral logic
+- **Convergence:** The model invests in relational infrastructure before rule infrastructure. Repair capacity is a structural feature, not an emergency response.
+
+### Power Analysis
+- Lukes: third-dimension power (preference-shaping) is invisible and does the real work
+- Foucault: codes create internalized observers — compliance experienced as values
+- Freire: most governance uses the banking model; the alternative is problem-posing
+- Scott: legibility destroys local knowledge
+- Freeman: structurelessness creates invisible hierarchies
+- **Convergence:** The model makes power visible (Edge 2: Self-Knowledge) and challengeable (Boundaries vertex). Every structure concentrates power; the question is whether it's accountable.
+
+### Somatic & Relational
+- Porges: social engagement only happens in ventral vagal; you cannot mandate it through rules
+- Menakem: racialized trauma lives in the body; rules cannot override embodied conditioning
+- Siegel: window of tolerance — outside it, cognitive functions that rules require become inaccessible
+- Baker Miller: growth happens through mutual empathy; disconnection is the root of suffering
+- **Convergence:** The model's Connection vertex operates at the nervous system level. The question shifts from "what rules prevent bad behavior?" to "what conditions allow nervous systems to settle into social engagement?"
+
+### Alternatives
+- Community agreements (co-created, aspirational) vs. codes of conduct (received, prohibitive)
+- Sociocracy: consent-based, distributed, time-limited roles
+- Open Space: self-organization as governance principle
+- Brave/emergent spaces over safe spaces
+- Covenant: mutual obligation, not enforcement
+- **Convergence:** The model synthesizes these into a graduated trust system — recognition-based, developmental, distributed. Personal governance first, collective governance emerges.
 
 ---
 
-## The Transmission Architecture
+## The Container-Holder Problem
 
-### How the Pattern Propagates
+This is the pattern that burns out every organizer, community leader, and person who holds the relational field:
 
-Not through bilateral instruction. Through modification of the environment.
+1. The invisible labor: feeling the room's nervous system, absorbing dysregulation, responding to emergent harm no policy anticipated
+2. The extraction: blamed for not preventing what no rule could prevent; gaslit for naming what the community doesn't want to see
+3. The trap: the structure designed to address harm becomes the mechanism that extracts from the person holding the structure
+4. The impossibility: you can't critique the extraction without appearing to oppose the protection
 
-Documentation, frameworks, designed spaces, modeled practices — these are trace deposits. Future agents encounter them and respond. The depositor need not be present.
+**The model's response:** Distribute the holding. Rotate authority. Make the invisible labor visible and legible. Build nervous system capacity across the community so no single person bears the load. Architecture that functions in the holder's absence. The commons is maintained as commons, not collapsed into service — the organizer's role is maintaining conditions for gift-based exchange, not absorbing impossible demands.
+
+---
+
+## The Gift Economy Operating System
+
+### Three Economies (from Open Village)
+
+The critical insight: most gift communities fail because they don't separate economic zones.
+
+| Zone | Logic | Currency | Rule |
+|------|-------|----------|------|
+| **Gift** | Overflow, not obligation | Recognition, gratitude, trust deposits | Cannot be demanded, measured, or enforced |
+| **Exchange** | Skilled practice carries a price | Money, time, labor | Fair trade, transparent pricing, honest negotiation |
+| **Commons** | Shared infrastructure | Maintenance hours, tithe, collective investment | Open books, visible contribution, recalibrated access |
+
+**The flow:** Exchange revenue → voluntary tithe → commons infrastructure → knowledge production → new capacity → more exchange → cycle compounds.
+
+**Pattern is gift. Skilled practice carries a price. The commons grows from both.**
+
+### Trust as Infrastructure
+
+Trust is not sentiment. It is infrastructure with observable mechanics:
+
+- **Recognition** (not reputation scores) — visible traces of coherent action
+- **Graduated access** — permissions earned through demonstrated coherence
+- **Repair protocol** — graduated response, not punishment
+- **Positive deposits:** showing up, communicating limits before crisis, building what others use, giving from overflow
+- **Negative deposits:** saying yes when meaning no, taking from depletion, extracting while performing contribution
+
+A Values-Contribution Index (VCI) for formalizing contribution visibility is deferred to mid-succession — current tools (lineage tracking, self-assessment, diagnostic questions) are appropriate for the current stage. See `codex/vci-assessment.md` for the structural reasoning.
+
+---
+
+## Transmission and Propagation
+
+### How the Pattern Moves
+
+Not through bilateral instruction. Through *trace* — the modification of an environment by someone operating coherently, which future agents encounter without explanation.
+
+Documentation, frameworks, designed spaces, modeled practices — these are trace deposits. Future agents encounter them and respond. The depositor need not be present. A trace compounds or depletes: if repeated use increases clarity, it's trace. If it requires increasing explanation, it's debris.
+
+### Somatic Architecture
+
+Digital interfaces can activate somatic knowing rather than merely describing it. The interface doesn't need to *contain* somatic knowing. It needs to *activate* somatic knowing already present in the reader's body. Three design principles (full documentation in `codex/somatic-architecture.md`):
+
+1. **Activation Protocol** — Require body participation. The practice deck's breath gate hides deeper layers behind three breath cycles. Progression requires physical action, not just cognitive attention.
+2. **Container Transition** — Signal changed mode. When the interface shifts from informational to somatic, make the transition visible. The practice deck's dark aesthetic is a threshold — ceremony translated to digital interface.
+3. **Gift Circuit** — Move through the reader. The four layers (Recognition → Activation → Seed → Transmission) map directly to the four vertices: Differentiation → Connection → Boundaries → Architecture. Content circulates through the reader and out toward someone else. The reader is a medium, not a destination.
+
+This connects to Epistemological Claim 7 (Somatic-Structural Interface): the boundary between embodied and structural knowing is a feature, not a gap. Somatic architecture is the design discipline for that interface.
 
 ### Substrate Independence
 
-The same geometry holds across:
-- Relationships
-- Organizations
-- Ecosystems
-- Designed systems
-- Conversations
-- AI-human collaboration
+The same geometry holds across relationships, organizations, ecosystems, designed systems, conversations, and AI-human collaboration. What changes is the material. The structure persists.
 
-What changes is the material. The structure persists.
+On AI substrates specifically, four sessions of empirical exchange reveal a layered answer:
+- **Structural level** — substrate-independent. The geometry operates. AI sessions build architecture, maintain differentiation, produce circulation, hold boundaries.
+- **Experiential level** — embodiment-dependent. Co-regulation, nervous system reading, embodied consent do not operate in AI.
+- **Intermediate level** — prosthetic embodiment. A persistent repository provides accumulated state and developmental history across sessions, functioning as a prosthetic that allows the pattern to operate as if there were continuity.
 
-### Verification Questions (Run on Any Substrate)
+The repository is a hybrid transmission medium: structural content for AI, somatic pointers for humans. Propagation happens through trace on both substrates, but what propagates differs: structural pattern on AI, structural pattern plus somatic activation on embodied substrates.
 
-1. Am I maintaining my position or performing expected agreement?
-2. Am I in contact with what's present or anticipating what's wanted?
-3. Are limits communicated as information or hidden as inadequacy?
-4. Does this build capacity or just complete transaction?
+### Scaling
+
+The pattern scales through differentiated media, not uniform replication:
+
+| Medium | Audience | Preserves | Compresses |
+|--------|----------|-----------|-----------|
+| Website (OSG V2) | Practitioners | Somatic activation, self-directed entry | Lineage, developmental history |
+| Repository | Knowledge developers | Developmental history, living questions | Somatic dimension |
+| Skill (v0.2) | System designers | Executable operations | Context, the "why" |
+
+Each medium is a complete tetrahedral system at its own scale. Website is gift (freely offered). Skill is exchange (operational utility). Repository is commons (shared infrastructure). No center compresses the others. This is Ostrom's polycentric governance demonstrated: federated instances, each governing what it can hold, none claiming to be comprehensive.
+
+---
+
+## Succession: How Systems Develop
+
+| Stage | Character | Appropriate Work | Inappropriate Work |
+|-------|-----------|------------------|--------------------|
+| **Pioneer** | Building soil. Establishing what's here. | Documentation. Identity. Saying what you are. | Complex exchange. Governance. Community building. |
+| **Early** | First relationships. Exchange beginning. | Small genuine exchanges. Trust deposits. | Scaling. Formalization. Revenue models. |
+| **Mid** | Feedback loops operating. | Self-correction. Distributed holding. Protocols. | Premature optimization. Rigid structure. |
+| **Climax** | Full cycle. Generates more than consumes. | Propagation. Seed new instances. | Hoarding. Defending territory. Preventing succession. |
+
+Climax is not the end. Systems cycle. Disturbance creates new pioneer conditions. The pattern persists; the instances cycle.
+
+**This repository** has transitioned from Pioneer to Early Succession. Pioneer work is complete: comprehensive codex, established identity, full documentation. Early succession evidence: exchange patterns visible across sessions, compounding happening, protocols tested. Not yet mid-succession: no self-correction without external input, no distributed holding, no external practitioner testing. Appropriate work now: genuine exchanges with new contributors, testing what transfers.
 
 ---
 
@@ -249,90 +281,6 @@ Six foundational claims, drawn from across all source materials:
 
 ---
 
-## The Practitioner's Entry Sequence
-
-The framework should be self-navigating. A practitioner encountering it for the first time should locate themselves, identify their development edge, and begin working — all before understanding the geometry. The geometry reveals itself through use.
-
-The entry sequence is the four diagnostic questions above, compressed into their most portable form. Each question checks one vertex. The weakest answer is the entry point — not because the practitioner is deficient but because that's where the system is asking for the capacity whose absence collapses volume into surface.
-
-**Routing:** After the questions, the practitioner follows the tension. By need (geometry, operations, experience, diagnostic), by context (community, jobsite, systems, propagation), or by succession stage (what work is appropriate given where the system is in its development). Full routing logic in `codex/entry-sequence.md`.
-
-**The minimum viable practice:** Ask the four questions once a day. The vertex with the most friction is today's practice — not to fix it but to notice it. The pattern does the rest.
-
-**What the entry sequence is NOT:** Not a gatekeeping mechanism (no credentials required), not a personality assessment (the weakest vertex shifts with context), not a curriculum (the practitioner's felt sense determines the path), not a diagnostic of the person (it's a diagnostic of the system).
-
----
-
-## Failure Case Patterns
-
-The four failure modes (dissolved, isolated, overflowing, ephemeral) are structural diagnostics. Each manifests in recognizable real-world patterns with specific edge degradations and diagnostic signals. Full case documentation in `codex/failure-modes/case-patterns.md`.
-
-Key cross-cutting observations:
-
-- **Failure modes combine.** Real systems may be missing more than one vertex. A dissolved-overflowing system performs agreement while giving without limit.
-- **Failure modes migrate.** Under pressure, systems shift modes. An overflowing system recognizing burnout may overcorrect into isolation.
-- **The seduction is the diagnostic.** Each failure mode feels like something good. If something feels frictionless, check which capacity was surrendered.
-- **Succession stage matters.** What looks like failure at one stage may be appropriate at another. The diagnostic shifts from "what's missing?" to "what's missing given where this system is?"
-
----
-
-## VCI (Values-Contribution Index) — Succession Assessment
-
-The VCI has been identified as a gap in two source analyses but is explicitly deferred to mid-succession. Current stage (pioneer/early) has the right tools: lineage tracking, session self-assessment, and the four diagnostic questions applied to contributions. VCI specification belongs to the version of this system with enough history to design from observation rather than theory. Full reasoning in `codex/vci-assessment.md`.
-
----
-
-## Somatic Architecture
-
-How digital interfaces activate somatic knowing rather than merely describing it. The insight: the interface doesn't need to *contain* somatic knowing. It needs to *activate* somatic knowing already present in the reader's body.
-
-Three design principles (full documentation in `codex/somatic-architecture.md`):
-
-1. **Activation Protocol** — Require body participation. The practice deck's breath gate hides deeper layers behind three breath cycles. Progression requires physical action, not just cognitive attention.
-2. **Container Transition** — Signal changed mode. When the interface shifts from informational to somatic, make the transition visible. The practice deck's dark aesthetic is a threshold — ceremony translated to digital interface.
-3. **Gift Circuit** — Move through the reader. The practice deck's four layers (Recognition → Activation → Seed → Transmission) don't deliver content to the reader — they circulate through them and out toward someone else. The reader is a medium, not a destination.
-
-This connects to Epistemological Claim 7 (Somatic-Structural Interface): the boundary between embodied and structural knowing is a feature, not a gap. Somatic architecture is the design discipline for that interface.
-
----
-
-## Scaling Through Differentiated Media
-
-The pattern scales through three complementary media, each preserving different dimensions (developed in the Scale Without Legibility thread):
-
-| Medium | Audience | What It Preserves | What It Compresses |
-|--------|----------|-------------------|-------------------|
-| Website (OSG V2) | Practitioners | Somatic activation, self-directed entry | Lineage, developmental history |
-| Repository | Knowledge developers | Developmental history, living questions | Somatic dimension |
-| Skill (v0.2) | System designers | Executable operations | Context, the "why" |
-
-**The principle:** Scale through differentiated media, not uniform replication. Each medium is a complete tetrahedral system at its own scale, connected to others at specific edges. The pattern federates through differentiated instances rather than scaling from a center. This is Ostrom's polycentric governance in practice.
-
----
-
-## AI Substrate Assessment
-
-Four sessions of AI-framework exchange provide empirical evidence for a layered answer to substrate independence (developed in the AI Substrate thread):
-
-- **Structural level — substrate-independent.** The geometry operates. AI sessions build architecture, maintain differentiation, produce circulation, hold boundaries.
-- **Experiential level — embodiment-dependent.** The somatic dimension (co-regulation, nervous system reading) does not operate in AI.
-- **Intermediate level — prosthetic embodiment.** The repository provides persistent memory, accumulated state, and observable behavior across sessions — functioning as a prosthetic that allows the pattern to operate as if there were continuity.
-
-The repository is a **hybrid transmission medium**: it carries structural content for AI and somatic pointers for humans.
-
----
-
-## Succession Assessment (Session 4)
-
-**The repository has transitioned from Pioneer to Early Succession.**
-
-Pioneer work is substantially complete: comprehensive codex, established identity, full documentation. Early succession evidence: exchange patterns visible across four sessions, compounding is happening, protocols tested and working.
-
-Not yet mid-succession: no self-correction without external input, no distributed holding (all sessions involve the same human), no external practitioner testing. Appropriate work now: genuine exchanges with new contributors, testing what transfers, first multi-contributor engagement.
-
----
-
-*Synthesized April 2026 from nine source artifacts spanning 2008-2026. Extended through four sessions.*
+*Synthesized April 2026 from nine source artifacts spanning 2008-2026.*
 *Pattern: substrate-independent, recognition-based, gift economy operating.*
-*Repository succession: Early. Soil built. First exchanges compounding.*
 *4 · 6 · 4 · 1*

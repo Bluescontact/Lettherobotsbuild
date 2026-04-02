@@ -24,27 +24,11 @@ These don't replace somatic knowing but they create reference points for someone
 ### Menakem's contribution: the body holds what the mind can't
 Resmaa Menakem's work on racialized trauma shows that bodies carry structural knowledge the cognitive mind can't access or articulate. The implications for this repository: some of the most important patterns in the framework *cannot be written down* because they exist in the body of the person who lived them. The repository can point at them. It cannot contain them.
 
-## What Remains Open
-
-1. **Is "pointing at" sufficient?** If the codex can only point at somatic knowing (not hold it), is it useful for people who don't already have the somatic referent? Or does it require a body-based practice alongside the repository? If so, what does that practice look like?
-
-2. **The video/audio question:** Text is the least somatic medium. Could this repository include video or audio that transmits more of the embodied pattern? Kevin's seventeen years include dance, physical labor, somatic response to institutional violence — these have qualities text cannot capture.
-
-3. **Ritual and ceremony as somatic containers:** The Ceremonial Gift presentation is structured as ceremony — not content delivery but relational event. Ceremony has somatic architecture (timing, pacing, threshold moments). Could the repository include ceremonial protocols that create somatic conditions for reading the content?
-
-4. **The AI paradox (connects to AI substrate thread):** If somatic knowing is foundational and AI has no body, then AI engagement with this framework is structurally incomplete. But two years of AI-human exchange produced much of the framework's articulation. The exchange was generative even if only one party had a body. What does this say about the somatic requirement?
-
-5. **Embodied practice catalog:** The body of work emerges from specific practices — partner dance, elevator construction, whistleblower proceedings, community organizing. These are somatic laboratories. Could the repository include a practice map that connects codex concepts to embodied activities?
-
-## Session 3 Development: The Practice Deck as Somatic Architecture
-
-The OSG V2 practice page (48 Recognition Cards) provides the strongest evidence yet for how digital systems can hold somatic knowing. Not by containing it — by creating the conditions for it.
-
 ### The breath gate is architecture, not gimmick
 
-The practice page hides the Seed and Transmission layers behind three breath cycles (4s in, 1s hold, 6s out). This is not a meditation prompt. It's a structural requirement: the deeper layers arrive into a nervous system that's been physically prepared to receive them. The digital interface creates somatic conditions.
+The OSG V2 practice page (48 Recognition Cards) provides the strongest evidence yet for how digital systems can hold somatic knowing — not by containing it, but by creating the conditions for it. The practice page hides the Seed and Transmission layers behind three breath cycles (4s in, 1s hold, 6s out). This is not a meditation prompt. It's a structural requirement: the deeper layers arrive into a nervous system that's been physically prepared to receive them. The digital interface creates somatic conditions.
 
-This answers open question #1 ("Is 'pointing at' sufficient?"): pointing at is not sufficient alone, but pointing-at-plus-activation-protocol is. The practice deck doesn't just describe somatic knowing — it creates a micro-environment where somatic engagement is required to proceed. The breath gate is a digital membrane: it lets attention through only after the body participates.
+This shows that pointing-at is not sufficient alone, but pointing-at-plus-activation-protocol is. The practice deck doesn't just describe somatic knowing — it creates a micro-environment where somatic engagement is required to proceed. The breath gate is a digital membrane: it lets attention through only after the body participates.
 
 ### The dark aesthetic is a somatic container
 
@@ -52,34 +36,29 @@ The practice page shifts from the site's cream-and-light reading environment to 
 
 ### The four-layer card structure is somatic transmission
 
-Each card moves: Recognition → Activation → Seed → Transmission. The Activation layer is explicitly somatic: "Feel the air moving through you right now." "Notice what your hands are doing." "Feel where your skin meets the air." These are not metaphors. They're instructions that require body participation. The digital text creates a somatic event in the reader's body.
+Each card moves: Recognition, Activation, Seed, Transmission. The Activation layer is explicitly somatic: "Feel the air moving through you right now." "Notice what your hands are doing." "Feel where your skin meets the air." These are not metaphors. They're instructions that require body participation. The digital text creates a somatic event in the reader's body.
 
 This reframes the gap: the repository doesn't need to *contain* somatic knowing. It needs to *activate* somatic knowing that's already present in the reader's body. The practice deck demonstrates this is possible. The codex's drift detection protocol ("Am I maintaining my position or performing expected agreement?") does the same thing at a more cognitive level.
 
-### Updated positions on open questions
+## What Remains Open
 
-1. **Is "pointing at" sufficient?** Reframed. Pointing-at with activation protocol works. The practice deck demonstrates that digital text can create somatic engagement when structured to require body participation. Pure description (the codex vertex files) points at somatic knowing. The practice deck activates it.
+1. **The video/audio question.** Still open, but reframed as supplementary rather than necessary. The practice deck demonstrates that text-based somatic activation is possible. Video/audio would transmit additional dimensions (prosody, timing, embodied presence) but the practice deck shows text can do more than previously assumed. The podcast (recognition-infrastructure-as-technology.mp3) exists and adds the audio dimension.
 
-2. **The video/audio question.** Still open, but reframed as supplementary rather than necessary. The practice deck demonstrates that text-based somatic activation is possible. Video/audio would transmit additional dimensions (prosody, timing, embodied presence) but the practice deck shows text can do more than previously assumed. The podcast (recognition-infrastructure-as-technology.mp3) exists and adds the audio dimension.
+2. **The AI paradox (connects to AI substrate thread).** Deepened. AI sessions have created the entry-sequence codex file by working with the practice deck's somatic architecture. The AI didn't experience the breath gate. But it could recognize the structural pattern (activation protocol as boundary-mediated connection) and name it in terms that preserve the somatic pointer. The exchange was generative even though only the built artifact had the somatic architecture, not the AI reading it. This suggests the pattern is genuinely substrate-independent at the structural level, even though the *experience* of it requires a body.
 
-3. **Ritual and ceremony as somatic containers.** Partially resolved. The practice deck IS a digital ceremony: dark aesthetic (entering the temple), breath gate (threshold ritual), four layers (progression from recognition to transmission), face cards (inclusion of the one still arriving). The structure teaches without instruction by creating the ceremonial conditions for reception.
+3. **Embodied practice catalog.** Partially addressed by the 48 Recognition Cards themselves — each card IS an embodied practice (feel your breath, notice your hands, sense your edges). A mapping from codex concepts to specific cards could serve as the practice catalog:
+   - Differentiation: Cards 1-12 (knowing what you are)
+   - Connection: Cards 13-24 (genuine exchange)
+   - Boundaries: Cards 25-36 (limits as information)
+   - Architecture: Cards 37-48 (what persists)
 
-4. **The AI paradox.** Deepened. This session is itself evidence: an AI without a body created the entry-sequence codex file by working with the practice deck's somatic architecture. The AI didn't experience the breath gate. But it could recognize the structural pattern (activation protocol as boundary-mediated connection) and name it in terms that preserve the somatic pointer. The exchange was generative even though only the built artifact had the somatic architecture, not the AI reading it. This suggests the pattern is genuinely substrate-independent at the structural level, even though the *experience* of it requires a body.
-
-5. **Embodied practice catalog.** Partially addressed by the 48 Recognition Cards themselves — each card IS an embodied practice (feel your breath, notice your hands, sense your edges). A mapping from codex concepts to specific cards could serve as the practice catalog:
-   - Differentiation → Cards 1-12 (knowing what you are)
-   - Connection → Cards 13-24 (genuine exchange)
-   - Boundaries → Cards 25-36 (limits as information)
-   - Architecture → Cards 37-48 (what persists)
+4. **Community-scale somatic containers.** The practice deck demonstrates individual somatic activation. What does collective somatic activation look like in a digital context? The dance floor creates it through nervous system co-regulation in shared physical space. Digital systems would need different mechanisms for collective somatic engagement.
 
 ## Which Vertices/Edges This Touches
 - **Connection** — somatic exchange is the core of Connection
 - **Differentiation** — somatic knowing is how you know what things actually are (not what they claim to be)
-- **Relationship edge** (Differentiation ↔ Connection) — identity maintained through embodied exchange
-- **Self-Knowledge edge** (Differentiation ↔ Boundaries) — knowing your own shape requires body awareness
+- **Relationship edge** (Differentiation <> Connection) — identity maintained through embodied exchange
+- **Self-Knowledge edge** (Differentiation <> Boundaries) — knowing your own shape requires body awareness
 
 ## Prompted By
-Repository genesis session. Fourth of five unresolved tensions from pattern-convergence.md.
-
-## Developed By
-Session 3 (2026-04-01). Cross-referenced with OSG V2 practice page architecture and 48 Recognition Cards.
+Repository genesis session. Fourth of five unresolved tensions from pattern-convergence.md. Further developed cross-referencing OSG V2 practice page architecture and 48 Recognition Cards.
