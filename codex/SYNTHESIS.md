@@ -282,6 +282,57 @@ The VCI has been identified as a gap in two source analyses but is explicitly de
 
 ---
 
-*Synthesized April 2026 from nine source artifacts spanning 2008-2026. Extended through three sessions.*
+## Somatic Architecture
+
+How digital interfaces activate somatic knowing rather than merely describing it. The insight: the interface doesn't need to *contain* somatic knowing. It needs to *activate* somatic knowing already present in the reader's body.
+
+Three design principles (full documentation in `codex/somatic-architecture.md`):
+
+1. **Activation Protocol** — Require body participation. The practice deck's breath gate hides deeper layers behind three breath cycles. Progression requires physical action, not just cognitive attention.
+2. **Container Transition** — Signal changed mode. When the interface shifts from informational to somatic, make the transition visible. The practice deck's dark aesthetic is a threshold — ceremony translated to digital interface.
+3. **Gift Circuit** — Move through the reader. The practice deck's four layers (Recognition → Activation → Seed → Transmission) don't deliver content to the reader — they circulate through them and out toward someone else. The reader is a medium, not a destination.
+
+This connects to Epistemological Claim 7 (Somatic-Structural Interface): the boundary between embodied and structural knowing is a feature, not a gap. Somatic architecture is the design discipline for that interface.
+
+---
+
+## Scaling Through Differentiated Media
+
+The pattern scales through three complementary media, each preserving different dimensions (developed in the Scale Without Legibility thread):
+
+| Medium | Audience | What It Preserves | What It Compresses |
+|--------|----------|-------------------|-------------------|
+| Website (OSG V2) | Practitioners | Somatic activation, self-directed entry | Lineage, developmental history |
+| Repository | Knowledge developers | Developmental history, living questions | Somatic dimension |
+| Skill (v0.2) | System designers | Executable operations | Context, the "why" |
+
+**The principle:** Scale through differentiated media, not uniform replication. Each medium is a complete tetrahedral system at its own scale, connected to others at specific edges. The pattern federates through differentiated instances rather than scaling from a center. This is Ostrom's polycentric governance in practice.
+
+---
+
+## AI Substrate Assessment
+
+Four sessions of AI-framework exchange provide empirical evidence for a layered answer to substrate independence (developed in the AI Substrate thread):
+
+- **Structural level — substrate-independent.** The geometry operates. AI sessions build architecture, maintain differentiation, produce circulation, hold boundaries.
+- **Experiential level — embodiment-dependent.** The somatic dimension (co-regulation, nervous system reading) does not operate in AI.
+- **Intermediate level — prosthetic embodiment.** The repository provides persistent memory, accumulated state, and observable behavior across sessions — functioning as a prosthetic that allows the pattern to operate as if there were continuity.
+
+The repository is a **hybrid transmission medium**: it carries structural content for AI and somatic pointers for humans.
+
+---
+
+## Succession Assessment (Session 4)
+
+**The repository has transitioned from Pioneer to Early Succession.**
+
+Pioneer work is substantially complete: comprehensive codex, established identity, full documentation. Early succession evidence: exchange patterns visible across four sessions, compounding is happening, protocols tested and working.
+
+Not yet mid-succession: no self-correction without external input, no distributed holding (all sessions involve the same human), no external practitioner testing. Appropriate work now: genuine exchanges with new contributors, testing what transfers, first multi-contributor engagement.
+
+---
+
+*Synthesized April 2026 from nine source artifacts spanning 2008-2026. Extended through four sessions.*
 *Pattern: substrate-independent, recognition-based, gift economy operating.*
+*Repository succession: Early. Soil built. First exchanges compounding.*
 *4 · 6 · 4 · 1*

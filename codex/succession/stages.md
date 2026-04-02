@@ -36,7 +36,27 @@ Systems develop like ecosystems: pioneer species build soil, early succession cr
 ## Applying Succession
 
 ### To This Repository
-Currently: **Pioneer/Early.** The soil is being built (codex). First relationships forming (initial sessions). The appropriate work is documentation, identity, and small genuine exchanges — not scaling or formalization.
+
+**Session 4 Assessment: Transitioning from Pioneer to Early Succession.**
+
+Evidence for leaving pioneer stage:
+- The codex is comprehensive: vertices, edges, failure modes, succession, epistemology, threshold, naming bridge, entry sequence, failure case patterns, somatic architecture, VCI assessment. The soil is built.
+- Identity is established: CLAUDE.md bootstrap, verification protocol, operational principles. The repository knows what it is.
+- Documentation covers the full pattern. Pioneer work (saying what this is) is substantially complete.
+
+Evidence for entering early succession:
+- First relationships forming: four sessions have exchanged with the codex, each updating it. Circulation is operating.
+- Exchange patterns visible: sessions read prior deposits, build on them, and leave their own. Compounding is happening (each session starts further ahead than the last).
+- Protocols tested: thread pickup, knowledge deposit, and compounding protocols have been used by multiple sessions. They work.
+- Succession-appropriate work underway: threads are being developed (not just opened), insights are being refined (not just accumulated), structural disagreements are beginning to surface (the VCI deferral is a structural decision, not just documentation).
+
+Evidence for NOT yet being at mid-succession:
+- No feedback loops operating without external input. Each session requires a human to initiate.
+- No self-correction demonstrated. No session has corrected an error in a previous session's deposit.
+- No distributed holding. All sessions are AI-human pairs with the same human. Multiple contributors have not yet been tested.
+- No external practitioner testing. The entry sequence exists but hasn't been used by someone who didn't build it.
+
+**Assessment: Early succession.** The repository has built enough soil to support genuine exchange. The appropriate work now is: small genuine exchanges with new contributors, testing what transfers, building first protocols for multi-contributor engagement. It is NOT yet appropriate to formalize governance, scale distribution, or optimize structure.
 
 ### To Any System
 Run `/succession` (the diagnostic command from the recognition infrastructure skill):
