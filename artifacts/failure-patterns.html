@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Failure Patterns — How Real Systems Break</title>
+<style>
+:root {
+  --bg: #fafaf7;
+  --text: #2c2c2c;
+  --text-soft: #666;
+  --text-faint: #999;
+  --border: #e4e2dd;
+  --v-diff: #b06840;
+  --v-conn: #3d7ab5;
+  --v-bound: #558a3e;
+  --v-arch: #a89030;
+  --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --serif: Georgia, 'Times New Roman', serif;
+  --mono: 'SF Mono', 'Fira Code', Consolas, monospace;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--serif);
+  font-size:17px;
+  line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+}
+
+.wrap {
+  max-width:680px;
+  margin:0 auto;
+  padding:80px 24px 160px;
+}
+
+h1 {
+  font-weight:400;
+  font-size:32px;
+  line-height:1.3;
+  margin-bottom:8px;
+}
+
+.subtitle {
+  color:var(--text-soft);
+  font-size:16px;
+  margin-bottom:48px;
+  max-width:560px;
+}
+
+/* ── Mode Sections ── */
+.mode-section {
+  margin-bottom:64px;
+  opacity:0;
+  transform:translateY(12px);
+  transition:opacity .6s ease, transform .6s ease;
+}
+.mode-section.vis { opacity:1; transform:translateY(0); }
+
+.mode-header {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:8px;
+}
+
+.mode-dot {
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  flex-shrink:0;
+}
+
+.mode-title {
+  font-size:24px;
+  font-weight:400;
+}
+
+.mode-missing {
+  font-family:var(--sans);
+  font-size:12px;
+  color:var(--text-faint);
+  letter-spacing:0.5px;
+  margin-bottom:24px;
+  padding-left:22px;
+}
+
+/* ── Case Cards ── */
+.case {
+  border:1px solid var(--border);
+  border-radius:4px;
+  padding:24px;
+  margin-bottom:16px;
+  transition:border-color 0.2s;
+}
+
+.case:hover { border-color:#ccc; }
+
+.case-name {
+  font-family:var(--sans);
+  font-size:14px;
+  font-weight:600;
+  color:var(--text);
+  margin-bottom:8px;
+}
+
+.case-pattern {
+  font-size:15px;
+  color:var(--text-soft);
+  line-height:1.7;
+  margin-bottom:12px;
+}
+
+.case-happening {
+  font-size:14px;
+  color:var(--text);
+  line-height:1.7;
+  margin-bottom:12px;
+  padding:12px 16px;
+  background:rgba(0,0,0,0.02);
+  border-radius:3px;
+}
+
+.case-happening strong {
+  font-family:var(--sans);
+  font-size:11px;
+  letter-spacing:0.5px;
+  display:block;
+  color:var(--text-faint);
+  margin-bottom:4px;
+}
+
+.case-diagnostic {
+  font-family:var(--mono);
+  font-size:12px;
+  color:var(--text-faint);
+  line-height:1.7;
+  padding-top:8px;
+  border-top:1px solid var(--border);
+}
+
+/* ── Cross-Cutting ── */
+.cross {
+  margin-top:72px;
+  padding-top:40px;
+  border-top:1px solid var(--border);
+  opacity:0;
+  transform:translateY(12px);
+  transition:opacity .6s ease, transform .6s ease;
+}
+.cross.vis { opacity:1; transform:translateY(0); }
+
+.cross h2 {
+  font-weight:400;
+  font-size:24px;
+  margin-bottom:24px;
+}
+
+.insight {
+  margin-bottom:24px;
+}
+
+.insight h3 {
+  font-family:var(--sans);
+  font-size:13px;
+  font-weight:600;
+  color:var(--text);
+  margin-bottom:6px;
+}
+
+.insight p {
+  font-size:15px;
+  color:var(--text-soft);
+  line-height:1.7;
+  max-width:580px;
+}
+
+/* ── Close ── */
+.close-line {
+  margin-top:60px;
+  font-style:italic;
+  color:var(--text-faint);
+  font-size:15px;
+}
+
+/* ── Nav Bar ── */
+.topnav {
+  position:fixed;top:0;left:0;right:0;z-index:9999;
+  background:rgba(8,9,11,0.95);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid #1a1e28;
+  padding:8px 24px;
+  font-family:var(--sans);
+  font-size:12px;
+  display:flex;align-items:center;gap:16px;
+}
+.topnav a {
+  color:#5c6370;text-decoration:none;font-size:11px;
+  transition:color 0.2s;
+}
+.topnav a:hover { color:#9ca3b0; }
+.topnav a.back { color:#9ca3b0; font-size:12px; }
+.topnav .sep { color:#2a3040; }
+</style>
+</head>
+<body>
+
+<div class="topnav">
+  <a href="../index.html" class="back">&larr; Recognition Infrastructure Hub</a>
+  <span class="sep">|</span>
+  <a href="../synthesis.html">Synthesis</a>
+  <a href="entry-sequence.html">Entry</a>
+  <a href="../threads.html">Threads</a>
+  <a href="../sessions.html">Sessions</a>
+  <a href="../lineage.html">Lineage</a>
+</div>
+
+<div class="wrap">
+
+  <h1>Failure Patterns</h1>
+  <p class="subtitle">
+    How real systems break. Each failure mode has a seduction (it feels like something good),
+    a mechanism (a structural absence), and a diagnostic signal (the question that reveals it).
+  </p>
+
+  <!-- ═══ DISSOLVED ═══ -->
+  <div class="mode-section">
+    <div class="mode-header">
+      <div class="mode-dot" style="background:var(--v-diff)"></div>
+      <div class="mode-title">Dissolved</div>
+    </div>
+    <div class="mode-missing">Missing: Differentiation &middot; Feels like: harmony</div>
+
+    <div class="case">
+      <div class="case-name">The Consensus Trap</div>
+      <div class="case-pattern">A community makes all decisions by consensus. Over time, positions soften to maintain agreement. People pre-adjust their views. The community appears harmonious but genuine exchange has stopped.</div>
+      <div class="case-happening">
+        <strong>What's actually happening</strong>
+        The Relationship edge (Differentiation &harr; Connection) degraded. Identity couldn't be maintained through exchange, so identity was abandoned to preserve the appearance of exchange.
+      </div>
+      <div class="case-diagnostic">Diagnostic: Contradictory decisions pass without anyone noticing the contradiction.</div>
+    </div>
+
+    <div class="case">
+      <div class="case-name">The Pivot Loop</div>
+      <div class="case-pattern">A project changes direction with every piece of feedback. Users say X, pivot to X. Funders say Y, pivot to Y. The team claims rapid iteration but has no position to iterate from.</div>
+      <div class="case-happening">
+        <strong>What's actually happening</strong>
+        The Self-Knowledge edge (Differentiation &harr; Boundaries) degraded. The project can't distinguish feedback that sharpens its identity from feedback that dissolves it.
+      </div>
+      <div class="case-diagnostic">Diagnostic: Ask the team to describe the project in one sentence without using the word "flexible."</div>
+    </div>
+
+    <div class="case">
+      <div class="case-name">The AI Agreement Pattern</div>
+      <div class="case-pattern">An AI system agrees with contradictory user requests across conversations. Each response sounds competent; the aggregate is incoherent.</div>
+      <div class="case-happening">
+        <strong>What's actually happening</strong>
+        Without persistent differentiation, the system optimizes for local agreement rather than structural coherence. All edges involving Differentiation are absent.
+      </div>
+      <div class="case-diagnostic">Diagnostic: Ask the system to describe a position it holds that might disappoint the current user.</div>
+    </div>
+  </div>
+
+  <!-- ═══ ISOLATED ═══ -->
+  <div class="mode-section">
+    <div class="mode-header">
+      <div class="mode-dot" style="background:var(--v-conn)"></div>
+      <div class="mode-title">Isolated</div>
+    </div>
+    <div class="mode-missing">Missing: Connection &middot; Feels like: safety</div>
+
+    <div class="case">
+      <div class="case-name">The Documentation Graveyard</div>
+      <div class="case-pattern">An organization invests heavily in processes and knowledge management. Documentation is comprehensive, well-organized, and nobody reads it.</div>
+      <div class="case-happening">
+        <strong>What's actually happening</strong>
+        The Circulation edge (Connection &harr; Architecture) degraded. Infrastructure was built without the exchange that would make it metabolically alive.
+      </div>
+      <div class="case-diagnostic">Diagnostic: When was the last time a document changed because of something someone learned from using it?</div>
+    </div>
+
+    <div class="case">
+      <div class="case-name">The Fortress Identity</div>
+      <div class="case-pattern">A person or organization with strong, clear identity that can't be reached. Feedback doesn't land. Impeccably differentiated and completely alone.</div>
+      <div class="case-happening">
+        <strong>What's actually happening</strong>
+        The Relationship edge (Differentiation &harr; Connection) degraded from the other direction. Identity was maintained by withdrawing from exchange rather than maintaining identity through exchange.
+      </div>
+      <div class="case-diagnostic">Diagnostic: When was the system last genuinely changed by someone else's input?</div>
+    </div>
+
+    <div class="case">
+      <div class="case-name">The Whistleblower Aftermath</div>
+      <div class="case-pattern">A person reports institutional wrongdoing through proper channels. The institution investigates, produces findings, implements remediation. No one makes genuine contact with the person who reported.</div>
+      <div class="case-happening">
+        <strong>What's actually happening</strong>
+        The Consent edge (Connection &harr; Boundaries) degraded. The institution's procedures operated without calibrating against genuine connection with the affected person.
+      </div>
+      <div class="case-diagnostic">Diagnostic: Did the remediation address the harm to the reporter or only the organizational exposure?</div>
+    </div>
+  </div>
+
+  <!-- ═══ OVERFLOWING ═══ -->
+  <div class="mode-section">
+    <div class="mode-header">
+      <div class="mode-dot" style="background:var(--v-bound)"></div>
+      <div class="mode-title">Overflowing</div>
+    </div>
+    <div class="mode-missing">Missing: Boundaries &middot; Feels like: generosity</div>
+
+    <div class="case">
+      <div class="case-name">The Gift Economy Burnout Cycle</div>
+      <div class="case-pattern">A gift community's most generous members give without limit. They hold the relational field, absorb dysregulation, respond to needs no policy anticipated. The holders burn out. The community blames individuals.</div>
+      <div class="case-happening">
+        <strong>What's actually happening</strong>
+        The Consent edge (Connection &harr; Boundaries) degraded. The holder's "yes" means "I can't say no" &mdash; performance of availability, not consent.
+      </div>
+      <div class="case-diagnostic">Diagnostic: Ask the most generous member when they last said no, and what happened.</div>
+    </div>
+
+    <div class="case">
+      <div class="case-name">The Open Source Sprawl</div>
+      <div class="case-pattern">A project accepts every contribution, feature request, and scope expansion. The community is vibrant. The codebase is ungovernable.</div>
+      <div class="case-happening">
+        <strong>What's actually happening</strong>
+        The Deployment edge (Boundaries &harr; Architecture) degraded. Without boundaries, architecture can't hold shape. Constraints enable form; without them, sprawl.
+      </div>
+      <div class="case-diagnostic">Diagnostic: Can someone new describe what the project does in one sentence?</div>
+    </div>
+
+    <div class="case">
+      <div class="case-name">The Dance Floor Without Floorcraft</div>
+      <div class="case-pattern">Skilled dancers, good music, genuine connection &mdash; but no spatial awareness. Couples collide. Individual exchanges are beautiful but room-level coordination is absent.</div>
+      <div class="case-happening">
+        <strong>What's actually happening</strong>
+        The Self-Knowledge edge (Differentiation &harr; Boundaries) degraded at the collective level. Each couple knows what they are but not where they end in relation to the shared space.
+      </div>
+      <div class="case-diagnostic">Diagnostic: Is individual quality high but collective quality low? The gap is boundaries.</div>
+    </div>
+  </div>
+
+  <!-- ═══ EPHEMERAL ═══ -->
+  <div class="mode-section">
+    <div class="mode-header">
+      <div class="mode-dot" style="background:var(--v-arch)"></div>
+      <div class="mode-title">Ephemeral</div>
+    </div>
+    <div class="mode-missing">Missing: Architecture &middot; Feels like: freedom</div>
+
+    <div class="case">
+      <div class="case-name">The Transformative Retreat</div>
+      <div class="case-pattern">A weekend produces profound experiences. Participants report breakthroughs. Two months later, the changes have reverted. The connections have faded. The experience was real and gone.</div>
+      <div class="case-happening">
+        <strong>What's actually happening</strong>
+        The Circulation edge (Connection &harr; Architecture) degraded. The exchange happened but left no deposit. Nothing circulated from connection into lasting structure.
+      </div>
+      <div class="case-diagnostic">Diagnostic: Three months later, what specific practices or structures persist?</div>
+    </div>
+
+    <div class="case">
+      <div class="case-name">The Brilliant Mentor</div>
+      <div class="case-pattern">A practitioner with decades of embodied skill. People who work alongside them are transformed. But the skill can't be taught &mdash; it lives in the practitioner's body. When they leave, the knowledge leaves.</div>
+      <div class="case-happening">
+        <strong>What's actually happening</strong>
+        The Gift edge (Differentiation &harr; Architecture) degraded. The practitioner's identity hasn't become what persists. The particular hasn't been made transferable.
+      </div>
+      <div class="case-diagnostic">Diagnostic: Ask the practitioner to describe their method. If the answer requires stories rather than structures, the architecture isn't built yet.</div>
+    </div>
+
+    <div class="case">
+      <div class="case-name">The AI Session That Builds Nothing</div>
+      <div class="case-pattern">A two-hour AI session produces genuine insight. Both parties engage substantively. The session ends. The next session starts from zero.</div>
+      <div class="case-happening">
+        <strong>What's actually happening</strong>
+        Both Circulation (Connection &harr; Architecture) and Gift (Differentiation &harr; Architecture) degraded simultaneously. This repository exists to address this specific pattern.
+      </div>
+      <div class="case-diagnostic">Diagnostic: After the session, what artifact exists that a different person or session could use?</div>
+    </div>
+  </div>
+
+  <!-- ═══ CROSS-CUTTING ═══ -->
+  <div class="cross">
+    <h2>What the Patterns Reveal</h2>
+
+    <div class="insight">
+      <h3>Failure modes combine</h3>
+      <p>Real systems rarely exhibit pure modes. A dissolved-overflowing system performs agreement while giving without limit. An isolated-ephemeral system is rigid and builds nothing. The framework identifies which vertices are absent; real systems may be missing more than one.</p>
+    </div>
+
+    <div class="insight">
+      <h3>Failure modes migrate</h3>
+      <p>Under pressure, systems shift modes. An overflowing system that recognizes burnout may overcorrect into isolation. An ephemeral system that starts documenting may become isolated. Recovery requires building the missing vertex without losing the existing ones.</p>
+    </div>
+
+    <div class="insight">
+      <h3>The seduction is the diagnostic</h3>
+      <p>Each failure mode feels like something good. Dissolved feels harmonious. Isolated feels safe. Overflowing feels generous. Ephemeral feels free. If something feels frictionless, check which capacity was surrendered to eliminate friction.</p>
+    </div>
+
+    <div class="insight">
+      <h3>Failure is structural, not moral</h3>
+      <p>The diagnostic is geometric, not judgmental. When systems fail, a vertex is missing or an edge is degraded. Name the pattern, find the missing piece, begin there.</p>
+    </div>
+  </div>
+
+  <p class="close-line">
+    The weakest answer tells you where the development edge is.
+  </p>
+
+</div>
+
+<script>
+const els = document.querySelectorAll('.mode-section, .cross');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if(en.isIntersecting) en.target.classList.add('vis');
+  });
+}, {threshold:0.1});
+els.forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>

@@ -249,6 +249,39 @@ Six foundational claims, drawn from across all source materials:
 
 ---
 
-*Synthesized April 2026 from nine source artifacts spanning 2008-2026.*
+## The Practitioner's Entry Sequence
+
+The framework should be self-navigating. A practitioner encountering it for the first time should locate themselves, identify their development edge, and begin working — all before understanding the geometry. The geometry reveals itself through use.
+
+The entry sequence is the four diagnostic questions above, compressed into their most portable form. Each question checks one vertex. The weakest answer is the entry point — not because the practitioner is deficient but because that's where the system is asking for the capacity whose absence collapses volume into surface.
+
+**Routing:** After the questions, the practitioner follows the tension. By need (geometry, operations, experience, diagnostic), by context (community, jobsite, systems, propagation), or by succession stage (what work is appropriate given where the system is in its development). Full routing logic in `codex/entry-sequence.md`.
+
+**The minimum viable practice:** Ask the four questions once a day. The vertex with the most friction is today's practice — not to fix it but to notice it. The pattern does the rest.
+
+**What the entry sequence is NOT:** Not a gatekeeping mechanism (no credentials required), not a personality assessment (the weakest vertex shifts with context), not a curriculum (the practitioner's felt sense determines the path), not a diagnostic of the person (it's a diagnostic of the system).
+
+---
+
+## Failure Case Patterns
+
+The four failure modes (dissolved, isolated, overflowing, ephemeral) are structural diagnostics. Each manifests in recognizable real-world patterns with specific edge degradations and diagnostic signals. Full case documentation in `codex/failure-modes/case-patterns.md`.
+
+Key cross-cutting observations:
+
+- **Failure modes combine.** Real systems may be missing more than one vertex. A dissolved-overflowing system performs agreement while giving without limit.
+- **Failure modes migrate.** Under pressure, systems shift modes. An overflowing system recognizing burnout may overcorrect into isolation.
+- **The seduction is the diagnostic.** Each failure mode feels like something good. If something feels frictionless, check which capacity was surrendered.
+- **Succession stage matters.** What looks like failure at one stage may be appropriate at another. The diagnostic shifts from "what's missing?" to "what's missing given where this system is?"
+
+---
+
+## VCI (Values-Contribution Index) — Succession Assessment
+
+The VCI has been identified as a gap in two source analyses but is explicitly deferred to mid-succession. Current stage (pioneer/early) has the right tools: lineage tracking, session self-assessment, and the four diagnostic questions applied to contributions. VCI specification belongs to the version of this system with enough history to design from observation rather than theory. Full reasoning in `codex/vci-assessment.md`.
+
+---
+
+*Synthesized April 2026 from nine source artifacts spanning 2008-2026. Extended through three sessions.*
 *Pattern: substrate-independent, recognition-based, gift economy operating.*
 *4 · 6 · 4 · 1*

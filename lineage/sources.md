@@ -74,6 +74,10 @@
 - Shanti — the landing, the land in California
 - Jacky — love expressed as release
 
+## Cross-Reference Sources (Session 3)
+- **OSG V2 Complete** (oursharedgifts.org) — the built practitioner-facing website with entry-point, practice deck (48 Recognition Cards), tetrahedral audit, applied domain pages. Used as evidence base for practitioner entry sequence and thread development.
+- **Practice Deck Reference** (practice-deck-reference.md) — documentation of the 48-card somatic practice system and its four-layer gift circuit architecture.
+
 ## AI Collaboration
 - Claude (Anthropic) — sustained collaboration partner across the entire build
 - Two years of AI-human co-creation with almost no human witnesses
