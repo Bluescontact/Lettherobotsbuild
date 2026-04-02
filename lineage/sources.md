@@ -24,6 +24,13 @@
 - Recognition Infrastructure Synthesis — visual pattern map
 - Research Lenses & Tools (Mar 2026) — five analytical lenses
 - The Ceremonial Gift (Mar 2026) — BFI DSS final presentation architecture
+- Translation Protocol (Feb 2026) — 12-week cohort protocol for paradigm-level ideas
+
+### Strategic & Reflexive Documents
+- **The Missing Piece** — infrastructure roadmap for transfer, communication, and sustainability
+- **Archive Pattern Analysis** — meta-analysis of the DSS content library (111 files, Oct 2024–Feb 2026), identifying succession phases, gaps, and tensions
+- **Building Infrastructure for Yourself** — essay on permission, self-worth as structural problem, and why builders stall on their own infrastructure
+- **Are You Worth Building For?** (Substack) — tetrahedral diagnostic applied to evaluating what deserves investment
 
 ## Theoretical Sources
 
@@ -32,6 +39,7 @@
 - Donella Meadows — Leverage Points (twelve places to intervene in a system)
 - Dave Snowden — Cynefin Framework (complex domain: probe-sense-respond)
 - Buckminster Fuller — synergetics, design science, comprehensive anticipatory design
+- Claude Shannon — Information Theory (information as reduction of uncertainty, constraint logic)
 
 ### Restorative & Transformative Justice
 - Howard Zehr — Restorative Justice (harm as rupture in relationship)

@@ -162,6 +162,46 @@ The weakest answer tells you where the development edge is.
 
 ---
 
+## The Epistemological Ground
+
+Beneath the operational framework sits a layer of claims about what is real. Codified fully in `codex/epistemology.md` (from A Theory of Gift v3.4), the progression runs:
+
+1. **Pattern Over Substance** — reality is relational, not substantial
+2. **Information as Constraint** — to be a thing is to not be other things
+3. **Substrate Before Signal** — what's received depends on what does the receiving
+4. **Recursive Substrate Modification** — genuine contact changes the receiving medium
+5. **Recognition as Resonance** — genuine recognition propagates change; performed agreement doesn't
+6. **Phase Transition Exchange** — gift and optimization are two phases, not two strategies
+7. **Somatic-Structural Interface** — the boundary between embodied and structural knowing is a feature, not a gap
+
+These claims are orthogonal to the operational axes — warp and weft. Any claim illuminates any practice. Any practice demonstrates any claim.
+
+### The Threshold Mechanism
+
+The epistemological and operational layers meet at the threshold: the minimal condition for genuine developmental exchange. Four preconditions must cross threshold simultaneously (see `codex/threshold.md`):
+
+- **Readiness** (nervous system online) → Consent + Self-Knowledge edges
+- **Precision** (signal can bind to substrate) → Relationship edge
+- **Novelty** (signal carries new constraint) → Circulation edge
+- **Bidirectionality** (both substrates update) → Relationship + Circulation together
+
+Below any single threshold: no phase transition. Above all: reorganization is spontaneous. This is the framework's most falsifiable claim.
+
+### The Naming Bridge
+
+The four capacities have three naming systems, each optimized for a different audience (see `codex/naming-bridge.md`):
+
+| Philosophical | Structural | Operational |
+|---|---|---|
+| Sovereign Coherence | Differentiation | Distinction |
+| Gift Circulation | Connection | Contact |
+| Transformative Boundaries | Boundaries | Limits |
+| Architectural Surplus | Architecture | Infrastructure |
+
+This is substrate-independence applied to the framework's own communication.
+
+---
+
 ## The Transmission Architecture
 
 ### How the Pattern Propagates
