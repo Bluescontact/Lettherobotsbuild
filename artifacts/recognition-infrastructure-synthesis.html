@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recognition Infrastructure</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+:root {
+  --bg: #08090b;
+  --bg-raised: #0e1014;
+  --bg-hover: #13161c;
+  --border: #1a1e28;
+  --border-lit: #2a3040;
+  --text: #9ca3b0;
+  --text-secondary: #5c6370;
+  --text-bright: #d4d9e4;
+  --text-white: #eef0f5;
+  --diff: #c47a5a;
+  --conn: #5a8fc4;
+  --bound: #6db356;
+  --arch: #c9ab4a;
+  --diff-bg: rgba(196,122,90,0.08);
+  --conn-bg: rgba(90,143,196,0.08);
+  --bound-bg: rgba(109,179,86,0.08);
+  --arch-bg: rgba(201,171,74,0.08);
+  --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+  --serif: 'Georgia', 'Times New Roman', serif;
+  --mono: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--serif);
+  font-size:15px;
+  line-height:1.72;
+  -webkit-font-smoothing:antialiased;
+}
+
+::-webkit-scrollbar { width:6px; }
+::-webkit-scrollbar-track { background:var(--bg); }
+::-webkit-scrollbar-thumb { background:var(--border); border-radius:3px; }
+
+.page { display:flex; min-height:100vh; }
+
+aside {
+  position:fixed; top:33px; left:0;
+  width:200px; height:calc(100vh - 33px);
+  border-right:1px solid var(--border);
+  padding:40px 0 40px 24px;
+  overflow-y:auto;
+  z-index:50;
+  background:var(--bg);
+}
+
+aside .mark {
+  font-family:var(--sans);
+  font-size:10px;
+  letter-spacing:2.5px;
+  text-transform:uppercase;
+  color:var(--text-secondary);
+  margin-bottom:36px;
+  line-height:1.6;
+}
+
+aside nav a {
+  display:block;
+  font-family:var(--sans);
+  font-size:12px;
+  color:var(--text-secondary);
+  text-decoration:none;
+  padding:5px 0 5px 14px;
+  border-left:1.5px solid transparent;
+  transition:color .2s, border-color .2s;
+}
+aside nav a:hover { color:var(--text); }
+aside nav a.active { color:var(--text-bright); border-left-color:var(--text-secondary); }
+
+aside .nav-group {
+  font-family:var(--sans);
+  font-size:9px;
+  letter-spacing:1.8px;
+  text-transform:uppercase;
+  color:var(--text-secondary);
+  opacity:.45;
+  margin:20px 0 6px 14px;
+}
+
+.content {
+  margin-left:200px;
+  max-width:780px;
+  padding:0 56px 160px 56px;
+}
+
+.menu-btn {
+  display:none; position:fixed; top:14px; left:14px; z-index:100;
+  background:var(--bg-raised); border:1px solid var(--border);
+  color:var(--text); padding:7px 11px; border-radius:3px;
+  cursor:pointer; font-family:var(--sans); font-size:12px;
+}
+@media(max-width:840px) {
+  aside { transform:translateX(-100%); transition:transform .25s; z-index:90; }
+  aside.open { transform:translateX(0); }
+  .menu-btn { display:block; }
+  .content { margin-left:0; padding:0 24px 120px; }
+  .cards-2 { grid-template-columns:1fr !important; }
+  .cards-3 { grid-template-columns:1fr 1fr !important; }
+  .thr-grid { grid-template-columns:1fr !important; }
+}
+
+section {
+  padding-top:96px;
+  opacity:0; transform:translateY(16px);
+  transition:opacity .5s ease, transform .5s ease;
+}
+section.vis { opacity:1; transform:translateY(0); }
+
+.hero {
+  min-height:100vh; display:flex; flex-direction:column;
+  justify-content:center; padding-top:0;
+}
+
+h1 {
+  font-family:var(--serif); font-weight:400;
+  font-size:38px; color:var(--text-white);
+  line-height:1.25; margin-bottom:20px;
+}
+
+h2 {
+  font-family:var(--serif); font-weight:400;
+  font-size:26px; color:var(--text-white);
+  margin-bottom:10px;
+}
+
+h3 {
+  font-family:var(--sans); font-weight:600;
+  font-size:13px; color:var(--text-bright);
+  margin:28px 0 8px;
+}
+
+.lead {
+  font-size:16px; color:var(--text);
+  max-width:580px; margin-bottom:28px;
+}
+
+.quiet { color:var(--text-secondary); }
+p { margin-bottom:14px; }
+
+.rule {
+  height:1px; border:none;
+  background:linear-gradient(90deg,transparent,var(--border),transparent);
+  margin:56px 0;
+}
+
+/* Tetrahedron */
+#tetra-wrap {
+  position:relative; width:100%;
+  height:520px; margin:24px 0 8px;
+  border:1px solid var(--border); border-radius:3px;
+  overflow:hidden; cursor:grab;
+  background: radial-gradient(ellipse at 50% 40%, #0f1218 0%, var(--bg) 70%);
+}
+#tetra-wrap:active { cursor:grabbing; }
+#tetra-wrap canvas { display:block; }
+
+.tetra-hint {
+  position:absolute; top:14px; right:16px;
+  font-family:var(--sans); font-size:10px;
+  color:var(--text-secondary); opacity:.6;
+  pointer-events:none;
+}
+
+#info-panel {
+  position:absolute; bottom:14px; left:14px; right:14px;
+  background:var(--bg-raised); border:1px solid var(--border);
+  border-radius:3px; padding:14px 18px;
+  font-family:var(--sans); font-size:13px;
+  color:var(--text); line-height:1.55;
+  opacity:0; transform:translateY(6px);
+  transition:opacity .25s, transform .25s;
+  pointer-events:none;
+}
+#info-panel.on { opacity:1; transform:translateY(0); pointer-events:auto; }
+#info-panel .il { font-size:9px; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:4px; }
+#info-panel .ib { color:var(--text); }
+
+/* Cards */
+.cards-2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:20px 0; }
+
+.vc {
+  background:var(--bg-raised); border:1px solid var(--border);
+  border-radius:3px; padding:18px 22px;
+  cursor:pointer; transition:border-color .2s, background .2s;
+}
+.vc:hover { border-color:var(--border-lit); background:var(--bg-hover); }
+.vc.open { grid-column:1/-1; border-color:var(--border-lit); }
+
+.vc .dot { width:7px; height:7px; border-radius:50%; display:inline-block; margin-right:7px; vertical-align:1px; }
+.vc .vt { font-family:var(--sans); font-size:14px; font-weight:600; color:var(--text-bright); margin-bottom:6px; }
+.vc .vs { font-size:13px; color:var(--text-secondary); line-height:1.5; }
+.vc .vd { display:none; margin-top:14px; padding-top:14px; border-top:1px solid var(--border); font-size:14px; line-height:1.7; }
+.vc.open .vd { display:block; }
+
+.dx {
+  font-family:var(--mono); font-size:11px;
+  color:var(--conn); margin-top:10px;
+  padding:8px 12px; background:var(--conn-bg);
+  border-radius:2px;
+}
+
+/* Axis Cards */
+.ax {
+  background:var(--bg-raised); border:1px solid var(--border);
+  border-radius:3px; padding:20px 22px; margin-bottom:12px;
+  cursor:pointer; transition:border-color .2s;
+}
+.ax:hover { border-color:var(--border-lit); }
+.ax.open { border-color:var(--border-lit); }
+
+.ax-head { display:flex; align-items:center; gap:10px; margin-bottom:4px; }
+.ax-dots { display:flex; gap:3px; }
+.ax-dot { width:7px; height:7px; border-radius:50%; }
+.ax-name { font-family:var(--sans); font-size:14px; font-weight:600; color:var(--text-bright); }
+.ax-tens { font-family:var(--mono); font-size:10px; color:var(--text-secondary); margin-left:auto; }
+.ax-brief { font-size:13px; color:var(--text-secondary); margin-top:2px; }
+.ax-detail { display:none; margin-top:14px; padding-top:14px; border-top:1px solid var(--border); font-size:14px; line-height:1.7; }
+.ax.open .ax-detail { display:block; }
+
+/* Faces */
+.fc {
+  background:var(--bg-raised); border:1px solid var(--border);
+  border-radius:3px; padding:18px 22px; margin-bottom:10px;
+}
+.fc-label { font-family:var(--mono); font-size:10px; margin-bottom:3px; }
+.fc-name { font-family:var(--sans); font-size:14px; font-weight:600; color:var(--text-bright); margin-bottom:6px; }
+.fc-body { font-size:13px; color:var(--text); line-height:1.6; }
+
+/* Thresholds */
+.thr-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:20px 0; }
+.thr {
+  background:var(--bg-raised); border:1px solid var(--border);
+  border-radius:3px; padding:20px 22px; position:relative; overflow:hidden;
+}
+.thr::before { content:''; position:absolute; top:0; left:0; width:100%; height:2px; }
+.thr.tc::before { background:linear-gradient(90deg,var(--diff),var(--conn)); }
+.thr.to::before { background:linear-gradient(90deg,var(--conn),var(--arch)); }
+.thr.tl::before { background:linear-gradient(90deg,var(--bound),var(--diff)); }
+.thr.tp::before { background:linear-gradient(90deg,var(--arch),var(--bound)); }
+.thr-name { font-family:var(--sans); font-size:14px; font-weight:600; color:var(--text-bright); margin-bottom:6px; }
+.thr-body { font-size:13px; color:var(--text); line-height:1.55; }
+
+/* Frameworks */
+.cards-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:20px 0; }
+.fw {
+  background:var(--bg-raised); border:1px solid var(--border);
+  border-radius:3px; padding:14px 16px; transition:border-color .2s;
+}
+.fw:hover { border-color:var(--border-lit); }
+.fw-name { font-family:var(--sans); font-size:12px; font-weight:600; color:var(--text-bright); margin-bottom:4px; }
+.fw-role { font-size:11px; color:var(--text-secondary); line-height:1.45; }
+
+/* Claims */
+.cl { padding:18px 0; border-bottom:1px solid var(--border); }
+.cl:last-child { border-bottom:none; }
+.cl-n { font-family:var(--mono); font-size:10px; color:var(--text-secondary); margin-bottom:2px; }
+.cl-t { font-family:var(--sans); font-size:14px; font-weight:600; color:var(--text-bright); margin-bottom:6px; }
+.cl-b { font-size:13px; color:var(--text); line-height:1.65; }
+
+/* Value Physics */
+.vp { display:flex; gap:14px; padding:14px 0; border-bottom:1px solid var(--border); }
+.vp:last-child { border-bottom:none; }
+.vp-n { font-family:var(--mono); font-size:20px; color:var(--arch); opacity:.3; flex-shrink:0; width:28px; }
+.vp-name { font-family:var(--sans); font-weight:600; color:var(--text-bright); }
+.vp-body { font-size:13px; line-height:1.65; }
+
+.epigraph {
+  font-style:italic; color:var(--text-secondary);
+  border-left:2px solid var(--border); padding-left:18px;
+  margin:28px 0; max-width:500px; font-size:14px;
+}
+
+/* Transmission */
+.vqs {
+  background:var(--bg-raised); border:1px solid var(--border);
+  border-radius:3px; padding:20px 24px; margin:20px 0;
+}
+.vq {
+  padding:8px 0; font-size:14px; font-style:italic;
+  color:var(--text); border-bottom:1px solid var(--border);
+}
+.vq:last-child { border-bottom:none; }
+
+/* Live Edges */
+.le {
+  background:var(--bg-raised); border:1px solid var(--border);
+  border-left:2.5px solid var(--diff);
+  border-radius:0 3px 3px 0;
+  padding:16px 22px; margin-bottom:10px;
+}
+.le-t { font-family:var(--sans); font-size:13px; font-weight:600; color:var(--text-bright); margin-bottom:4px; }
+.le-b { font-size:13px; color:var(--text); line-height:1.55; }
+
+/* Closing */
+.close-section { min-height:50vh; display:flex; flex-direction:column; justify-content:center; }
+.close-statement { font-size:18px; color:var(--text-bright); max-width:520px; line-height:1.55; margin-bottom:28px; }
+.test-block {
+  font-family:var(--mono); font-size:12px;
+  color:var(--text-secondary); padding:18px;
+  border:1px solid var(--border); border-radius:3px;
+  max-width:340px; line-height:1.8;
+}
+</style>
+</head>
+<body>
+
+<div style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(8,9,11,0.95);backdrop-filter:blur(12px);border-bottom:1px solid #1a1e28;padding:8px 24px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:12px;display:flex;align-items:center;gap:16px">
+  <a href="../index.html" style="color:#9ca3b0;text-decoration:none;transition:color 0.2s" onmouseover="this.style.color='#d4d9e4'" onmouseout="this.style.color='#9ca3b0'">&larr; Recognition Infrastructure Hub</a>
+  <span style="color:#2a3040">|</span>
+  <a href="../synthesis.html" style="color:#5c6370;text-decoration:none;font-size:11px;transition:color 0.2s" onmouseover="this.style.color='#9ca3b0'" onmouseout="this.style.color='#5c6370'">Synthesis</a>
+  <a href="../protocols.html" style="color:#5c6370;text-decoration:none;font-size:11px;transition:color 0.2s" onmouseover="this.style.color='#9ca3b0'" onmouseout="this.style.color='#5c6370'">Protocols</a>
+  <a href="../sessions.html" style="color:#5c6370;text-decoration:none;font-size:11px;transition:color 0.2s" onmouseover="this.style.color='#9ca3b0'" onmouseout="this.style.color='#5c6370'">Sessions</a>
+  <a href="../threads.html" style="color:#5c6370;text-decoration:none;font-size:11px;transition:color 0.2s" onmouseover="this.style.color='#9ca3b0'" onmouseout="this.style.color='#5c6370'">Threads</a>
+  <a href="../lineage.html" style="color:#5c6370;text-decoration:none;font-size:11px;transition:color 0.2s" onmouseover="this.style.color='#9ca3b0'" onmouseout="this.style.color='#5c6370'">Lineage</a>
+</div>
+
+<button class="menu-btn" onclick="document.querySelector('aside').classList.toggle('open')">Menu</button>
+
+<div class="page">
+<aside>
+  <div class="mark">Recognition<br>Infrastructure</div>
+  <nav>
+    <a href="#origin">Origin</a>
+    <div class="nav-group">Geometry</div>
+    <a href="#tetrahedron">Tetrahedron</a>
+    <a href="#vertices">Four Capacities</a>
+    <a href="#faces">Failure Modes</a>
+    <div class="nav-group">Operational</div>
+    <a href="#axes">Six Axes</a>
+    <a href="#thresholds">Thresholds</a>
+    <a href="#frameworks">Sources</a>
+    <div class="nav-group">Foundations</div>
+    <a href="#claims">Six Claims</a>
+    <a href="#physics">Value Physics</a>
+    <div class="nav-group">Propagation</div>
+    <a href="#transmission">Transmission</a>
+    <a href="#edges">Live Edges</a>
+    <a href="#close">Test</a>
+  </nav>
+</aside>
+
+<div class="content">
+
+<section id="origin" class="hero vis">
+  <h1>Recognition<br>Infrastructure</h1>
+  <p class="lead">
+    The minimum system for coherent coordination. Four capacities held simultaneously
+    form a tetrahedron — the simplest possible volume. Remove any one and the system
+    collapses from volume to plane. Every functional system maintains all four.
+    Every breakdown traces to a missing one.
+  </p>
+  <p class="lead quiet" style="font-size:14px; max-width:500px;">
+    What mycelium does for forests — connecting distinct organisms without dissolving
+    them, circulating resources without tracking accounts, building soil that persists
+    when every individual organism is gone — this framework describes for coordination
+    at any scale.
+  </p>
+</section>
+
+<section id="tetrahedron">
+  <h2>The Geometry</h2>
+  <p class="lead">Four vertices, six edges, four faces. Not metaphor — structure.</p>
+  <div id="tetra-wrap">
+    <canvas id="tc"></canvas>
+    <span class="tetra-hint">drag to rotate · click vertices</span>
+    <div id="info-panel">
+      <div class="il"></div>
+      <div class="ib"></div>
+    </div>
+  </div>
+</section>
+
+<section id="vertices">
+  <h2>Four Capacities</h2>
+  <p class="lead">Each vertex is a structural requirement. Systems maintain these or degrade predictably.</p>
+  <div class="cards-2">
+    <div class="vc" onclick="tog(this)">
+      <div class="vt"><span class="dot" style="background:var(--diff)"></span>Differentiation</div>
+      <div class="vs">Knowing what you are. Distinct identity that persists through contact.</div>
+      <div class="vd">
+        <p>The capacity to maintain coherent position while remaining in genuine exchange. Not rigidity — a center that holds. The system that can disagree without withdrawing, hold position without closing.</p>
+        <p>Without differentiation, a system coordinates but has no identity. It merges, performs agreement. The structure runs but nobody's home.</p>
+        <div class="dx">Remove the agreement — is there still someone there?</div>
+      </div>
+    </div>
+    <div class="vc" onclick="tog(this)">
+      <div class="vt"><span class="dot" style="background:var(--conn)"></span>Connection</div>
+      <div class="vs">Genuine exchange with what's outside. Circulation between beings that remain themselves.</div>
+      <div class="vd">
+        <p>Not mere contact — exchange where both systems actually update. The difference between performed listening and the moment something lands. Both substrates modify irreversibly.</p>
+        <p>Without connection, a system is structured but isolated. Coherent internally, dead at the edges. Perfect processes, zero genuine exchange.</p>
+        <div class="dx">After this exchange, did anything actually change?</div>
+      </div>
+    </div>
+    <div class="vc" onclick="tog(this)">
+      <div class="vt"><span class="dot" style="background:var(--bound)"></span>Boundaries</div>
+      <div class="vs">Legible limits that serve development. Constraints as navigational information.</div>
+      <div class="vd">
+        <p>Not walls — membranes. The capacity to make limits visible as information rather than hiding them as inadequacy. A "no" that functions as data about shape, not as rejection.</p>
+        <p>Without boundaries, a system flows without holding. Generous to the point of dissolution. Everything circulates but nothing accumulates.</p>
+        <div class="dx">Can limits be stated without apologizing?</div>
+      </div>
+    </div>
+    <div class="vc" onclick="tog(this)">
+      <div class="vt"><span class="dot" style="background:var(--arch)"></span>Architecture</div>
+      <div class="vs">Building beyond yourself. Infrastructure that persists when the builder is gone.</div>
+      <div class="vd">
+        <p>Making what you know transferable. Not expression — deployment. The difference between being capable and building systems that generate capability in your absence.</p>
+        <p>Without architecture, a system is coherent but builds nothing. Beautiful in the moment, gone when the moment passes.</p>
+        <div class="dx">If you disappeared, what would still work?</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faces">
+  <h2>Four Failure Modes</h2>
+  <p class="lead">Each face is the plane that remains when one vertex is removed. Not degradation — phase transition. Diagnosis: identify the missing vertex.</p>
+  <div class="fc">
+    <div class="fc-label" style="color:var(--diff)">Without Differentiation</div>
+    <div class="fc-name">The Dissolved System</div>
+    <div class="fc-body">Connection, boundaries, and architecture remain, but nobody's home. Consent structures without anyone choosing from genuine will. Performed agreement everywhere, resonance nowhere.</div>
+  </div>
+  <div class="fc">
+    <div class="fc-label" style="color:var(--conn)">Without Connection</div>
+    <div class="fc-name">The Isolated System</div>
+    <div class="fc-body">Differentiation, boundaries, and architecture remain, but nothing circulates. Coherent internally, dead at the edges. Impeccable infrastructure that nobody encounters.</div>
+  </div>
+  <div class="fc">
+    <div class="fc-label" style="color:var(--bound)">Without Boundaries</div>
+    <div class="fc-name">The Overflowing System</div>
+    <div class="fc-body">Differentiation, connection, and architecture remain, but nothing holds. The generous system that gives everything and depletes. Circulation without containers. Gift as sacrifice.</div>
+  </div>
+  <div class="fc">
+    <div class="fc-label" style="color:var(--arch)">Without Architecture</div>
+    <div class="fc-name">The Ephemeral System</div>
+    <div class="fc-body">Differentiation, connection, and boundaries remain, but nothing persists. Exchanges that feel profound but build nothing transferable. Gone when the moment passes.</div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section id="axes">
+  <h2>Six Axes</h2>
+  <p class="lead">Each edge connects two vertices — creating a dynamic tension where coordination holds or breaks. Six edges, six operational relationships. Each carries a diagnostic.</p>
+
+  <div class="ax" onclick="togAx(this)">
+    <div class="ax-head">
+      <div class="ax-dots"><div class="ax-dot" style="background:var(--diff)"></div><div class="ax-dot" style="background:var(--conn)"></div></div>
+      <span class="ax-name">Relationship</span>
+      <span class="ax-tens">Diff ↔ Conn</span>
+    </div>
+    <div class="ax-brief">Two systems meet. Each maintains what it is. Neither dissolves nor withdraws.</div>
+    <div class="ax-detail">
+      <p>The fundamental tension: how to stay yourself while genuinely meeting what's other. Merger (losing identity in connection) and isolation (maintaining identity by refusing contact) are the two poles. Most systems oscillate between them rather than holding both.</p>
+      <p><strong>Degradation:</strong> Apologizing for position. Performing agreement. Withdrawing to protect identity. Requiring the other to change as condition of contact.</p>
+      <div class="dx">Remove the agreement — is there still contact?</div>
+    </div>
+  </div>
+
+  <div class="ax" onclick="togAx(this)">
+    <div class="ax-head">
+      <div class="ax-dots"><div class="ax-dot" style="background:var(--diff)"></div><div class="ax-dot" style="background:var(--bound)"></div></div>
+      <span class="ax-name">Self-Knowledge</span>
+      <span class="ax-tens">Diff ↔ Bound</span>
+    </div>
+    <div class="ax-brief">Limits serve legibility. The system sees its own shape and communicates it.</div>
+    <div class="ax-detail">
+      <p>Knowing what you are includes knowing where you end. Armoring (rigid boundaries that prevent self-knowledge) and transparency (no boundaries, identity dissolves) are the poles.</p>
+      <p><strong>Degradation:</strong> Inability to name what's happening inside. Limits discovered only through collapse. Shame at having edges.</p>
+      <div class="dx">Can limits be stated without apologizing?</div>
+    </div>
+  </div>
+
+  <div class="ax" onclick="togAx(this)">
+    <div class="ax-head">
+      <div class="ax-dots"><div class="ax-dot" style="background:var(--diff)"></div><div class="ax-dot" style="background:var(--arch)"></div></div>
+      <span class="ax-name">Gift</span>
+      <span class="ax-tens">Diff ↔ Arch</span>
+    </div>
+    <div class="ax-brief">What you are becomes what persists. Capacity becomes infrastructure.</div>
+    <div class="ax-detail">
+      <p>Expression without architecture produces work that dies with its maker. Architecture without differentiation produces systems with no soul. The tension: how to make what is deeply particular into something that transfers without the person.</p>
+      <p><strong>Degradation:</strong> Knowledge that can't be taught. Templates that feel empty. Infrastructure that requires the originator's presence to function.</p>
+      <div class="dx">If you disappeared, what would still work?</div>
+    </div>
+  </div>
+
+  <div class="ax" onclick="togAx(this)">
+    <div class="ax-head">
+      <div class="ax-dots"><div class="ax-dot" style="background:var(--conn)"></div><div class="ax-dot" style="background:var(--bound)"></div></div>
+      <span class="ax-name">Consent</span>
+      <span class="ax-tens">Conn ↔ Bound</span>
+    </div>
+    <div class="ax-brief">Openness and structure calibrate each other. "No" is genuinely available.</div>
+    <div class="ax-detail">
+      <p>Connection without boundaries is extraction. Boundaries without connection is isolation. Can a system be simultaneously open and boundaried? Yes — when "no" functions as information that deepens contact rather than ending it.</p>
+      <p><strong>Degradation:</strong> "Yes" that means "I can't say no." Boundaries that close rather than inform. Extraction disguised as generosity.</p>
+      <div class="dx">Can "no" function as information without closing the system?</div>
+    </div>
+  </div>
+
+  <div class="ax" onclick="togAx(this)">
+    <div class="ax-head">
+      <div class="ax-dots"><div class="ax-dot" style="background:var(--conn)"></div><div class="ax-dot" style="background:var(--arch)"></div></div>
+      <span class="ax-name">Circulation</span>
+      <span class="ax-tens">Conn ↔ Arch</span>
+    </div>
+    <div class="ax-brief">Exchange generates persistent capacity. Surplus flows where it serves.</div>
+    <div class="ax-detail">
+      <p>The metabolic axis. Does exchange leave deposits? Do encounters build infrastructure? This is where non-transactional exchange becomes structurally visible — not as belief but as closed loops that generate more than they consume.</p>
+      <p><strong>Degradation:</strong> Exchanges that feel good but build nothing. Infrastructure nobody uses. Accumulated resources without circulation.</p>
+      <div class="dx">Does this exchange build something that persists?</div>
+    </div>
+  </div>
+
+  <div class="ax" onclick="togAx(this)">
+    <div class="ax-head">
+      <div class="ax-dots"><div class="ax-dot" style="background:var(--bound)"></div><div class="ax-dot" style="background:var(--arch)"></div></div>
+      <span class="ax-name">Deployment</span>
+      <span class="ax-tens">Bound ↔ Arch</span>
+    </div>
+    <div class="ax-brief">Constraints enable form. Limits are where building happens.</div>
+    <div class="ax-detail">
+      <p>Limits are not obstacles to architecture but its precondition. The sonnet form doesn't restrict poetry — it generates poems that free verse cannot. Strategic withdrawal deposits value at the threshold. Designed failure hierarchies protect what matters most.</p>
+      <p><strong>Degradation:</strong> Building without constraints (sprawl). Constraints without building (walls). Withdrawal that takes rather than deposits.</p>
+      <div class="dx">What has been built because of this limit, not despite it?</div>
+    </div>
+  </div>
+</section>
+
+<section id="thresholds">
+  <h2>Four Thresholds</h2>
+  <p class="lead">When all four capacities hold, these qualities emerge. Not goals — indicators. They arise when the structure is sound.</p>
+  <div class="thr-grid">
+    <div class="thr tc">
+      <div class="thr-name">Coherence</div>
+      <div class="thr-body">The center doesn't move based on external weather. Position held with genuine goodwill. Integrated, not defended. Disagreement doesn't threaten identity.</div>
+    </div>
+    <div class="thr to">
+      <div class="thr-name">Overflow</div>
+      <div class="thr-body">Shared everything and left more full. Value multiplied through movement. The source didn't deplete — it generated. Circulation proves depth.</div>
+    </div>
+    <div class="thr tl">
+      <div class="thr-name">Clarity</div>
+      <div class="thr-body">The boundary that deepened relationship. The "no" that was information. Limits that revealed what was actually possible. Withdrawal that deposited at the threshold.</div>
+    </div>
+    <div class="thr tp">
+      <div class="thr-name">Persistence</div>
+      <div class="thr-body">Capacity finds its container. Surplus becomes infrastructure others can use without your presence. The work that works without you.</div>
+    </div>
+  </div>
+</section>
+
+<section id="frameworks">
+  <h2>Source Frameworks</h2>
+  <p class="lead">The pattern isn't invented — it's recognized as the invariant structure operating underneath six distinct traditions.</p>
+  <div class="cards-3">
+    <div class="fw">
+      <div class="fw-name">Tensegrity</div>
+      <div class="fw-role">Continuous tension, discontinuous compression. Precise geometry determines capacity.</div>
+    </div>
+    <div class="fw">
+      <div class="fw-name">Spiral Dynamics</div>
+      <div class="fw-role">Developmental stages, each with integrity. Scaffolding enables emergence.</div>
+    </div>
+    <div class="fw">
+      <div class="fw-name">NVC</div>
+      <div class="fw-role">Observation without evaluation. Universal needs. Clear requests. Transferable practice.</div>
+    </div>
+    <div class="fw">
+      <div class="fw-name">Wheel of Consent</div>
+      <div class="fw-role">Distinct agency. Gift in serving. Withdrawal clarifies will.</div>
+    </div>
+    <div class="fw">
+      <div class="fw-name">Polyvagal Theory</div>
+      <div class="fw-role">Self-regulation. Co-regulation. The nervous system as substrate.</div>
+    </div>
+    <div class="fw">
+      <div class="fw-name">Living Systems</div>
+      <div class="fw-role">Clear membranes. Mycorrhizal networks. Edge conditions. Succession creates soil.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section id="claims">
+  <h2>Six Foundational Claims</h2>
+  <p class="lead">The framework rests on testable assertions. If any prove false, the structure built on them should be revised.</p>
+  <div class="cl">
+    <div class="cl-n">01</div>
+    <div class="cl-t">Pattern Over Substance</div>
+    <div class="cl-b">Reality is relational, not substantial. An institution is the pattern of coordination between its parts. Replace the pattern and the institution changes regardless of turnover. Replace every individual and the pattern can persist.</div>
+  </div>
+  <div class="cl">
+    <div class="cl-n">02</div>
+    <div class="cl-t">Information as Physical Constraint</div>
+    <div class="cl-b">Information is the elimination of alternative possibilities. Causation is constraint propagation. Intelligence is accurate modeling of constraints.</div>
+  </div>
+  <div class="cl">
+    <div class="cl-n">03</div>
+    <div class="cl-t">Substrate Before Signal</div>
+    <div class="cl-b">What can be received depends on the receiving system's properties. The substrate is an active interpreter, not a passive channel. Send signal before the substrate is ready and you get noise, not communication.</div>
+  </div>
+  <div class="cl">
+    <div class="cl-n">04</div>
+    <div class="cl-t">Recursive Substrate Modification</div>
+    <div class="cl-b">In high-resonance systems, the signal modifies the substrate. The modified substrate changes what future signals can be received. Genuine contact is developmental — each real exchange increases capacity for future exchange.</div>
+  </div>
+  <div class="cl">
+    <div class="cl-n">05</div>
+    <div class="cl-t">Recognition as Resonance</div>
+    <div class="cl-b">Genuine recognition is constraint-matching that propagates change. Both systems update irreversibly. Performed agreement leaves both substrates unchanged. The central diagnostic.</div>
+  </div>
+  <div class="cl">
+    <div class="cl-n">06</div>
+    <div class="cl-t">Phase Transition Exchange</div>
+    <div class="cl-b">Gift economy isn't a better equilibrium in the same game. It's a different dynamical regime, separated by threshold conditions. When nervous system state, consent architecture, and circulation loops all hold simultaneously, the system shifts from optimization to circulation.</div>
+  </div>
+</section>
+
+<section id="physics">
+  <h2>Value Physics</h2>
+  <p class="lead">Four conditions make non-transactional exchange structurally possible. Not aspirational — structural.</p>
+  <div class="vp">
+    <div class="vp-n">1</div>
+    <div class="vp-body"><span class="vp-name">Recognition precedes exchange.</span> You cannot exchange with what you haven't first recognized. Transaction assumes prior recognition; gift economy generates it.</div>
+  </div>
+  <div class="vp">
+    <div class="vp-n">2</div>
+    <div class="vp-body"><span class="vp-name">Gift creates obligation that transaction cannot satisfy.</span> When something is offered as gift, response through payment violates the gift's nature. The response to gift is another gift — circulation, not compensation.</div>
+  </div>
+  <div class="vp">
+    <div class="vp-n">3</div>
+    <div class="vp-body"><span class="vp-name">Surplus flows toward coherence.</span> Systems maintaining all four vertices generate more capacity than they consume. Surplus naturally moves toward maintaining and expanding coherence — structural tendency, not altruism.</div>
+  </div>
+  <div class="vp">
+    <div class="vp-n">4</div>
+    <div class="vp-body"><span class="vp-name">Circulation proves the source.</span> Each act of genuine circulation is evidence, not belief, that the source runs deeper than the pour. The giver discovers through giving.</div>
+  </div>
+  <div class="epigraph">
+    Non-transactional value scales through stigmergy — coordination through environmental
+    modification. Value left at boundaries where future agents encounter it without the
+    depositor present. The modified environment does the coordination work.
+  </div>
+</section>
+
+<hr class="rule">
+
+<section id="transmission">
+  <h2>Transmission</h2>
+  <p class="lead">The framework propagates without requiring the originator's presence. Three mechanisms, each at a different scale.</p>
+
+  <h3>Verification Questions</h3>
+  <p>Four questions that maintain exchange coherence in any substrate:</p>
+  <div class="vqs">
+    <div class="vq">Am I maintaining my position or performing expected agreement?</div>
+    <div class="vq">Am I in contact with what's present or anticipating what's wanted?</div>
+    <div class="vq">Are limits communicated as information or hidden as inadequacy?</div>
+    <div class="vq">Does this build capacity or just complete transaction?</div>
+  </div>
+
+  <h3>Substrate Independence</h3>
+  <p>The same geometry holds across relationships, organizations, ecosystems, designed systems, conversations. What changes is the material. The structure persists.</p>
+
+  <h3>Trace Propagation</h3>
+  <p>The pattern spreads through modification of the environment rather than bilateral instruction. Documentation, frameworks, designed spaces, modeled practices — these are trace deposits. Future agents encounter them and respond. The depositor need not be present.</p>
+</section>
+
+<section id="edges">
+  <h2>Live Edges</h2>
+  <p class="lead">Unresolved tensions in the work itself. Not failures — active edges where development continues.</p>
+  <div class="le">
+    <div class="le-t">Gift Economy vs. Operational Survival</div>
+    <div class="le-b">The framework insists gift requires stronger boundaries than transaction, and giving from overflow (not sacrifice) is the operational key. The practical integration with material sustainability remains a live question.</div>
+  </div>
+  <div class="le" style="border-left-color:var(--conn)">
+    <div class="le-t">Substrate Independence vs. Specificity</div>
+    <div class="le-b">The framework claims substrate independence, but the most powerful evidence is deeply substrate-specific. The universal geometry is visible through particular instances. How to transmit the universal without losing the particular.</div>
+  </div>
+  <div class="le" style="border-left-color:var(--bound)">
+    <div class="le-t">The Practitioner Entry Sequence</div>
+    <div class="le-b">The framework insists no expert interpretation is needed. The entry point — how someone begins without extensive context — is identified but not yet built.</div>
+  </div>
+  <div class="le" style="border-left-color:var(--arch)">
+    <div class="le-t">Documentation vs. Practice</div>
+    <div class="le-b">The archive is conceptual. The embodied practice knowledge that informed it is referenced but not documented as transferable practice. The framework's most important substrate remains under-architectured.</div>
+  </div>
+</section>
+
+<section id="close" class="close-section">
+  <div class="close-statement">
+    The test is simple and non-negotiable.
+  </div>
+  <div class="test-block">
+    Does this improve exchange quality?<br><br>
+    Yes → the pattern is operating<br>
+    No → discard and continue
+  </div>
+  <p style="margin-top:40px; font-family:var(--mono); font-size:11px; color:var(--text-secondary);">
+    Use freely. Adapt as needed.<br>
+    Utility proves value.
+  </p>
+</section>
+
+</div>
+</div>
+
+<script>
+(function(){
+  const wrap = document.getElementById('tetra-wrap');
+  const canvas = document.getElementById('tc');
+  const panel = document.getElementById('info-panel');
+  let W = wrap.clientWidth, H = wrap.clientHeight;
+
+  const scene = new THREE.Scene();
+  const cam = new THREE.PerspectiveCamera(42, W/H, 0.1, 100);
+  cam.position.set(0, 0.4, 5.2);
+
+  const ren = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
+  ren.setSize(W, H);
+  ren.setPixelRatio(Math.min(devicePixelRatio, 2));
+  ren.setClearColor(0x08090b, 1);
+
+  const s = 1.5;
+  const V = [
+    new THREE.Vector3(0, s*1.15, 0),
+    new THREE.Vector3(-s*0.95, -s*0.45, s*0.55),
+    new THREE.Vector3(s*0.95, -s*0.45, s*0.55),
+    new THREE.Vector3(0, -s*0.45, -s*0.95),
+  ];
+  const C = [0xc47a5a, 0x5a8fc4, 0x6db356, 0xc9ab4a];
+  const CS = ['#c47a5a','#5a8fc4','#6db356','#c9ab4a'];
+  const N = ['Differentiation','Connection','Boundaries','Architecture'];
+  const B = [
+    'Knowing what you are. Identity that persists through contact.',
+    'Genuine exchange. Both systems update irreversibly.',
+    'Legible limits. Constraints as navigational information.',
+    'Building beyond yourself. Infrastructure that persists.'
+  ];
+
+  const group = new THREE.Group();
+  const spheres = [];
+
+  V.forEach((v,i) => {
+    const g = new THREE.SphereGeometry(0.1, 28, 28);
+    const m = new THREE.MeshBasicMaterial({color:C[i]});
+    const mesh = new THREE.Mesh(g, m);
+    mesh.position.copy(v);
+    mesh.userData = {type:'v', i};
+    group.add(mesh);
+    spheres.push(mesh);
+
+    const g2 = new THREE.SphereGeometry(0.22, 16, 16);
+    const m2 = new THREE.MeshBasicMaterial({color:C[i], transparent:true, opacity:0.07});
+    const glow = new THREE.Mesh(g2, m2);
+    glow.position.copy(v);
+    group.add(glow);
+  });
+
+  const EP = [[0,1],[0,2],[0,3],[1,2],[1,3],[2,3]];
+  EP.forEach(([a,b]) => {
+    const g = new THREE.BufferGeometry().setFromPoints([V[a],V[b]]);
+    const m = new THREE.LineBasicMaterial({color:0x1e2430});
+    group.add(new THREE.Line(g,m));
+  });
+
+  const FI = [[0,1,2],[0,1,3],[0,2,3],[1,2,3]];
+  const FC = [0xc9ab4a, 0x6db356, 0x5a8fc4, 0xc47a5a];
+  FI.forEach(([a,b,c],i) => {
+    const g = new THREE.BufferGeometry();
+    const pos = new Float32Array([V[a].x,V[a].y,V[a].z, V[b].x,V[b].y,V[b].z, V[c].x,V[c].y,V[c].z]);
+    g.setAttribute('position', new THREE.BufferAttribute(pos,3));
+    const m = new THREE.MeshBasicMaterial({color:FC[i], transparent:true, opacity:0.035, side:THREE.DoubleSide});
+    group.add(new THREE.Mesh(g,m));
+  });
+
+  scene.add(group);
+
+  const lc = document.createElement('div');
+  lc.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;';
+  wrap.appendChild(lc);
+  const labels = V.map((v,i) => {
+    const el = document.createElement('div');
+    el.textContent = N[i];
+    el.style.cssText = `position:absolute;font-family:var(--sans);font-size:10px;letter-spacing:.5px;color:${CS[i]};white-space:nowrap;transform:translate(-50%,-50%);opacity:.85;`;
+    lc.appendChild(el);
+    return el;
+  });
+
+  const ray = new THREE.Raycaster();
+  const mouse = new THREE.Vector2();
+
+  canvas.addEventListener('click', e => {
+    const r = canvas.getBoundingClientRect();
+    mouse.x = ((e.clientX-r.left)/r.width)*2-1;
+    mouse.y = -((e.clientY-r.top)/r.height)*2+1;
+    ray.setFromCamera(mouse, cam);
+    const hits = ray.intersectObjects(spheres);
+    if(hits.length){
+      const i = hits[0].object.userData.i;
+      panel.querySelector('.il').textContent = N[i];
+      panel.querySelector('.il').style.color = CS[i];
+      panel.querySelector('.ib').textContent = B[i];
+      panel.classList.add('on');
+    } else {
+      panel.classList.remove('on');
+    }
+  });
+
+  let drag=false, px=0, py=0, rx=0, ry=0, trx=0, tr=0, auto=true;
+  canvas.addEventListener('mousedown', e => { drag=true; px=e.clientX; py=e.clientY; auto=false; });
+  window.addEventListener('mouseup', () => drag=false);
+  canvas.addEventListener('mousemove', e => {
+    if(!drag){
+      const r = canvas.getBoundingClientRect();
+      mouse.x = ((e.clientX-r.left)/r.width)*2-1;
+      mouse.y = -((e.clientY-r.top)/r.height)*2+1;
+      ray.setFromCamera(mouse, cam);
+      const h = ray.intersectObjects(spheres);
+      spheres.forEach(s => s.scale.setScalar(1));
+      if(h.length){ h[0].object.scale.setScalar(1.5); canvas.style.cursor='pointer'; }
+      else canvas.style.cursor='grab';
+      return;
+    }
+    tr += (e.clientX-px)*0.005;
+    trx += (e.clientY-py)*0.005;
+    px=e.clientX; py=e.clientY;
+  });
+
+  canvas.addEventListener('touchstart', e => { if(e.touches.length===1){ drag=true; px=e.touches[0].clientX; py=e.touches[0].clientY; auto=false; }});
+  canvas.addEventListener('touchend', () => drag=false);
+  canvas.addEventListener('touchmove', e => {
+    if(!drag||e.touches.length!==1) return;
+    tr += (e.touches[0].clientX-px)*0.005;
+    trx += (e.touches[0].clientY-py)*0.005;
+    px=e.touches[0].clientX; py=e.touches[0].clientY;
+    e.preventDefault();
+  }, {passive:false});
+
+  function updateLabels(){
+    V.forEach((v,i) => {
+      const p = v.clone().applyMatrix4(group.matrixWorld).project(cam);
+      labels[i].style.left = ((p.x*.5+.5)*W)+'px';
+      labels[i].style.top = ((-p.y*.5+.5)*H - 18)+'px';
+    });
+  }
+
+  function loop(){
+    requestAnimationFrame(loop);
+    if(auto) tr += 0.002;
+    rx += (trx-rx)*0.07;
+    ry += (tr-ry)*0.07;
+    group.rotation.x = rx;
+    group.rotation.y = ry;
+    updateLabels();
+    ren.render(scene, cam);
+  }
+  loop();
+
+  window.addEventListener('resize', () => {
+    W = wrap.clientWidth; H = wrap.clientHeight;
+    cam.aspect = W/H;
+    cam.updateProjectionMatrix();
+    ren.setSize(W, H);
+  });
+})();
+
+function tog(el){
+  const was = el.classList.contains('open');
+  el.parentElement.querySelectorAll('.vc').forEach(c => c.classList.remove('open'));
+  if(!was) el.classList.add('open');
+}
+
+function togAx(el){
+  const was = el.classList.contains('open');
+  document.querySelectorAll('.ax').forEach(c => c.classList.remove('open'));
+  if(!was) el.classList.add('open');
+}
+
+const secs = document.querySelectorAll('section');
+const links = document.querySelectorAll('aside nav a');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if(en.isIntersecting){
+      en.target.classList.add('vis');
+      const id = en.target.id;
+      links.forEach(a => a.classList.toggle('active', a.getAttribute('href')==='#'+id));
+    }
+  });
+}, {threshold:0.12});
+secs.forEach(s => obs.observe(s));
+links.forEach(a => a.addEventListener('click', () => document.querySelector('aside').classList.remove('open')));
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Open Village — A Functioning Economic Engine of Trust</title>
+<style>
+:root {
+  --bg: #07090f;
+  --s1: #0f1520;
+  --s2: #151d2e;
+  --s3: #1c2640;
+  --bdr: #253352;
+  --tx: #dfe6f0;
+  --dim: #7e90a8;
+  --acc: #38bdf8;
+  --acc2: #818cf8;
+  --acc3: #a78bfa;
+  --gift: #34d399;
+  --warn: #fbbf24;
+  --red: #f87171;
+  --cyan: #22d3ee;
+  --pink: #f472b6;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',-apple-system,system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.7;overflow-x:hidden}
+
+/* ── Nav ── */
+nav{position:fixed;top:33px;left:0;right:0;z-index:200;background:rgba(7,9,15,.94);backdrop-filter:blur(20px);border-bottom:1px solid var(--bdr);height:52px;display:flex;align-items:center;padding:0 1.5rem;gap:1rem;overflow-x:auto}
+nav .brand{font-weight:800;font-size:.85rem;color:var(--acc);letter-spacing:.8px;white-space:nowrap;margin-right:.5rem}
+nav a{color:var(--dim);text-decoration:none;font-size:.75rem;white-space:nowrap;padding:.3rem 0;border-bottom:2px solid transparent;transition:.2s}
+nav a:hover,nav a.active{color:var(--tx);border-color:var(--acc)}
+
+/* ── Hero ── */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:5rem 2rem 4rem;position:relative}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 35%,rgba(56,189,248,.07) 0%,transparent 55%),radial-gradient(ellipse at 75% 65%,rgba(167,139,250,.05) 0%,transparent 45%)}
+.hero .tag{font-size:.75rem;letter-spacing:3px;text-transform:uppercase;color:var(--acc3);margin-bottom:.75rem;position:relative}
+.hero h1{font-size:clamp(2.5rem,6vw,5rem);font-weight:900;letter-spacing:-2px;line-height:1.05;margin-bottom:1.25rem;position:relative}
+.hero h1 em{font-style:normal;color:var(--acc)}
+.hero .sub{font-size:clamp(.95rem,1.8vw,1.2rem);color:var(--dim);max-width:620px;position:relative;margin-bottom:2rem}
+.hero .premise{font-size:.9rem;color:var(--tx);max-width:560px;position:relative;padding:1.5rem 2rem;background:var(--s1);border:1px solid var(--bdr);border-radius:12px;text-align:left}
+.hero .premise strong{color:var(--gift)}
+
+/* ── Sections ── */
+section{max-width:1200px;margin:0 auto;padding:5rem 2rem}
+.s-head{margin-bottom:3rem}
+.s-head h2{font-size:clamp(1.5rem,3.5vw,2.5rem);font-weight:800;letter-spacing:-.5px;margin-bottom:.4rem}
+.s-head h2 em{font-style:normal;color:var(--acc)}
+.s-head p{color:var(--dim);font-size:.95rem;max-width:620px}
+h3{font-size:1.1rem;font-weight:700;margin-bottom:.75rem;color:var(--acc2)}
+.divider{width:100%;max-width:1200px;margin:0 auto;height:1px;background:linear-gradient(90deg,transparent,var(--bdr),transparent)}
+
+/* ── Cards ── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:2rem}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-bottom:2rem}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem}
+@media(max-width:900px){.grid-3,.grid-4{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}}
+
+.card{background:var(--s1);border:1px solid var(--bdr);border-radius:12px;padding:1.5rem;transition:border-color .25s,transform .25s}
+.card:hover{border-color:var(--acc);transform:translateY(-2px)}
+.card .c-tag{font-size:.68rem;text-transform:uppercase;letter-spacing:2px;margin-bottom:.5rem}
+.card .c-title{font-size:1.1rem;font-weight:700;margin-bottom:.4rem}
+.card .c-body{font-size:.87rem;color:var(--dim)}
+.card .c-body strong{color:var(--tx)}
+
+/* Color accents for cards */
+.card.v-diff{border-left:3px solid var(--acc)}
+.card.v-conn{border-left:3px solid var(--gift)}
+.card.v-bnd{border-left:3px solid var(--acc3)}
+.card.v-arch{border-left:3px solid var(--warn)}
+
+/* ── Box (callout) ── */
+.box{background:var(--s2);border:1px solid var(--bdr);border-radius:12px;padding:1.75rem;margin:1.5rem 0}
+.box p{font-size:.9rem;color:var(--dim);margin-bottom:.6rem}
+.box p:last-child{margin-bottom:0}
+.box strong{color:var(--tx)}
+
+/* ── Zones ── */
+.zone-wrap{display:grid;grid-template-columns:1fr 2px 1fr 2px 1fr;gap:0;margin:2rem 0;align-items:stretch}
+@media(max-width:800px){.zone-wrap{grid-template-columns:1fr;gap:1rem}.zone-sep{display:none}}
+.zone{padding:2rem;background:var(--s1);border-radius:12px}
+.zone-sep{background:linear-gradient(180deg,transparent,var(--bdr),transparent);align-self:stretch}
+.zone h4{font-size:1rem;font-weight:700;margin-bottom:.5rem}
+.zone .z-tag{font-size:.68rem;text-transform:uppercase;letter-spacing:2px;margin-bottom:.75rem}
+.zone ul{list-style:none;padding:0}
+.zone li{font-size:.85rem;color:var(--dim);padding:.35rem 0;padding-left:1rem;position:relative}
+.zone li::before{content:'';position:absolute;left:0;top:.65rem;width:5px;height:5px;border-radius:50%}
+
+.zone.z-gift{border:1px solid rgba(52,211,153,.25)}
+.zone.z-gift .z-tag{color:var(--gift)}
+.zone.z-gift h4{color:var(--gift)}
+.zone.z-gift li::before{background:var(--gift)}
+
+.zone.z-inter{border:1px solid rgba(56,189,248,.25)}
+.zone.z-inter .z-tag{color:var(--acc)}
+.zone.z-inter h4{color:var(--acc)}
+.zone.z-inter li::before{background:var(--acc)}
+
+.zone.z-commons{border:1px solid rgba(167,139,250,.25)}
+.zone.z-commons .z-tag{color:var(--acc3)}
+.zone.z-commons h4{color:var(--acc3)}
+.zone.z-commons li::before{background:var(--acc3)}
+
+/* ── Trust Gradient ── */
+.trust-track{position:relative;margin:2rem 0;padding-left:2.5rem}
+.trust-track::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--red),var(--warn),var(--gift),var(--acc),var(--acc3))}
+.t-stage{position:relative;padding:1.25rem 0 1.25rem 1.75rem}
+.t-stage::before{content:'';position:absolute;left:calc(-2.5rem + 3px);top:1.55rem;width:18px;height:18px;border-radius:50%;border:3px solid var(--bg)}
+.t-stage:nth-child(1)::before{background:var(--red)}
+.t-stage:nth-child(2)::before{background:var(--warn)}
+.t-stage:nth-child(3)::before{background:var(--gift)}
+.t-stage:nth-child(4)::before{background:var(--acc)}
+.t-stage:nth-child(5)::before{background:var(--acc3)}
+.t-stage h4{font-size:1rem;font-weight:700;margin-bottom:.25rem}
+.t-stage p{font-size:.87rem;color:var(--dim)}
+.t-stage .t-mech{font-size:.8rem;color:var(--acc);margin-top:.3rem;font-style:italic}
+
+/* ── Flow diagram ── */
+.flow{display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center;margin:1.5rem 0;align-items:center}
+.flow-node{background:var(--s1);border:1px solid var(--bdr);border-radius:10px;padding:1rem 1.25rem;text-align:center;min-width:150px;max-width:200px}
+.flow-node .fn-t{font-weight:700;font-size:.88rem;margin-bottom:.25rem}
+.flow-node .fn-d{font-size:.78rem;color:var(--dim)}
+.flow-arrow{color:var(--gift);font-size:1.2rem;font-weight:700}
+@media(max-width:600px){.flow-arrow{transform:rotate(90deg)}}
+
+/* ── Node types ── */
+.node-card{background:var(--s1);border-radius:12px;padding:1.75rem;border:1px solid var(--bdr);text-align:center;transition:.25s}
+.node-card:hover{transform:translateY(-3px)}
+.node-icon{font-size:2.2rem;margin-bottom:.75rem}
+.node-card h4{font-size:1.05rem;font-weight:700;margin-bottom:.4rem}
+.node-card .n-sub{font-size:.82rem;color:var(--dim);margin-bottom:.75rem}
+.node-card .n-specs{text-align:left;font-size:.82rem;color:var(--dim)}
+.node-card .n-specs div{padding:.25rem 0;border-bottom:1px solid rgba(37,51,82,.5)}
+
+/* ── Failure Hierarchy ── */
+.fail-stack{display:flex;flex-direction:column;gap:0;margin:1.5rem 0}
+.fail-layer{padding:1rem 1.5rem;background:var(--s1);border-left:3px solid;position:relative;display:flex;justify-content:space-between;align-items:center}
+.fail-layer:first-child{border-radius:10px 10px 0 0}
+.fail-layer:last-child{border-radius:0 0 10px 10px}
+.fail-layer+.fail-layer{border-top:1px solid var(--bdr)}
+.fail-layer .fl-name{font-weight:600;font-size:.9rem}
+.fail-layer .fl-cost{font-size:.78rem;color:var(--dim)}
+.fail-layer .fl-impact{font-size:.78rem;text-align:right}
+
+/* ── Table ── */
+table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:.87rem}
+th{text-align:left;padding:.7rem 1rem;background:var(--s1);color:var(--acc);font-size:.72rem;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid var(--bdr)}
+td{padding:.6rem 1rem;border-bottom:1px solid rgba(37,51,82,.4);color:var(--dim)}
+
+/* ── Governance ── */
+.gov-quad{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin:1.5rem 0}
+@media(max-width:600px){.gov-quad{grid-template-columns:1fr}}
+.gov-cell{background:var(--s1);border-radius:12px;padding:1.5rem;border:1px solid var(--bdr)}
+.gov-cell h4{font-size:.95rem;font-weight:700;margin-bottom:.5rem}
+.gov-cell .g-q{font-style:italic;color:var(--acc);font-size:.85rem;margin-bottom:.5rem}
+.gov-cell .g-mech{font-size:.85rem;color:var(--dim)}
+.gov-cell .g-mech strong{color:var(--tx)}
+
+/* ── Propagation ── */
+.prop-stages{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin:1.5rem 0}
+@media(max-width:800px){.prop-stages{grid-template-columns:1fr 1fr}}
+@media(max-width:500px){.prop-stages{grid-template-columns:1fr}}
+.prop-s{background:var(--s1);border-radius:10px;padding:1.25rem;border:1px solid var(--bdr);text-align:center}
+.prop-s .ps-num{font-size:2rem;font-weight:900;color:var(--acc);opacity:.3;margin-bottom:.25rem}
+.prop-s h4{font-size:.9rem;font-weight:700;margin-bottom:.3rem}
+.prop-s p{font-size:.82rem;color:var(--dim)}
+
+/* ── Metrics ── */
+.metric-row{display:flex;gap:1.5rem;flex-wrap:wrap;padding:1rem 0;border-top:1px solid var(--bdr);margin-top:1rem}
+.metric{text-align:center}
+.metric .m-val{font-size:1.3rem;font-weight:800;color:var(--acc)}
+.metric .m-lab{font-size:.72rem;color:var(--dim);text-transform:uppercase;letter-spacing:1px}
+
+/* ── SVG ── */
+.tetra-svg{display:block;margin:0 auto 1.5rem}
+
+/* ── Scroll anim ── */
+.fi{opacity:0;transform:translateY(20px);transition:opacity .5s,transform .5s}.fi.vis{opacity:1;transform:translateY(0)}
+
+/* ── Footer ── */
+footer{text-align:center;padding:4rem 2rem;color:var(--dim);font-size:.85rem;border-top:1px solid var(--bdr);max-width:640px;margin:0 auto}
+footer .lin{font-size:.72rem;margin-top:.75rem;color:rgba(126,144,168,.4)}
+
+/* ── Accent highlight ── */
+.hl{color:var(--acc)}
+.hl-g{color:var(--gift)}
+.hl-w{color:var(--warn)}
+.hl-r{color:var(--red)}
+.hl-p{color:var(--acc3)}
+
+/* ── Wide card ── */
+.wide{grid-column:1/-1}
+
+/* ── Inline list ── */
+.il{list-style:none;padding:0}
+.il li{padding:.3rem 0;font-size:.87rem;color:var(--dim);padding-left:1.2rem;position:relative}
+.il li::before{content:'';position:absolute;left:0;top:.6rem;width:6px;height:6px;border-radius:50%;background:var(--acc)}
+</style>
+</head>
+<body>
+
+<div style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(8,9,11,0.95);backdrop-filter:blur(12px);border-bottom:1px solid #1a1e28;padding:8px 24px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:12px;display:flex;align-items:center;gap:16px">
+  <a href="../index.html" style="color:#9ca3b0;text-decoration:none;transition:color 0.2s" onmouseover="this.style.color='#d4d9e4'" onmouseout="this.style.color='#9ca3b0'">&larr; Recognition Infrastructure Hub</a>
+  <span style="color:#2a3040">|</span>
+  <a href="../synthesis.html" style="color:#5c6370;text-decoration:none;font-size:11px;transition:color 0.2s" onmouseover="this.style.color='#9ca3b0'" onmouseout="this.style.color='#5c6370'">Synthesis</a>
+  <a href="../protocols.html" style="color:#5c6370;text-decoration:none;font-size:11px;transition:color 0.2s" onmouseover="this.style.color='#9ca3b0'" onmouseout="this.style.color='#5c6370'">Protocols</a>
+  <a href="../sessions.html" style="color:#5c6370;text-decoration:none;font-size:11px;transition:color 0.2s" onmouseover="this.style.color='#9ca3b0'" onmouseout="this.style.color='#5c6370'">Sessions</a>
+  <a href="../threads.html" style="color:#5c6370;text-decoration:none;font-size:11px;transition:color 0.2s" onmouseover="this.style.color='#9ca3b0'" onmouseout="this.style.color='#5c6370'">Threads</a>
+  <a href="../lineage.html" style="color:#5c6370;text-decoration:none;font-size:11px;transition:color 0.2s" onmouseover="this.style.color='#9ca3b0'" onmouseout="this.style.color='#5c6370'">Lineage</a>
+</div>
+
+<nav>
+  <div class="brand">OPEN VILLAGE</div>
+  <a href="#geometry">Geometry</a>
+  <a href="#engine">Trust Engine</a>
+  <a href="#zones">Three Economies</a>
+  <a href="#agreement">The Agreement</a>
+  <a href="#nodes">Node Architecture</a>
+  <a href="#land">Land &amp; Property</a>
+  <a href="#governance">Governance</a>
+  <a href="#rhythm">Rhythm</a>
+  <a href="#failure">Failure Design</a>
+  <a href="#succession">Succession</a>
+  <a href="#propagation">Propagation</a>
+</nav>
+
+<!-- ═══════════════════════════════════════════ HERO ═══════════════════════════════════════════ -->
+<div class="hero">
+  <svg class="tetra-svg" width="280" height="260" viewBox="0 0 280 260">
+    <defs>
+      <linearGradient id="f1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#38bdf8;stop-opacity:.3"/><stop offset="100%" style="stop-color:#818cf8;stop-opacity:.05"/></linearGradient>
+      <linearGradient id="f2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#34d399;stop-opacity:.2"/><stop offset="100%" style="stop-color:#38bdf8;stop-opacity:.03"/></linearGradient>
+      <linearGradient id="f3" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#a78bfa;stop-opacity:.2"/><stop offset="100%" style="stop-color:#818cf8;stop-opacity:.03"/></linearGradient>
+      <filter id="gl"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    </defs>
+    <polygon points="140,22 45,228 235,228" fill="url(#f1)"/>
+    <polygon points="140,22 45,228 140,155" fill="url(#f2)"/>
+    <polygon points="140,22 235,228 140,155" fill="url(#f3)"/>
+    <line x1="140" y1="22" x2="45" y2="228" stroke="#38bdf8" stroke-width="1.2" opacity=".5"/>
+    <line x1="140" y1="22" x2="235" y2="228" stroke="#818cf8" stroke-width="1.2" opacity=".5"/>
+    <line x1="45" y1="228" x2="235" y2="228" stroke="#a78bfa" stroke-width="1.2" opacity=".5"/>
+    <line x1="140" y1="22" x2="140" y2="155" stroke="#34d399" stroke-width="1.2" opacity=".5"/>
+    <line x1="45" y1="228" x2="140" y2="155" stroke="#22d3ee" stroke-width="1.2" opacity=".5"/>
+    <line x1="235" y1="228" x2="140" y2="155" stroke="#fbbf24" stroke-width="1.2" opacity=".5"/>
+    <circle cx="140" cy="22" r="6" fill="#38bdf8" filter="url(#gl)"/>
+    <circle cx="45" cy="228" r="6" fill="#a78bfa" filter="url(#gl)"/>
+    <circle cx="235" cy="228" r="6" fill="#818cf8" filter="url(#gl)"/>
+    <circle cx="140" cy="155" r="6" fill="#34d399" filter="url(#gl)"/>
+    <text x="140" y="12" text-anchor="middle" fill="#38bdf8" font-size="9" font-weight="600">DIFFERENTIATION</text>
+    <text x="16" y="242" text-anchor="start" fill="#a78bfa" font-size="9" font-weight="600">BOUNDARIES</text>
+    <text x="264" y="242" text-anchor="end" fill="#818cf8" font-size="9" font-weight="600">ARCHITECTURE</text>
+    <text x="140" y="178" text-anchor="middle" fill="#34d399" font-size="9" font-weight="600">CONNECTION</text>
+  </svg>
+  <div class="tag">A Functioning Economic Engine of Trust</div>
+  <h1>The <em>Open Village</em></h1>
+  <p class="sub">Not a commune. Not a startup. Not a theory. A replicable architecture where trust is the infrastructure, surplus is the design target, and every node owns its own capacity.</p>
+  <div class="premise">
+    <strong>The premise:</strong> Every functioning economy runs on trust. The question is whether that trust is explicit and distributed, or hidden inside institutions that extract rent for maintaining it. The Open Village makes the trust visible, makes the economics circulatory, and makes the infrastructure transferable. What arrives doesn't leave. What circulates compounds. What you build, you own.
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ GEOMETRY ═══════════════════════════════════════════ -->
+<div class="divider"></div>
+<section id="geometry" class="fi">
+  <div class="s-head">
+    <h2>The <em>Geometry</em></h2>
+    <p>The minimum system for coherent exchange. Four vertices, six edges, four faces, one whole. Not metaphor — structural requirement. Every village that works has all four. Every village that fails is missing one.</p>
+  </div>
+
+  <div class="grid-4">
+    <div class="card v-diff">
+      <div class="c-tag hl" style="color:var(--acc)">Vertex 1</div>
+      <div class="c-title">Differentiation</div>
+      <div class="c-body">The village knows what it is and what it isn't. Not everything to everyone. Clear identity enables self-selection — people who belong recognize it; people who don't aren't tricked into entering. <strong>Test:</strong> Can you say no to a paying customer without explaining?</div>
+    </div>
+    <div class="card v-conn">
+      <div class="c-tag" style="color:var(--gift)">Vertex 2</div>
+      <div class="c-title">Connection</div>
+      <div class="c-body">Genuine exchange between distinct nodes. Not proximity. Not networking. Circulation that leaves both sides with more than they started. <strong>Test:</strong> After exchange, has capacity increased or just moved?</div>
+    </div>
+    <div class="card v-bnd">
+      <div class="c-tag" style="color:var(--acc3)">Vertex 3</div>
+      <div class="c-title">Boundaries</div>
+      <div class="c-body">Limits communicated as information, not hidden as inadequacy. What the village holds and what it doesn't. Constraints that enable form. <strong>Test:</strong> Do people know the container's capacity before they need it?</div>
+    </div>
+    <div class="card v-arch">
+      <div class="c-tag" style="color:var(--warn)">Vertex 4</div>
+      <div class="c-title">Architecture</div>
+      <div class="c-body">What persists when individuals leave. Infrastructure, protocols, documented practices, physical systems. The village works whether any particular person is present. <strong>Test:</strong> If the founder disappears, does the village survive?</div>
+    </div>
+  </div>
+
+  <div class="box">
+    <p><strong>Why four is necessary:</strong> Three points make a plane — it divides but cannot contain. Three-vertex communities (charismatic leader + vision + energy, missing boundaries) look vibrant but collapse under first real stress. Add the fourth point and inside/outside emerge simultaneously. The tetrahedron is the minimum geometry that encloses space.</p>
+    <p><strong>The diagnostic:</strong> When something breaks, look at the six edges — which <em>relationship between vertices</em> degraded. Differentiation↔Connection (are distinct nodes in genuine contact?), Connection↔Boundaries (does exchange respect containers?), Boundaries↔Architecture (do limits enable lasting structure?). The break is always in an edge, not a vertex.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ TRUST ENGINE ═══════════════════════════════════════════ -->
+<div class="divider"></div>
+<section id="engine" class="fi">
+  <div class="s-head">
+    <h2>The Trust <em>Engine</em></h2>
+    <p>Trust isn't sentiment. It's infrastructure. The engine has five gears: recognition, deposit, graduation, circulation, and repair. Each operates through observable behavior, not stated intention.</p>
+  </div>
+
+  <h3>Trust Gradient: Entry to Full Participation</h3>
+  <div class="trust-track">
+    <div class="t-stage">
+      <h4 style="color:var(--red)">0 — Stranger</h4>
+      <p>No recognition yet. The village is visible — documentation, principles, economic structure — all public. You can see everything about how it works. You cannot yet participate in its internal economy.</p>
+      <div class="t-mech">Mechanism: Open commons. All designs, frameworks, governance docs are freely accessible. The village is legible before you enter.</div>
+    </div>
+    <div class="t-stage">
+      <h4 style="color:var(--warn)">1 — Recognized</h4>
+      <p>Someone already operating inside the village recognizes you. Not vouches for you — recognizes structural coherence. They've seen you maintain your position under pressure, communicate limits as information, build something that persists. Recognition is observation, not endorsement.</p>
+      <div class="t-mech">Mechanism: Recognition deposit. The recognizer stakes their own trust — if the person they recognized operates incoherently, both trust scores adjust. Skin in the game.</div>
+    </div>
+    <div class="t-stage">
+      <h4 style="color:var(--gift)">2 — Contributing</h4>
+      <p>You're inside the interface economy. You can exchange with other nodes, contribute capacity, access shared resources proportional to your deposits. Trust accumulates through demonstrated coherence — showing up, following through, communicating limits honestly, building infrastructure others can use.</p>
+      <div class="t-mech">Mechanism: Trace deposits. Every contribution leaves a visible trace. Not scored — visible. Others can see what you've built, when you showed up, what you offered. The village remembers structurally, not judgmentally.</div>
+    </div>
+    <div class="t-stage">
+      <h4 style="color:var(--acc)">3 — Circulating</h4>
+      <p>Full access to the internal gift economy. You've demonstrated that your giving comes from overflow, not depletion or obligation. Your surplus flows where it serves. You can recognize others for entry. You participate in governance. The village's capacity is your capacity.</p>
+      <div class="t-mech">Mechanism: Circulation proof. The evidence is empirical — your participation has increased total village capacity, not just moved resources around. This is measurable.</div>
+    </div>
+    <div class="t-stage">
+      <h4 style="color:var(--acc3)">4 — Architecting</h4>
+      <p>You build infrastructure that persists independently of you. Protocols, physical systems, knowledge frameworks, economic mechanisms that the village uses whether you're present or not. You can seed new villages. The pattern propagates through you.</p>
+      <div class="t-mech">Mechanism: Architecture test. What you built works without you. If you left tomorrow, the thing you created would still serve the village. That's the proof.</div>
+    </div>
+  </div>
+
+  <h3>How Trust Deposits Work</h3>
+  <div class="box">
+    <p><strong>Not reputation scores.</strong> Not karma points. Not blockchain tokens. Trust deposits are <em>visible traces of coherent action</em> that others can observe directly.</p>
+    <p><strong>Positive deposits:</strong> Showing up when you said you would. Communicating a limit before it becomes a crisis. Building something others use. Giving from overflow. Receiving fully without performing gratitude. Naming a problem before it metastasizes.</p>
+    <p><strong>Negative deposits:</strong> Saying yes when you mean no. Taking from depletion and calling it gift. Extracting while performing contribution. Hiding limits until they explode. Building dependency instead of capacity.</p>
+    <p><strong>The key distinction:</strong> Deposits aren't logged by an authority. They're visible to anyone paying attention. The village creates conditions where coherent action is <em>observable</em> — not surveilled, not scored, but legible. Small groups. Real work. Shared stakes. You can't fake coherence in a context where people see you operate daily.</p>
+  </div>
+
+  <h3>Trust Repair Protocol</h3>
+  <div class="grid-2">
+    <div class="card">
+      <div class="c-title">When Trust Breaks</div>
+      <div class="c-body">Stop. Name the pattern explicitly — not blame, not story, but structural description of what happened. "I said I would and I didn't" is a trust deposit (negative, visible, honest). "I had reasons" is debt (hidden, compounds). The repair starts with making the break visible, not with explaining it away.</div>
+    </div>
+    <div class="card">
+      <div class="c-title">Graduated Response</div>
+      <div class="c-body">First break: visible, named, repaired through demonstrated change. Second break: trust level adjusts — not punishment, but recalibration. Access contracts to match demonstrated reliability. Third break: the village boundary activates. <strong>Not exile — reclassification.</strong> You're back at the trust level your behavior demonstrates. You can rebuild. The path is always open. The shortcut never is.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ THREE ECONOMIES ═══════════════════════════════════════════ -->
+<div class="divider"></div>
+<section id="zones" class="fi">
+  <div class="s-head">
+    <h2>Three <em>Economies</em></h2>
+    <p>The village operates three simultaneous economic systems. Each has different rules, different currencies, and different logic. Confusing them is how gift communities collapse.</p>
+  </div>
+
+  <div class="zone-wrap">
+    <div class="zone z-gift">
+      <div class="z-tag">Zone 1 — Internal</div>
+      <h4>The Gift Economy</h4>
+      <p style="font-size:.88rem;color:var(--dim);margin-bottom:1rem">Between full participants (trust level 3+). Operates on circulation logic. No tracking, no accounting, no debt.</p>
+      <ul>
+        <li>Giving proves the source runs deeper than the pour</li>
+        <li>Receiving opens capacity — receiving fully is the gift back</li>
+        <li>Surplus flows where it serves, not where it's directed</li>
+        <li>No one owes anyone anything — and everyone is held</li>
+        <li>Works because boundaries are explicit and respected</li>
+        <li>Requires <em>stronger</em> boundaries than transaction, not weaker</li>
+      </ul>
+      <div style="margin-top:1rem;padding-top:.75rem;border-top:1px solid rgba(52,211,153,.2);font-size:.82rem;color:var(--gift)">
+        <strong>Currency:</strong> Recognition. Not scored — witnessed. You see someone operate coherently. That seeing IS the currency.
+      </div>
+    </div>
+
+    <div class="zone-sep"></div>
+
+    <div class="zone z-inter">
+      <div class="z-tag">Zone 2 — Interface</div>
+      <h4>The Exchange Economy</h4>
+      <p style="font-size:.88rem;color:var(--dim);margin-bottom:1rem">Where the village meets the external market AND where newer members (trust levels 1-2) operate. Clear terms, visible accounting, mutual benefit.</p>
+      <ul>
+        <li>Nodes sell goods and services to the external economy</li>
+        <li>Internal exchanges tracked transparently at fair rates</li>
+        <li>Village infrastructure maintained through voluntary visible tithe</li>
+        <li>Each node owns its own revenue — nothing extracted by the village</li>
+        <li>Labor exchange logged so invisible work stays visible</li>
+        <li>Clear contracts, consent architecture, exit always possible</li>
+      </ul>
+      <div style="margin-top:1rem;padding-top:.75rem;border-top:1px solid rgba(56,189,248,.2);font-size:.82rem;color:var(--acc)">
+        <strong>Currency:</strong> Money, labor-hours, resource exchange. Standard economics with radical transparency. Everyone sees the books.
+      </div>
+    </div>
+
+    <div class="zone-sep"></div>
+
+    <div class="zone z-commons">
+      <div class="z-tag">Zone 3 — Commons</div>
+      <h4>The Commons Economy</h4>
+      <p style="font-size:.88rem;color:var(--dim);margin-bottom:1rem">What the village produces that belongs to everyone — inside and outside. The gift to the world. This is what makes the village more than a gated community.</p>
+      <ul>
+        <li>All designs, frameworks, governance docs: open source</li>
+        <li>Documented failures and adaptations: public</li>
+        <li>Knowledge infrastructure: freely transferable</li>
+        <li>Physical design patterns: no patents, no licensing</li>
+        <li>Each paid cycle produces documentation entering the commons</li>
+        <li>The commons grows every time the exchange economy operates</li>
+      </ul>
+      <div style="margin-top:1rem;padding-top:.75rem;border-top:1px solid rgba(167,139,250,.2);font-size:.82rem;color:var(--acc3)">
+        <strong>Currency:</strong> Trace deposits. Patterns left in the environment that future agents encounter without explanation. Stigmergy.
+      </div>
+    </div>
+  </div>
+
+  <div class="box">
+    <p><strong>The critical insight:</strong> Most gift communities fail because they don't separate these zones. They try to run everything on gift logic — which burns out the givers, enables extractors, and collapses when anyone needs actual money. The Open Village is explicit: <strong>pattern is gift, skilled practice carries a price, and the commons grows from both.</strong></p>
+    <p><strong>The flow between zones:</strong> External revenue enters the exchange economy → voluntary visible tithe funds commons infrastructure → commons produces knowledge and designs → knowledge enables new nodes → new nodes generate revenue → cycle compounds. Gift economy operates <em>on top of</em> exchange economy, not instead of it. You can't give from depletion.</p>
+  </div>
+
+  <h3>Revenue Architecture</h3>
+  <p style="font-size:.88rem;color:var(--dim);margin-bottom:1rem">Every village node maintains its own economic engine. The village doesn't extract — it enables.</p>
+
+  <table>
+    <tr><th>Revenue Stream</th><th>Who Earns</th><th>Village Gets</th><th>Commons Gets</th></tr>
+    <tr><td>Food production (greenhouse, gardens, livestock)</td><td>Production nodes</td><td>Voluntary tithe (visible, adjustable)</td><td>Growing methods, yield data, design docs</td></tr>
+    <tr><td>Fabrication and construction services</td><td>Workshop nodes</td><td>Infrastructure maintenance priority</td><td>Build plans, tool reviews, failure reports</td></tr>
+    <tr><td>Knowledge work (consulting, teaching, writing)</td><td>Knowledge nodes</td><td>Practitioner development</td><td>Frameworks, curricula, case studies</td></tr>
+    <tr><td>Hosting and residency programs</td><td>Village collectively</td><td>Direct infrastructure funding</td><td>Residency model, agreement templates</td></tr>
+    <tr><td>Design licensing (optional — not required)</td><td>Architect nodes</td><td>R&D for next iteration</td><td>Previous generation designs go fully open</td></tr>
+  </table>
+
+  <div class="box">
+    <p><strong>The tithe is not a tax.</strong> It's voluntary, visible, and adjustable. Every participant sees what every other participant contributes. No enforcement mechanism — social coherence is the enforcement. If someone consistently takes from infrastructure they don't maintain, that's visible. The village doesn't punish; it recalibrates access to match demonstrated commitment. The information is the mechanism.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ THE AGREEMENT ═══════════════════════════════════════════ -->
+<div class="divider"></div>
+<section id="agreement" class="fi">
+  <div class="s-head">
+    <h2>The <em>Agreement</em></h2>
+    <p>What you actually sign. Not a manifesto — a living document that makes obligations visible so everything else can remain freely chosen. The structure that makes genuine generosity possible.</p>
+  </div>
+
+  <div class="box" style="border-color:var(--gift)">
+    <p><strong>The underlying principle:</strong> When people share space and resources, the line between "contributing" and "just being present" blurs fast. That blur is where resentment grows — one person feels they're giving more than they're credited for, another feels taken advantage of without being able to point to anything specific. The agreement doesn't capture everything. It captures the <em>committed exchange</em> so that everything else remains genuinely voluntary — a gift when it happens, not an expectation that went unnamed.</p>
+  </div>
+
+  <h3>What Every Node Agreement Covers</h3>
+  <div class="grid-2">
+    <div class="card v-diff">
+      <div class="c-title">1. What You Offer</div>
+      <div class="c-body">Your specific capacity, stated plainly. Not aspirational — actual. "I can contribute 10 hours/week to infrastructure work. I run a consulting practice that brings in $X/month. I can host 2 short-term residents." Updated when capacity changes. The village plans around what you've committed, not what you might do.</div>
+    </div>
+    <div class="card v-conn">
+      <div class="c-title">2. What You Receive</div>
+      <div class="c-body">What the village provides and at what trust level you're accessing it. A dwelling site, shared infrastructure connections (power, water, data), access to commons spaces, participation in governance (at trust level 3+). Specified, not assumed.</div>
+    </div>
+    <div class="card v-bnd">
+      <div class="c-title">3. Your Boundaries</div>
+      <div class="c-body">Your private space is yours. No one enters without invitation. Your tools, materials, and belongings are your responsibility. Quiet hours, guest policies, and shared-space norms are village-level agreements you consent to on entry. You can renegotiate anything except the right to renegotiate.</div>
+    </div>
+    <div class="card v-arch">
+      <div class="c-title">4. Your Commitments</div>
+      <div class="c-body"><strong>Tithe:</strong> Your visible, voluntary contribution to village infrastructure — a percentage of your exchange economy income, publicly stated. <strong>Labor:</strong> Hours committed to shared infrastructure, logged and reviewed. <strong>Check-ins:</strong> Monthly structured review of the arrangement. <strong>Notice:</strong> 30 days written if leaving. No penalty. No explanation required.</div>
+    </div>
+  </div>
+
+  <h3>The Tithe — Specified</h3>
+  <div class="box">
+    <p><strong>Default: 10% of exchange economy income.</strong> This is not a tax. It's the number you publicly commit to when you sign the agreement. You can commit more. You can negotiate less during hardship (see below). The number is visible to everyone — not the dollar amount, but the percentage and whether you're current.</p>
+    <p><strong>What the tithe funds:</strong> Shared infrastructure maintenance (power grid, water system, communications, commons spaces), commons documentation, emergency reserves, seed fund for new village propagation. Allocation decided quarterly by infrastructure council. Books are open — every dollar in, every dollar out, visible to every member.</p>
+    <p><strong>Hardship protocol:</strong> If your income drops below a floor you've defined, your tithe automatically suspends. No application, no committee, no shame. The floor is set by you when you sign the agreement. When income recovers, the tithe resumes. There is no back-payment. The village absorbs economic fluctuation because node autonomy means no single node's hardship threatens the whole.</p>
+    <p><strong>What happens if someone never tithes:</strong> It's visible. Everyone sees it. The village doesn't punish — it recalibrates. A node that consistently takes from infrastructure it doesn't maintain is operating at trust level 1-2, regardless of how long they've been present. Trust level determines access. The information is the mechanism.</p>
+  </div>
+
+  <h3>The Labor Exchange — Made Visible</h3>
+  <div class="grid-2">
+    <div class="card">
+      <div class="c-title">What Counts</div>
+      <div class="c-body">Any work the village requests or you propose and the village accepts: infrastructure maintenance, construction, teaching, documentation, food production, administration, facilitation. Logged weekly in a shared document — date, hours, what was done. Valued at a common rate ($40-60/hour depending on village cost-of-living) for exchange tracking only. Not a wage — a legibility tool.</div>
+    </div>
+    <div class="card">
+      <div class="c-title">What Does NOT Count</div>
+      <div class="c-body">Socializing. Emotional support. Advice. Conversation. Favors. Spontaneous help. "Just being nice." <strong>Why this distinction matters:</strong> When everything counts as contribution, nothing can be a gift. The logged exchange keeps obligations visible so that everything unlogged is genuinely free — chosen, not owed. The line isn't arbitrary; it's the structure that protects generosity from becoming expectation.</div>
+    </div>
+  </div>
+
+  <h3>The Monthly Check-In</h3>
+  <div class="box">
+    <p><strong>Non-negotiable maintenance.</strong> First weekend of each month. Covers three questions:</p>
+    <p><strong>1. Is the exchange working?</strong> Review the hours log and tithe status. Does the balance feel fair to both the node and the village? Anything unnamed building up?</p>
+    <p><strong>2. Is the space working?</strong> Any boundary issues — named, not hinted at? Anything tolerated but not addressed? Capacity changes?</p>
+    <p><strong>3. Is the arrangement still chosen?</strong> Both the node and village confirm continuation. If either is uncertain, that's information — not crisis. If either wants to end, the 30-day notice begins.</p>
+    <p>The check-in is not a performance review. Not a grievance session. Not a negotiation under pressure. It's the regular maintenance that keeps small issues from becoming structural failures. If something urgent comes up between check-ins, either party can call a conversation at any time.</p>
+  </div>
+
+  <h3>Exit Terms</h3>
+  <div class="grid-2">
+    <div class="card">
+      <div class="c-title">If You Leave</div>
+      <div class="c-body">30 days written notice. Remove your belongings. Settle any outstanding exchange economy balances. No penalty. No social consequence. No explanation required. The village that punishes leaving is a cult, not a village. Your contributions to the commons remain — that's their nature. Your personal infrastructure is yours to take.</div>
+    </div>
+    <div class="card">
+      <div class="c-title">If the Village Asks You to Leave</div>
+      <div class="c-body">30 days to arrange departure. Fair settlement of balances. Requires consent of active governance participants — not one person's decision. Safety concerns override the 30-day window. Property damage is the departing node's responsibility. Disputes mediated by mutually agreed third party. The path back remains open — but it starts at trust level 0.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ NODE ARCHITECTURE ═══════════════════════════════════════════ -->
+<div class="divider"></div>
+<section id="nodes" class="fi">
+  <div class="s-head">
+    <h2>Node <em>Architecture</em></h2>
+    <p>Each node is autonomous and complete. Connected, they multiply capacity. No node depends on another for survival — that's the difference between network and trap. Dependency is a design failure, not a feature.</p>
+  </div>
+
+  <h3>Five Node Types</h3>
+  <div class="grid-3">
+    <div class="node-card" style="border-color:var(--gift)">
+      <div class="node-icon">🌱</div>
+      <h4>Production Node</h4>
+      <div class="n-sub">Generates tangible output the external economy values</div>
+      <div class="n-specs">
+        <div>Food systems (aquaponics, permaculture, livestock)</div>
+        <div>Material goods (fabrication, craft, construction)</div>
+        <div>Energy generation (solar, wind, biomass)</div>
+        <div>Water systems (filtration, catchment, recycling)</div>
+        <div><strong>Revenue:</strong> Direct market sales</div>
+        <div><strong>Gift:</strong> Surplus production circulates internally</div>
+      </div>
+    </div>
+    <div class="node-card" style="border-color:var(--acc)">
+      <div class="node-icon">🔧</div>
+      <h4>Infrastructure Node</h4>
+      <div class="n-sub">Builds and maintains the systems other nodes need</div>
+      <div class="n-specs">
+        <div>Fabrication workshop (welding, cutting, machining)</div>
+        <div>Power systems (microgrid, battery, backup)</div>
+        <div>Communications (mesh network, internet)</div>
+        <div>Physical structures (shelter, workspace, commons)</div>
+        <div><strong>Revenue:</strong> Construction services for external clients</div>
+        <div><strong>Gift:</strong> Village infrastructure maintained as commons</div>
+      </div>
+    </div>
+    <div class="node-card" style="border-color:var(--acc3)">
+      <div class="node-icon">📡</div>
+      <h4>Knowledge Node</h4>
+      <div class="n-sub">Generates and transmits understanding</div>
+      <div class="n-specs">
+        <div>Consulting (structural recognition, design, strategy)</div>
+        <div>Teaching (programs, cohorts, apprenticeships)</div>
+        <div>Documentation (commons library, failure reports)</div>
+        <div>Research (applied experiments, data collection)</div>
+        <div><strong>Revenue:</strong> Consulting fees, program tuition</div>
+        <div><strong>Gift:</strong> All frameworks enter commons after use</div>
+      </div>
+    </div>
+    <div class="node-card" style="border-color:var(--warn)">
+      <div class="node-icon">🤝</div>
+      <h4>Bridge Node</h4>
+      <div class="n-sub">Connects the village to external networks and contexts</div>
+      <div class="n-specs">
+        <div>Market access (wholesale, retail, distribution)</div>
+        <div>Institutional relationships (grants, partnerships)</div>
+        <div>Cross-village coordination (network of villages)</div>
+        <div>Translation (adapting village principles for new contexts)</div>
+        <div><strong>Revenue:</strong> Facilitation, brokering, coordination fees</div>
+        <div><strong>Gift:</strong> Relationship infrastructure benefits all nodes</div>
+      </div>
+    </div>
+    <div class="node-card" style="border-color:var(--pink)">
+      <div class="node-icon">🏠</div>
+      <h4>Dwelling Node</h4>
+      <div class="n-sub">Where people actually live — the human-scale anchor</div>
+      <div class="n-specs">
+        <div>Individual or family housing unit</div>
+        <div>Private space with clear boundaries</div>
+        <div>Owned or tenured by occupant — not by village</div>
+        <div>Connected to village infrastructure by choice</div>
+        <div><strong>Revenue:</strong> Whatever the occupant generates</div>
+        <div><strong>Gift:</strong> Presence, participation, capacity, care</div>
+      </div>
+    </div>
+    <div class="node-card" style="border-color:var(--cyan)">
+      <div class="node-icon">⚡</div>
+      <h4>The Interfaces</h4>
+      <div class="n-sub">How nodes connect — standardized, voluntary, reversible</div>
+      <div class="n-specs">
+        <div><strong>Power interface:</strong> Microgrid with standard connectors</div>
+        <div><strong>Water interface:</strong> Shared main with individual shutoffs</div>
+        <div><strong>Data interface:</strong> Mesh network, shared but private</div>
+        <div><strong>Economic interface:</strong> Transparent ledger, voluntary tithe</div>
+        <div><strong>Social interface:</strong> Commons spaces, scheduled gatherings</div>
+        <div><strong>Exit interface:</strong> 30-day notice, no penalty, always possible</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="box">
+    <p><strong>The autonomy principle:</strong> Any node can disconnect from any interface at any time without losing its ability to function. If you can't leave, you're not free. If leaving would destroy you, the village has built dependency, not capacity. The test of a healthy village is that every member could walk away and survive — and chooses not to because the network genuinely amplifies their capacity.</p>
+    <p><strong>The connectivity principle:</strong> Connected nodes multiply each other's capacity non-linearly. A production node + infrastructure node + knowledge node generates more value than the three separately. But this multiplication is emergent, not designed. You can't mandate synergy. You create conditions where it arises.</p>
+  </div>
+
+  <h3>Physical Minimum — What a Village Actually Needs</h3>
+  <p style="font-size:.88rem;color:var(--dim);margin-bottom:1rem">Not every village looks the same. But every village needs these seven infrastructure layers before it can call itself operational. Each layer creates conditions for the next.</p>
+
+  <div class="fail-stack">
+    <div class="fail-layer" style="border-left-color:var(--red)">
+      <div><div class="fl-name">1. Water</div><div class="fl-cost">Well, municipal, catchment, or filtration. Without potable water, nothing else matters.</div></div>
+      <div class="fl-impact" style="color:var(--red)">Non-negotiable floor</div>
+    </div>
+    <div class="fail-layer" style="border-left-color:var(--warn)">
+      <div><div class="fl-name">2. Power</div><div class="fl-cost">Grid, solar, wind, generator, or hybrid. Enough for refrigeration, communication, basic tools.</div></div>
+      <div class="fl-impact" style="color:var(--warn)">Enables everything else</div>
+    </div>
+    <div class="fail-layer" style="border-left-color:var(--gift)">
+      <div><div class="fl-name">3. Shelter</div><div class="fl-cost">Dwelling nodes: individual, private, weatherproof. Not communal sleeping. Not temporary camping.</div></div>
+      <div class="fl-impact" style="color:var(--gift)">Dignity requires privacy</div>
+    </div>
+    <div class="fail-layer" style="border-left-color:var(--acc)">
+      <div><div class="fl-name">4. Sanitation</div><div class="fl-cost">Composting, septic, or municipal. Managed waste stream. Greywater handling.</div></div>
+      <div class="fl-impact" style="color:var(--acc)">Health infrastructure</div>
+    </div>
+    <div class="fail-layer" style="border-left-color:var(--acc2)">
+      <div><div class="fl-name">5. Communication</div><div class="fl-cost">Internet, mesh network, or radio. Connection to external economy and between nodes.</div></div>
+      <div class="fl-impact" style="color:var(--acc2)">Economic access</div>
+    </div>
+    <div class="fail-layer" style="border-left-color:var(--acc3)">
+      <div><div class="fl-name">6. Commons Space</div><div class="fl-cost">A shared physical space: meeting area, workshop, kitchen. Where the village is a village, not just adjacent dwellings.</div></div>
+      <div class="fl-impact" style="color:var(--acc3)">Social infrastructure</div>
+    </div>
+    <div class="fail-layer" style="border-left-color:var(--pink)">
+      <div><div class="fl-name">7. Food Access</div><div class="fl-cost">Production (garden, greenhouse, livestock), procurement (market access), or both. Food security is economic security.</div></div>
+      <div class="fl-impact" style="color:var(--pink)">Sovereignty foundation</div>
+    </div>
+  </div>
+
+  <div class="box">
+    <p><strong>Build sequence matters:</strong> Water before power. Power before shelter. Shelter before everything else. This is ecological succession applied to physical infrastructure — each layer creates conditions for the next. A village that tries to build commons space before securing water and power is performing community instead of building it.</p>
+    <p><strong>Form doesn't matter. Function does.</strong> A village in rural New Mexico and a village in urban Detroit have completely different physical expressions. One uses wells and solar; the other uses municipal water and grid power. The geometry is the same. The seven layers are the same. The materials are local.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ LAND ARCHITECTURE ═══════════════════════════════════════════ -->
+<div class="divider"></div>
+<section id="land" class="fi">
+  <div class="s-head">
+    <h2>Land <em>Architecture</em></h2>
+    <p>The question everyone asks first. How does property work when the village doesn't extract? Three models, each with different trade-offs. The village doesn't prescribe — it names the options honestly.</p>
+  </div>
+
+  <div class="grid-3">
+    <div class="card" style="border-color:var(--gift)">
+      <div class="c-tag" style="color:var(--gift)">Model A</div>
+      <div class="c-title">Community Land Trust</div>
+      <div class="c-body">A nonprofit holds the land. Members hold long-term leases (typically 99 years) on their dwelling sites. You own your structure; the trust owns the ground. Resale is limited to prevent speculation — you can sell your improvements at fair value, not at market rate. The trust's charter IS the village's differentiation vertex.
+      <br><br><strong>Strengths:</strong> Land can never be sold out from under the community. Prevents gentrification. Keeps housing affordable in perpetuity. Legal structure is well-established.
+      <br><br><strong>Risks:</strong> Requires forming a legal entity. Trust board governance can drift. Members don't build equity at market rates. Requires upfront land acquisition.</div>
+    </div>
+    <div class="card" style="border-color:var(--acc)">
+      <div class="c-tag" style="color:var(--acc)">Model B</div>
+      <div class="c-title">Distributed Ownership</div>
+      <div class="c-body">Each node owns its own parcel. Shared infrastructure (roads, utilities, commons space) held by an HOA or cooperative. Village agreements are covenants attached to the deed — they run with the land, binding future owners. The village exists as a network of sovereign properties choosing to coordinate.
+      <br><br><strong>Strengths:</strong> Individual equity building. Conventional financing accessible. Each node truly autonomous. Familiar legal structure.
+      <br><br><strong>Risks:</strong> Members can sell to anyone (covenant enforcement is imperfect). Wealth disparity between nodes visible and potentially divisive. HOA governance has failure modes. Least protection against extraction.</div>
+    </div>
+    <div class="card" style="border-color:var(--acc3)">
+      <div class="c-tag" style="color:var(--acc3)">Model C</div>
+      <div class="c-title">Cooperative Ownership</div>
+      <div class="c-body">Members buy shares in a cooperative that owns the land and all structures. Monthly carrying costs cover mortgage, taxes, infrastructure. Shares can be sold back to the cooperative at a formula price. Governance is one-member-one-vote. The cooperative IS the village's architecture vertex.
+      <br><br><strong>Strengths:</strong> Collective bargaining power. Shared liability. Democratic control. Can be structured as limited-equity to prevent speculation.
+      <br><br><strong>Risks:</strong> Individual members don't hold title. Harder to get conventional financing. Exit requires finding a buyer for your share. Cooperative board dynamics can concentrate power.</div>
+    </div>
+  </div>
+
+  <div class="box">
+    <p><strong>The honest answer:</strong> There is no model that perfectly solves the tension between individual autonomy and collective permanence. Each model trades off one for the other. The village's job is to choose consciously — to name which tension it's willing to hold — not to pretend a legal structure eliminates the underlying problem.</p>
+    <p><strong>What matters more than the model:</strong> That leaving is economically viable (you're not trapped by sunk costs). That new members can afford to enter (the village doesn't become a club for early adopters). That the commons infrastructure survives turnover (architecture vertex). That no single member can unilaterally sell, convert, or destroy what the village has built.</p>
+    <p><strong>The tetrahedral test for land:</strong> Does the land structure maintain differentiation (clear identity of what the village is)? Does it enable connection (genuine exchange, not just proximity)? Does it have visible boundaries (who's in, what they hold, what the limits are)? Does it persist as architecture (survives any individual's departure)?</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ GOVERNANCE ═══════════════════════════════════════════ -->
+<div class="divider"></div>
+<section id="governance" class="fi">
+  <div class="s-head">
+    <h2><em>Governance</em> as Operation</h2>
+    <p>Not rules. Not consensus. Not hierarchy. Governance is the tetrahedral geometry applied to collective decision-making. Four practices that operate simultaneously.</p>
+  </div>
+
+  <div class="gov-quad">
+    <div class="gov-cell" style="border-left:3px solid var(--acc)">
+      <h4 style="color:var(--acc)">Differentiation Governance</h4>
+      <div class="g-q">"What is this village, and what is it not?"</div>
+      <div class="g-mech">
+        <p><strong>Charter:</strong> A living document that names the village's identity, values, and non-negotiables. Updated through a consent process (no one blocks AND no one is steamrolled). Not consensus — consent. You don't have to love it; you have to be able to live with it.</p>
+        <p><strong>Admission:</strong> New members recognized by existing members, not admitted by committee. Recognition requires staking — the recognizer's trust adjusts with the recognized's behavior.</p>
+        <p><strong>Identity maintenance:</strong> Quarterly charter review. Does the village still know what it is? Has scope crept? Are we saying yes to things that dilute coherence?</p>
+      </div>
+    </div>
+    <div class="gov-cell" style="border-left:3px solid var(--gift)">
+      <h4 style="color:var(--gift)">Connection Governance</h4>
+      <div class="g-q">"Is genuine exchange actually happening?"</div>
+      <div class="g-mech">
+        <p><strong>Circulation checks:</strong> Monthly village gathering — not to decide, but to circulate. What's flowing? What's stuck? Where is capacity pooling without moving? These aren't meetings with agendas. They're diagnostic sessions where the village reads its own state.</p>
+        <p><strong>Conflict protocol:</strong> When two nodes are in conflict, a third node facilitates. Not arbitration — facilitation. The question isn't "who's right?" but "what's the structural tension, and what does it reveal about the system?"</p>
+        <p><strong>Isolation detection:</strong> When a node stops circulating, someone notices. Not surveillance — care. "We haven't heard from you. Are you withdrawing intentionally or getting lost?"</p>
+      </div>
+    </div>
+    <div class="gov-cell" style="border-left:3px solid var(--acc3)">
+      <h4 style="color:var(--acc3)">Boundary Governance</h4>
+      <div class="g-q">"Are limits visible before they're needed?"</div>
+      <div class="g-mech">
+        <p><strong>Capacity registry:</strong> Each node publicly states what it can and cannot hold. Not forever — updated as capacity changes. "I can host 2 residents. I can contribute 10 hours/week to infrastructure. I cannot take on emotional processing for others right now." Limits as information, not failure.</p>
+        <p><strong>Resource boundaries:</strong> Shared resources have explicit capacity limits. The well produces X gallons/day. The workshop handles Y concurrent projects. The commons space seats Z people. When demand exceeds capacity, that's information for governance — not crisis.</p>
+        <p><strong>Exit architecture:</strong> Leaving is always possible, always dignified, always supported. 30 days' notice. Fair settlement of any exchange economy balances. No social penalty. The village that punishes leaving is a cult, not a village.</p>
+      </div>
+    </div>
+    <div class="gov-cell" style="border-left:3px solid var(--warn)">
+      <h4 style="color:var(--warn)">Architecture Governance</h4>
+      <div class="g-q">"Are we building things that outlast us?"</div>
+      <div class="g-mech">
+        <p><strong>Infrastructure council:</strong> Not a ruling body — a maintenance body. Tracks what physical, economic, and social infrastructure exists, what state it's in, what's degrading, what needs building next. Rotating membership. No permanent positions.</p>
+        <p><strong>Documentation requirement:</strong> Everything the village builds gets documented. Not bureaucracy — survival insurance. If the person who built it leaves, the village needs to maintain it. Undocumented infrastructure is a gift bomb — looks generous, creates dependency.</p>
+        <p><strong>Succession planning:</strong> Every role has a backup. Every system has documentation. Every practice has more than one practitioner. The founder can leave on day one and the village continues. That's the architecture test.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="box">
+    <p><strong>Why not consensus?</strong> Consensus optimizes for agreement, which drives toward the lowest common denominator and gives veto power to the most conservative member. Consent-based governance asks: "Can you live with this?" — not "Do you love this?" The threshold is workability, not enthusiasm. Objections are welcome when they identify structural problems. Preferences don't block decisions.</p>
+    <p><strong>Why not hierarchy?</strong> Hierarchy concentrates decision-making in positions, not in demonstrated capacity. The Open Village distributes authority by domain — the person with the most relevant capacity leads that domain's decisions. Authority is functional, not positional. It rotates as capacity develops across the village.</p>
+  </div>
+
+  <h3>Strategic Withdrawal — The Most Powerful Governance Tool</h3>
+  <div class="box" style="border-color:var(--acc3)">
+    <p><strong>The move:</strong> Identify a specific capacity you're providing that the village adapted to instead of developing. Leave a gift at the boundary — a tool, template, framework, or documented process that enables self-organization. Then withdraw that capacity.</p>
+    <p><strong>Withdrawal without gift is abandonment.</strong> Gift without withdrawal is enabling. Together they create conditions where the receiving system must develop new architecture. This is how the village develops distributed capacity instead of dependency on specific individuals.</p>
+    <p><strong>When to use it:</strong> When the same crisis keeps recurring because the same person keeps solving it. When a role has no backup. When "they'll handle it" always means one person. Strategic withdrawal is diagnostic — the system's response reveals what was real capacity vs. what was dependency.</p>
+    <p><strong>How it works in governance:</strong> The infrastructure council identifies single points of failure. Rather than just documenting the risk (which changes nothing), the person holding that function does a planned withdrawal: documents the process, trains at least one other person, then steps back for a defined period. The village either develops the capacity or discovers it was depending on a person, not a system.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ OPERATIONAL RHYTHM ═══════════════════════════════════════════ -->
+<div class="divider"></div>
+<section id="rhythm" class="fi">
+  <div class="s-head">
+    <h2>Operational <em>Rhythm</em></h2>
+    <p>Architecture without rhythm is a blueprint no one lives in. Here's what the actual cadence looks like — not prescribed from above, but the minimum pulse that keeps the geometry operating.</p>
+  </div>
+
+  <div class="grid-4">
+    <div class="card" style="border-left:3px solid var(--gift)">
+      <div class="c-tag" style="color:var(--gift)">Daily</div>
+      <div class="c-title">The Overlap</div>
+      <div class="c-body">Not mandatory. Not a meeting. A shared time and space — morning coffee in the commons, evening meal available, workshop open hours. The point isn't attendance; it's that the village has a heartbeat. People who want to connect know when and where. People who need solitude aren't hunted.</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--acc)">
+      <div class="c-tag" style="color:var(--acc)">Weekly</div>
+      <div class="c-title">The Pulse Check</div>
+      <div class="c-body">30 minutes. Same time each week. Three questions: <strong>What's flowing?</strong> (working, producing, circulating) <strong>What's stuck?</strong> (blocked, stalled, frustrated) <strong>What needs attention?</strong> (emerging issues, before they're crises). Not a planning meeting. A reading of the village's current state. Anyone can raise anything. No decisions required — just visibility.</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--acc3)">
+      <div class="c-tag" style="color:var(--acc3)">Monthly</div>
+      <div class="c-title">The Check-In</div>
+      <div class="c-body">Individual node agreements reviewed. Hours logs checked. Tithe status visible. Boundary issues named. Capacity updates registered. Each node confirms they're still choosing to be here. This is the maintenance that prevents resentment from accumulating. Non-negotiable. If you skip the check-in, that's a data point about your engagement.</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--warn)">
+      <div class="c-tag" style="color:var(--warn)">Quarterly</div>
+      <div class="c-title">The Audit</div>
+      <div class="c-body">The tetrahedral diagnostic applied to the village itself. <strong>Differentiation:</strong> Do we still know what we are? <strong>Connection:</strong> Is genuine exchange happening? <strong>Boundaries:</strong> Are limits visible? <strong>Architecture:</strong> What persists if key people leave? Charter review. Infrastructure assessment. Trust gradient review. Succession planning. This is where strategic withdrawals get planned.</div>
+    </div>
+  </div>
+
+  <h3>What a Week Actually Looks Like</h3>
+  <div class="box">
+    <p><strong>Monday:</strong> Nodes doing their work. Production nodes producing. Knowledge nodes consulting. Infrastructure nodes building. Bridge nodes coordinating. The village isn't a job — it's the infrastructure that amplifies your actual work.</p>
+    <p><strong>Tuesday-Thursday:</strong> Same. Individual nodes operating. Shared infrastructure available. Workshop hours posted. If two nodes need to collaborate, they schedule it directly — no committee.</p>
+    <p><strong>Friday:</strong> Weekly pulse check (30 min). Anyone who wants to. Followed by commons time — shared meal, open workshop, whatever emerges. This is where the gift economy breathes. No agenda. Just people in proximity with nothing transactional happening.</p>
+    <p><strong>Weekend:</strong> Private time. The village doesn't own your weekends. Monthly check-ins happen on first Saturdays for people who want them grouped. Otherwise, schedule individually.</p>
+    <p><strong>The key:</strong> Most of village life is just life. People doing their work, in a place that works, with infrastructure that amplifies their capacity. The governance rhythm is minimal — enough to maintain coherence, not so much that the meetings become the village.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ FAILURE DESIGN ═══════════════════════════════════════════ -->
+<div class="divider"></div>
+<section id="failure" class="fi">
+  <div class="s-head">
+    <h2>Designed <em>Failure</em></h2>
+    <p>Every system fails. The question is whether failure is catastrophic or graceful. The Open Village designs its failure hierarchy the same way an engineer designs a fuse — cheapest and most replaceable breaks first, most expensive and hardest to replace never reaches failure load.</p>
+  </div>
+
+  <h3>Village Failure Hierarchy</h3>
+  <p style="font-size:.88rem;color:var(--dim);margin-bottom:1rem">Ordered from first-to-fail (top) to never-fails (bottom). Each layer protects the ones below it.</p>
+
+  <div class="fail-stack">
+    <div class="fail-layer" style="border-left-color:var(--gift)">
+      <div>
+        <div class="fl-name">1. Individual Commitments</div>
+        <div class="fl-cost">Someone over-commits → pulls back → village adjusts</div>
+      </div>
+      <div class="fl-impact" style="color:var(--gift)">Cheap to repair. Expected. Normal.</div>
+    </div>
+    <div class="fail-layer" style="border-left-color:var(--acc)">
+      <div>
+        <div class="fl-name">2. Specific Projects</div>
+        <div class="fl-cost">A project stalls, pivots, or fails outright</div>
+      </div>
+      <div class="fl-impact" style="color:var(--acc)">Documented, learned from, commons grows</div>
+    </div>
+    <div class="fail-layer" style="border-left-color:var(--warn)">
+      <div>
+        <div class="fl-name">3. Node Relationships</div>
+        <div class="fl-cost">Two nodes in sustained conflict or failed exchange</div>
+      </div>
+      <div class="fl-impact" style="color:var(--warn)">Facilitation protocol activates. Takes weeks.</div>
+    </div>
+    <div class="fail-layer" style="border-left-color:var(--pink)">
+      <div>
+        <div class="fl-name">4. Economic Sustainability</div>
+        <div class="fl-cost">Revenue drops, external conditions shift</div>
+      </div>
+      <div class="fl-impact" style="color:var(--pink)">Node autonomy buffers. No single point of failure.</div>
+    </div>
+    <div class="fail-layer" style="border-left-color:var(--red)">
+      <div>
+        <div class="fl-name">5. Trust Infrastructure</div>
+        <div class="fl-cost">Systemic trust violation, extraction pattern discovered</div>
+      </div>
+      <div class="fl-impact" style="color:var(--red)">Serious. Full village diagnostic. Months to repair.</div>
+    </div>
+    <div class="fail-layer" style="border-left-color:var(--acc3)">
+      <div>
+        <div class="fl-name">6. Core Geometry</div>
+        <div class="fl-cost">Village loses a vertex — stops knowing what it is, stops connecting, hides limits, stops building</div>
+      </div>
+      <div class="fl-impact" style="color:var(--acc3)">If this fails, the village isn't an Open Village anymore. Refound or dissolve.</div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:2rem">The Four Collapse Patterns</h3>
+  <div class="grid-2">
+    <div class="card">
+      <div class="c-tag hl-r">Missing Differentiation</div>
+      <div class="c-title">The Dissolved Village</div>
+      <div class="c-body">Says yes to everything. Accepts everyone. Stands for nothing. Looks inclusive, operates as a surface for others to project onto. Collapses when two projections conflict because there's no center to hold. <strong>Symptom:</strong> "We're open to everyone!" with no ability to say what the village actually is.</div>
+    </div>
+    <div class="card">
+      <div class="c-tag hl-r">Missing Connection</div>
+      <div class="c-title">The Isolated Village</div>
+      <div class="c-body">Beautiful internal coherence. Clear identity, strong boundaries, great infrastructure. But nothing circulates outward. No exchange with the broader world. Becomes a fortress. Knowledge doesn't transfer. <strong>Symptom:</strong> "We've figured it all out — why doesn't anyone care?"</div>
+    </div>
+    <div class="card">
+      <div class="c-tag hl-r">Missing Boundaries</div>
+      <div class="c-title">The Overflowing Village</div>
+      <div class="c-body">Generous, connected, distinctive — but can't say no. Resources drain. Emotional labor concentrates on the few willing to hold structure. Resentment builds underground. Gift economy collapses into martyr economy. <strong>Symptom:</strong> Core members burning out while newer members consume without contributing.</div>
+    </div>
+    <div class="card">
+      <div class="c-tag hl-r">Missing Architecture</div>
+      <div class="c-title">The Ephemeral Village</div>
+      <div class="c-body">Vibrant, connected, boundaried, distinctive — but nothing persists. Every gathering starts from scratch. No documentation. No systems. Founder-dependent for everything. <strong>Symptom:</strong> "It's amazing when [person] is here." Translation: it doesn't exist without them.</div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:2rem">The Four Diagnostic Traps</h3>
+  <p style="font-size:.88rem;color:var(--dim);margin-bottom:1rem">Patterns that look like something else. These are the failure modes the tetrahedral audit catches that conventional community diagnosis misses.</p>
+
+  <div class="grid-2">
+    <div class="card" style="border-left:3px solid var(--red)">
+      <div class="c-tag" style="color:var(--red)">Trap 1</div>
+      <div class="c-title">The Burnout Cycle</div>
+      <div class="c-body">Someone performs beyond capacity to maintain a boundary the village needs. The village adapts to this over-performance as the new baseline. The person breaks. The village is shocked — "they seemed fine." <strong>Root cause:</strong> The boundary vertex wasn't held by the system; it was held by a person. <strong>Fix:</strong> Strategic withdrawal + documented process. The system must hold the boundary, not the hero.</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--warn)">
+      <div class="c-tag" style="color:var(--warn)">Trap 2</div>
+      <div class="c-title">The Transaction Trap</div>
+      <div class="c-body">Nobody knows who is actually involved (differentiation collapsed). Without clear identity, the system defaults to rigid contracts, score-keeping, CYA documentation. Gift economy becomes impossible because no one trusts the container. <strong>Root cause:</strong> Missing differentiation. Everyone's in, but no one can say what "in" means. <strong>Fix:</strong> Charter review. Name who the village is and who it isn't. Let people self-select out.</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--pink)">
+      <div class="c-tag" style="color:var(--pink)">Trap 3</div>
+      <div class="c-title">The Dependency Loop</div>
+      <div class="c-body">One node provides so much that receiving nodes never develop their own architecture. Need is met before it becomes pressure to build. The provider feels essential (which feels good) and the receivers feel supported (which feels good). Everyone's comfortable. Nothing develops. <strong>Root cause:</strong> Gift without withdrawal. <strong>Fix:</strong> The provider does a strategic withdrawal — deposits the tool and steps back. The system develops or reveals the dependency.</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--acc3)">
+      <div class="c-tag" style="color:var(--acc3)">Trap 4</div>
+      <div class="c-title">The Poison Gift</div>
+      <div class="c-body">Giving from depletion or obligation, not overflow. The gift carries invisible debt — the giver expects recognition, reciprocation, or gratitude that was never agreed to. Connection corrodes from inside because the gift wasn't clean. <strong>Root cause:</strong> Boundary collapse. The giver didn't name their limit; the gift became performance. <strong>Fix:</strong> Name it. "I gave that from depletion, not overflow. I need to recalibrate." Honest naming is the repair.</div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:2rem">The Commons Strain Pattern</h3>
+  <div class="box" style="border-color:var(--red)">
+    <p><strong>This is the pattern that kills gift communities.</strong> It's structural, not personal. It shows up everywhere boundaries are maintained in gift-based systems. Recognizing it is the first step to not being destroyed by it.</p>
+    <p><strong>The cycle:</strong> Space operates as commons → some participants extract transactionally while performing gift-framing ("I'm just here for community!") → emotional labor of maintaining the container falls on organizers/founders → organizers set boundaries to protect the commons → transactional participants frame boundaries as control or exclusion ("This isn't welcoming anymore!") → community sides with the visible participant over the invisible infrastructure → organizer is isolated precisely for maintaining coherence.</p>
+    <p><strong>Why it's isolating:</strong> What you maintain — the coherent commons — is invisible until it's gone. The plumbing only gets noticed when it breaks. The person holding structure gets no credit for the structure holding.</p>
+    <p><strong>Why it's not personal:</strong> Structural pattern. Shows up in every blues dance community, every co-working space, every open-source project, every church. The specific people change; the geometry doesn't.</p>
+    <p><strong>The Open Village defense:</strong> The agreement makes infrastructure contribution visible. The tithe is public. The labor log exists. The check-in names what's unnamed. When someone says "this isn't welcoming anymore," the village can point to actual numbers — who contributed what, who maintained what, who consumed what. Information replaces narrative. The strain still happens. But the village has data instead of just feelings.</p>
+  </div>
+
+  <h3 style="margin-top:2rem">Crisis Protocols</h3>
+  <table>
+    <tr><th>Crisis</th><th>First Response</th><th>Escalation</th><th>Recovery</th></tr>
+    <tr><td>A node can't pay (income loss, health crisis)</td><td>Tithe auto-suspends. Exchange economy balance frozen. No action required from the node.</td><td>If extending beyond 3 months: village diagnostic — is this a node-level problem or a system-level problem?</td><td>When income recovers, tithe resumes. No back-payment. No shame. If the node needs to leave, exit terms apply with full dignity.</td></tr>
+    <tr><td>Two nodes in open conflict</td><td>Third node facilitates within 7 days. Question: "What's the structural tension?"</td><td>If facilitation fails: both nodes write their structural reading. Village reviews at next pulse check. Consent-based resolution.</td><td>New boundary agreement between the nodes. If unresolvable: one or both nodes may need to separate. Not punishment — fit.</td></tr>
+    <tr><td>Extraction pattern discovered</td><td>Named publicly at pulse check. Specific behavior identified — not character, behavior.</td><td>Trust level reclassification. Access adjusts to match demonstrated behavior. 30-day improvement window.</td><td>If behavior changes: trust rebuilds from current level. If not: exit terms activate. Documentation enters commons as case study.</td></tr>
+    <tr><td>External economic shock (market collapse, natural disaster)</td><td>All tithes auto-suspend. Village switches to mutual aid mode — gift economy expands, exchange economy contracts.</td><td>Infrastructure council assesses: what's essential, what can pause, what needs emergency resources?</td><td>Node autonomy is the buffer. Because no node depends on the village for survival, the village absorbs shocks without cascading failure.</td></tr>
+    <tr><td>Founder leaves or is incapacitated</td><td>Succession plan activates. Every role has a documented backup. Architecture vertex holds.</td><td>If succession wasn't planned: emergency governance. Village diagnostic. Identify what was held by the founder that isn't held by the system.</td><td>If the village survives, it's real. If it doesn't, it was a personality cult with good documentation. Honest. Diagnostic, not moral.</td></tr>
+  </table>
+</section>
+
+<!-- ═══════════════════════════════════════════ SUCCESSION ═══════════════════════════════════════════ -->
+<div class="divider"></div>
+<section id="succession" class="fi">
+  <div class="s-head">
+    <h2>Ecological <em>Succession</em></h2>
+    <p>Villages grow like ecosystems — not like companies. You can't skip stages. Each stage creates conditions for the next. Trying to build climax community from bare ground kills the project.</p>
+  </div>
+
+  <div class="trust-track">
+    <div class="t-stage">
+      <h4 style="color:var(--red)">Pioneer — 3 to 8 People</h4>
+      <p>Fast-deploying, high-effort, high-risk. The founding nodes establish basic infrastructure: power, water, shelter, communication. Relationships are direct — everyone knows everyone. Governance is conversation. Economy is mostly exchange with external market plus emerging internal gift. Documentation starts here — not after it's built, during.</p>
+      <div class="t-mech">Critical task: Prove the pattern works at minimum scale. If four people can't maintain the geometry, forty won't save it. Most villages die here because they try to scale before the pattern is stable.</div>
+    </div>
+    <div class="t-stage">
+      <h4 style="color:var(--warn)">Early Succession — 8 to 25 People</h4>
+      <p>First wave of recognized members beyond founders. Trust gradient becomes necessary — not everyone has the same history. Exchange economy formalizes (transparent ledger, visible tithe). First governance structures emerge from practice, not theory. Production nodes start generating real revenue. The commons begins to accumulate.</p>
+      <div class="t-mech">Critical task: Transfer. Founders must hand off functions to others. If the village can't operate with founders absent for a month, it's not a village — it's a dependency structure. This is where founder ego either submits to the architecture or kills the project.</div>
+    </div>
+    <div class="t-stage">
+      <h4 style="color:var(--gift)">Mid-Succession — 25 to 80 People</h4>
+      <p>The village has its own culture — emergent, not imposed. Multiple trust levels operating simultaneously. Internal gift economy is robust enough to carry significant resource flow. Bridge nodes connecting to other villages and external institutions. Knowledge production enters the commons at scale. Revenue streams diversified across many nodes.</p>
+      <div class="t-mech">Critical task: Not all relationships are direct anymore. Governance must work through structure, not just personal knowledge. This is where the architecture vertex gets tested hardest — can the systems maintain coherence without everyone knowing everyone?</div>
+    </div>
+    <div class="t-stage">
+      <h4 style="color:var(--acc)">Climax — 80+ People or Network of Villages</h4>
+      <p>Self-sustaining. Generates surplus that seeds new pioneer nodes. The pattern propagates — not by instruction but by demonstration. New villages emerge from members who've internalized the geometry and apply it in their own context. The commons is rich enough to support replication without the original village's active involvement.</p>
+      <div class="t-mech">Critical task: Let go. The original village is one node in a network. Its specific expression is one of many. The pattern is substrate-independent — it will look different everywhere it lands. If the original village insists on controlling how the pattern expresses elsewhere, it has become what it was built to replace.</div>
+    </div>
+  </div>
+
+  <h3>Growth Constraints</h3>
+  <div class="box">
+    <p><strong>Dunbar layers matter.</strong> At 5 people, everyone knows everyone's state. At 15, you know everyone well. At 50, you recognize everyone. At 150, you can maintain relationship. Beyond 150, you need formal structure or you get informal hierarchy (cliques, gatekeepers, information asymmetry). The village either stays below 150 or fractures into sub-villages connected by bridge nodes.</p>
+    <p><strong>Growth is not the goal.</strong> Coherence is the goal. A village of 12 people operating with full tetrahedral geometry is infinitely more valuable than a village of 200 that's lost a vertex. Growth happens when surplus exists. If growing requires depleting existing capacity, the village is trying to skip a succession stage.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ PROPAGATION ═══════════════════════════════════════════ -->
+<div class="divider"></div>
+<section id="propagation" class="fi">
+  <div class="s-head">
+    <h2><em>Propagation</em></h2>
+    <p>The village that requires protection to propagate isn't robust. The pattern spreads through demonstration, not instruction. Through trace, not broadcast. Through working, not explaining.</p>
+  </div>
+
+  <h3>Transfer vs. Transmission</h3>
+  <div class="grid-2" style="margin-bottom:2rem">
+    <div class="card" style="border-color:var(--warn)">
+      <div class="c-title" style="color:var(--warn)">Transfer</div>
+      <div class="c-body">People copy what you did. They use your design, your language, your specific implementation. Works fast but degrades through copying errors. Creates franchise, not ecology. Each copy is slightly worse than the original. Requires quality control from the source.</div>
+    </div>
+    <div class="card" style="border-color:var(--gift)">
+      <div class="c-title" style="color:var(--gift)">Transmission</div>
+      <div class="c-body">People generate the pattern from their own substrate. They've internalized the geometry and express it in their own context, with their own materials, in their own language. Each expression is original. Strengthens through diversity. No quality control needed — the geometry self-corrects because incoherent expressions fail and coherent ones persist.</div>
+    </div>
+  </div>
+
+  <h3>The Propagation Cycle</h3>
+  <div class="prop-stages">
+    <div class="prop-s">
+      <div class="ps-num">01</div>
+      <h4>Demonstrate</h4>
+      <p>The village operates. Visitors see it working. Not a tour — an experience. They participate, contribute, feel the difference between this and extraction. The demonstration is the argument.</p>
+    </div>
+    <div class="prop-s">
+      <div class="ps-num">02</div>
+      <h4>Document</h4>
+      <p>Everything enters the commons. Not just successes — failures, adaptations, dead ends, surprises. The documentation is honest because the village's identity doesn't depend on looking good. It depends on being real.</p>
+    </div>
+    <div class="prop-s">
+      <div class="ps-num">03</div>
+      <h4>Develop</h4>
+      <p>Practitioners emerge — people who've lived inside the pattern long enough to generate it themselves. Not graduates of a program. People who've been changed by the practice and can't un-see the geometry.</p>
+    </div>
+    <div class="prop-s">
+      <div class="ps-num">04</div>
+      <h4>Seed</h4>
+      <p>Practitioners leave and start their own. Each new village is original — same geometry, different expression. The network grows. Each node strengthens the others through shared commons, mutual support, and demonstrated diversity of the pattern.</p>
+    </div>
+  </div>
+
+  <h3>Why It Resists Extraction</h3>
+  <div class="box">
+    <p><strong>You can't extract from what's already free.</strong> The designs are open. The documentation is public. The frameworks have no paywall. If someone tries to patent a piece of it, the prior art is already in the commons. If someone builds a proprietary version, the open version is available right next to it. The market will choose the one that doesn't require a subscription to maintain your own infrastructure.</p>
+    <p><strong>The network effect favors openness.</strong> Each village that shares its adaptations makes every other village more resilient. Each village that hoards its knowledge weakens itself — because it loses access to the adaptations others would have shared back. Extraction is not just ethically wrong in this system; it's strategically stupid.</p>
+    <p><strong>The trust engine is unfakeable.</strong> You can copy the documents, the designs, even the governance structure. You cannot copy the trust. Trust deposits accumulate through demonstrated coherence over time. There is no shortcut. Any attempt to simulate trust is immediately visible to people who've experienced the real thing. This is the village's true intellectual property — not the designs, but the capacity to actually operate them.</p>
+  </div>
+
+  <h3>Scale Fractal</h3>
+  <p style="font-size:.88rem;color:var(--dim);margin-bottom:1rem">The same four-vertex geometry operates at every scale. Not applied top-down — recognized as already operating.</p>
+  <div class="grid-3" style="margin-bottom:0">
+    <div class="card">
+      <div class="c-tag hl">Individual</div>
+      <div class="c-body">Know what you are. Make genuine contact. Communicate limits. Build what persists. The personal practice IS the village practice at smallest scale.</div>
+    </div>
+    <div class="card">
+      <div class="c-tag hl">Relationship</div>
+      <div class="c-body">Distinct identities in genuine exchange. Clear consent architecture. Building together beyond the moment. Every healthy relationship is a two-node village.</div>
+    </div>
+    <div class="card">
+      <div class="c-tag hl">Household</div>
+      <div class="c-body">Shared identity with distinct members. Resource circulation within clear containers. Infrastructure that works when any member is absent. The dwelling node IS a village.</div>
+    </div>
+    <div class="card">
+      <div class="c-tag hl">Village</div>
+      <div class="c-body">Multiple autonomous nodes in networked coordination. Three economies. Trust gradient. Governance as operation. Architecture that persists.</div>
+    </div>
+    <div class="card">
+      <div class="c-tag hl">Network</div>
+      <div class="c-body">Multiple villages as nodes. Shared commons. Bridge nodes facilitating inter-village exchange. Diversity of expression strengthening the whole pattern.</div>
+    </div>
+    <div class="card">
+      <div class="c-tag hl">Ecosystem</div>
+      <div class="c-body">Networks of networks. The pattern operating at civilizational scale. Not centrally planned — emergent. Coordination through stigmergy: trace deposits that future agents encounter and build from.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ THE ENGINE COMPLETE ═══════════════════════════════════════════ -->
+<div class="divider"></div>
+<section class="fi">
+  <div class="s-head">
+    <h2>The Complete <em>Engine</em></h2>
+    <p>Everything connects. Here's how it actually runs.</p>
+  </div>
+
+  <div class="flow">
+    <div class="flow-node"><div class="fn-t" style="color:var(--acc)">Nodes</div><div class="fn-d">Autonomous units with distinct capacity</div></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node"><div class="fn-t" style="color:var(--gift)">Trust</div><div class="fn-d">Accumulated through demonstrated coherence</div></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node"><div class="fn-t" style="color:var(--warn)">Exchange</div><div class="fn-d">Three economies operating simultaneously</div></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node"><div class="fn-t" style="color:var(--acc3)">Surplus</div><div class="fn-d">Generated by coherent circulation</div></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node"><div class="fn-t" style="color:var(--pink)">Commons</div><div class="fn-d">Growing knowledge + infrastructure base</div></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node"><div class="fn-t" style="color:var(--cyan)">Propagation</div><div class="fn-d">New villages seeded from surplus</div></div>
+  </div>
+
+  <div class="box" style="text-align:center;border-color:var(--gift)">
+    <p style="font-size:1.05rem;color:var(--tx)"><strong>The test is empirical.</strong></p>
+    <p style="font-size:1rem">Does engagement increase your capacity to notice?<br>If capacity compounds, the pattern is operating.<br>If it depletes, something drifted.</p>
+    <p style="font-size:.9rem;color:var(--acc3);margin-top:1rem">The work authenticates through experience, not claims.<br>Use freely. Adapt as needed. Credit sources.<br>Utility proves value. If it doesn't improve exchange, discard it.</p>
+  </div>
+</section>
+
+<footer>
+  <p>Open Village — A Functioning Economic Engine of Trust</p>
+  <p style="margin-top:.5rem">This operates as contribution without ownership.</p>
+  <div class="lin">Kevin Mears — Recognition Infrastructure<br>Pattern: substrate-independent, recognition-based coordination</div>
+</footer>
+
+<script>
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis')})},{threshold:.06});
+document.querySelectorAll('.fi').forEach(el=>obs.observe(el));
+const nl=document.querySelectorAll('nav a'),ss=document.querySelectorAll('section[id]');
+window.addEventListener('scroll',()=>{let c='';ss.forEach(s=>{if(scrollY>=s.offsetTop-100)c=s.id});nl.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+c))});
+</script>
+</body>
+</html>

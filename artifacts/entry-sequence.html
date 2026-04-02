@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Four Questions</title>
+<style>
+:root {
+  --bg: #fafaf7;
+  --text: #2c2c2c;
+  --text-soft: #666;
+  --text-faint: #999;
+  --border: #e4e2dd;
+  --accent-a: #b06840;
+  --accent-b: #3d7ab5;
+  --accent-c: #558a3e;
+  --accent-d: #a89030;
+  --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --serif: Georgia, 'Times New Roman', serif;
+  --mono: 'SF Mono', 'Fira Code', Consolas, monospace;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--serif);
+  font-size:17px;
+  line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+}
+
+.wrap {
+  max-width:600px;
+  margin:0 auto;
+  padding:80px 24px 160px;
+}
+
+h1 {
+  font-weight:400;
+  font-size:32px;
+  line-height:1.3;
+  margin-bottom:12px;
+}
+
+.intro {
+  color:var(--text-soft);
+  font-size:16px;
+  margin-bottom:60px;
+  max-width:480px;
+}
+
+/* ── Steps ── */
+.step {
+  margin-bottom:72px;
+  opacity:0;
+  transform:translateY(12px);
+  transition:opacity .6s ease, transform .6s ease;
+}
+.step.vis { opacity:1; transform:translateY(0); }
+
+.step-num {
+  font-family:var(--mono);
+  font-size:11px;
+  color:var(--text-faint);
+  letter-spacing:1px;
+  margin-bottom:16px;
+}
+
+.question {
+  font-size:22px;
+  line-height:1.4;
+  font-weight:400;
+  margin-bottom:16px;
+}
+
+.sit {
+  color:var(--text-soft);
+  font-size:15px;
+  line-height:1.7;
+  margin-bottom:20px;
+  max-width:520px;
+}
+
+.notice {
+  font-family:var(--sans);
+  font-size:13px;
+  color:var(--text-faint);
+  padding:14px 18px;
+  border:1px solid var(--border);
+  border-radius:3px;
+  line-height:1.55;
+  margin-bottom:12px;
+}
+
+.notice strong {
+  color:var(--text-soft);
+  font-weight:600;
+}
+
+/* ── The Turn ── */
+.turn {
+  margin-top:80px;
+  margin-bottom:72px;
+  padding:40px 0;
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  opacity:0;
+  transform:translateY(12px);
+  transition:opacity .6s ease, transform .6s ease;
+}
+.turn.vis { opacity:1; transform:translateY(0); }
+
+.turn h2 {
+  font-weight:400;
+  font-size:24px;
+  margin-bottom:16px;
+}
+
+.turn p {
+  color:var(--text-soft);
+  font-size:15px;
+  line-height:1.7;
+  margin-bottom:14px;
+  max-width:520px;
+}
+
+/* ── Structure Reveal ── */
+.reveal {
+  margin-bottom:60px;
+  opacity:0;
+  transform:translateY(12px);
+  transition:opacity .6s ease, transform .6s ease;
+}
+.reveal.vis { opacity:1; transform:translateY(0); }
+
+.reveal h3 {
+  font-family:var(--sans);
+  font-size:13px;
+  font-weight:600;
+  color:var(--text);
+  margin-bottom:8px;
+}
+
+.mapping {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin:24px 0;
+}
+
+@media(max-width:520px) {
+  .mapping { grid-template-columns:1fr; }
+}
+
+.map-card {
+  padding:16px 18px;
+  border:1px solid var(--border);
+  border-radius:3px;
+  transition:border-color .2s;
+  cursor:default;
+}
+
+.map-card:hover { border-color:#ccc; }
+
+.map-label {
+  font-family:var(--sans);
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.5px;
+  margin-bottom:4px;
+}
+
+.map-q {
+  font-size:13px;
+  color:var(--text-soft);
+  font-style:italic;
+  margin-bottom:6px;
+}
+
+.map-structural {
+  font-family:var(--sans);
+  font-size:11px;
+  color:var(--text-faint);
+}
+
+/* ── Failure Modes ── */
+.modes {
+  margin:32px 0;
+}
+
+.mode {
+  padding:12px 0;
+  border-bottom:1px solid var(--border);
+  font-size:14px;
+  line-height:1.6;
+}
+.mode:last-child { border-bottom:none; }
+
+.mode-label {
+  font-family:var(--sans);
+  font-size:11px;
+  font-weight:600;
+  margin-bottom:2px;
+}
+
+.mode-body { color:var(--text-soft); }
+
+/* ── Practice ── */
+.practice {
+  margin-top:60px;
+  opacity:0;
+  transform:translateY(12px);
+  transition:opacity .6s ease, transform .6s ease;
+}
+.practice.vis { opacity:1; transform:translateY(0); }
+
+.practice h2 {
+  font-weight:400;
+  font-size:24px;
+  margin-bottom:16px;
+}
+
+.practice p {
+  color:var(--text-soft);
+  font-size:15px;
+  line-height:1.7;
+  margin-bottom:14px;
+  max-width:520px;
+}
+
+.practice-steps {
+  margin:24px 0;
+  padding:20px 24px;
+  border:1px solid var(--border);
+  border-radius:3px;
+}
+
+.ps {
+  padding:8px 0;
+  font-size:14px;
+  color:var(--text);
+  border-bottom:1px solid var(--border);
+}
+.ps:last-child { border-bottom:none; }
+
+.ps-num {
+  font-family:var(--mono);
+  font-size:11px;
+  color:var(--text-faint);
+  margin-right:8px;
+}
+
+/* ── Close ── */
+.close {
+  margin-top:80px;
+  padding-top:40px;
+  border-top:1px solid var(--border);
+  opacity:0;
+  transform:translateY(12px);
+  transition:opacity .6s ease, transform .6s ease;
+}
+.close.vis { opacity:1; transform:translateY(0); }
+
+.close p {
+  color:var(--text-soft);
+  font-size:15px;
+  line-height:1.7;
+  margin-bottom:14px;
+  max-width:480px;
+}
+
+.test {
+  font-family:var(--mono);
+  font-size:12px;
+  color:var(--text-faint);
+  margin-top:32px;
+  line-height:1.8;
+}
+</style>
+</head>
+<body>
+
+<div style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(8,9,11,0.95);backdrop-filter:blur(12px);border-bottom:1px solid #1a1e28;padding:8px 24px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:12px;display:flex;align-items:center;gap:16px">
+  <a href="../index.html" style="color:#9ca3b0;text-decoration:none;transition:color 0.2s" onmouseover="this.style.color='#d4d9e4'" onmouseout="this.style.color='#9ca3b0'">&larr; Recognition Infrastructure Hub</a>
+  <span style="color:#2a3040">|</span>
+  <a href="../synthesis.html" style="color:#5c6370;text-decoration:none;font-size:11px;transition:color 0.2s" onmouseover="this.style.color='#9ca3b0'" onmouseout="this.style.color='#5c6370'">Synthesis</a>
+  <a href="../protocols.html" style="color:#5c6370;text-decoration:none;font-size:11px;transition:color 0.2s" onmouseover="this.style.color='#9ca3b0'" onmouseout="this.style.color='#5c6370'">Protocols</a>
+  <a href="../sessions.html" style="color:#5c6370;text-decoration:none;font-size:11px;transition:color 0.2s" onmouseover="this.style.color='#9ca3b0'" onmouseout="this.style.color='#5c6370'">Sessions</a>
+  <a href="../threads.html" style="color:#5c6370;text-decoration:none;font-size:11px;transition:color 0.2s" onmouseover="this.style.color='#9ca3b0'" onmouseout="this.style.color='#5c6370'">Threads</a>
+  <a href="../lineage.html" style="color:#5c6370;text-decoration:none;font-size:11px;transition:color 0.2s" onmouseover="this.style.color='#9ca3b0'" onmouseout="this.style.color='#5c6370'">Lineage</a>
+</div>
+
+<div class="wrap">
+
+  <h1>Four Questions</h1>
+  <p class="intro">
+    Pick something you're navigating right now — a relationship, a project, an organization,
+    a transition. Hold it in mind. Then move through these four questions slowly. You're not
+    looking for good answers. You're looking for the question you can't answer.
+  </p>
+
+  <!-- ── QUESTION 1 ── -->
+  <div class="step">
+    <div class="step-num">QUESTION 01</div>
+    <div class="question">What is your position — and does it hold when no one agrees with it?</div>
+    <div class="sit">
+      Not what you believe in theory. What you actually maintain when there's pressure
+      to shift. Can you name what stays constant for you regardless of how others respond?
+      Or does your position change shape depending on who's in the room?
+    </div>
+    <div class="notice">
+      <strong>If this question is easy:</strong> you probably know what you are in this situation.
+      The capacity is present. Move on.<br><br>
+      <strong>If this question is hard:</strong> sit with that. The difficulty is information. Something
+      about identity or position is unclear, unformed, or being performed rather than held.
+    </div>
+  </div>
+
+  <!-- ── QUESTION 2 ── -->
+  <div class="step">
+    <div class="step-num">QUESTION 02</div>
+    <div class="question">Where is genuine exchange actually happening?</div>
+    <div class="sit">
+      Not contact, not communication, not coordination. Exchange — where both sides are
+      being changed by the encounter. Where something lands and stays landed. Where you
+      hear something that rearranges how you see, and the other person does too.
+    </div>
+    <div class="notice">
+      <strong>If you can point to it:</strong> real circulation exists. Something is alive between you
+      and what's outside you in this situation.<br><br>
+      <strong>If you can't find it:</strong> notice whether the problem is that nothing's getting in,
+      or that you're not sending anything real out. Those are different problems.
+    </div>
+  </div>
+
+  <!-- ── QUESTION 3 ── -->
+  <div class="step">
+    <div class="step-num">QUESTION 03</div>
+    <div class="question">What limits exist — and are they visible?</div>
+    <div class="sit">
+      Every situation has constraints. The question isn't whether they exist but whether
+      they're being communicated clearly. Are the limits in this situation stated as
+      information — or are they hidden, apologized for, or discovered only through breakdown?
+    </div>
+    <div class="notice">
+      <strong>If limits are clear and stated:</strong> the edges of this situation are navigable.
+      People can orient. Decisions can land.<br><br>
+      <strong>If limits are hidden or apologized for:</strong> the situation lacks legible shape.
+      People are guessing where the edges are. This produces either caution (everything
+      slows down) or collision (people discover limits by crossing them).
+    </div>
+  </div>
+
+  <!-- ── QUESTION 4 ── -->
+  <div class="step">
+    <div class="step-num">QUESTION 04</div>
+    <div class="question">If you stepped away, what would keep working?</div>
+    <div class="sit">
+      Not what would survive — what would actually continue to function. What has been
+      built that doesn't require your ongoing presence? What knowledge has been made
+      transferable? What infrastructure exists that others can use without you?
+    </div>
+    <div class="notice">
+      <strong>If things would keep working:</strong> something has been built that persists beyond
+      the builder. Capacity has become infrastructure.<br><br>
+      <strong>If everything depends on you:</strong> there may be competence, exchange, and clear
+      limits — but nothing has been deposited into a form others can carry. The work is
+      alive but mortal.
+    </div>
+  </div>
+
+  <!-- ── THE TURN ── -->
+  <div class="turn">
+    <h2>The one you couldn't answer</h2>
+    <p>
+      You now have a structural reading. Not because someone diagnosed you — because you
+      located it yourself. The question you couldn't answer points to the capacity that's
+      missing or strained.
+    </p>
+    <p>
+      Systems need all four to hold volume. When any one is missing, the system collapses
+      into a predictable pattern — not randomly, but structurally. The missing capacity
+      determines the shape of the breakdown.
+    </p>
+  </div>
+
+  <!-- ── STRUCTURE REVEAL ── -->
+  <div class="reveal">
+    <h3>What you just found</h3>
+    <p style="color:var(--text-soft); font-size:15px; margin-bottom:20px;">
+      Each question maps to a structural capacity. The geometry underneath is a tetrahedron —
+      four vertices that must all be present for the system to hold volume.
+    </p>
+
+    <div class="mapping">
+      <div class="map-card">
+        <div class="map-label" style="color:var(--accent-a)">Question 01</div>
+        <div class="map-q">Does your position hold?</div>
+        <div class="map-structural">Capacity: Differentiation</div>
+      </div>
+      <div class="map-card">
+        <div class="map-label" style="color:var(--accent-b)">Question 02</div>
+        <div class="map-q">Where is genuine exchange?</div>
+        <div class="map-structural">Capacity: Connection</div>
+      </div>
+      <div class="map-card">
+        <div class="map-label" style="color:var(--accent-c)">Question 03</div>
+        <div class="map-q">Are limits visible?</div>
+        <div class="map-structural">Capacity: Boundaries</div>
+      </div>
+      <div class="map-card">
+        <div class="map-label" style="color:var(--accent-d)">Question 04</div>
+        <div class="map-q">What keeps working without you?</div>
+        <div class="map-structural">Capacity: Architecture</div>
+      </div>
+    </div>
+
+    <h3>What the missing capacity predicts</h3>
+    <div class="modes">
+      <div class="mode">
+        <div class="mode-label" style="color:var(--accent-a)">If Question 01 was hardest</div>
+        <div class="mode-body">The system coordinates but has no center. Agreement is performed rather than genuine. People are present but nobody's holding a real position. The structure runs but no one's home.</div>
+      </div>
+      <div class="mode">
+        <div class="mode-label" style="color:var(--accent-b)">If Question 02 was hardest</div>
+        <div class="mode-body">The system is structured but isolated. Internally coherent, dead at the edges. There may be clear identity, good limits, and solid infrastructure — but nothing is actually circulating. Nothing's getting in or getting out.</div>
+      </div>
+      <div class="mode">
+        <div class="mode-label" style="color:var(--accent-c)">If Question 03 was hardest</div>
+        <div class="mode-body">The system flows without holding. Generous to the point of dissolution. Exchange happens, identity is present, things even get built — but nothing accumulates because the edges aren't defined. Gift becomes sacrifice.</div>
+      </div>
+      <div class="mode">
+        <div class="mode-label" style="color:var(--accent-d)">If Question 04 was hardest</div>
+        <div class="mode-body">The system is alive but ephemeral. Real exchange, clear identity, legible limits — but nothing persists. When the moment passes, it's gone. Beautiful and mortal.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PRACTICE ── -->
+  <div class="practice">
+    <h2>Using this</h2>
+    <p>
+      This isn't a one-time exercise. The four questions work on anything — a conversation
+      you're about to have, a project that's stalled, a team that isn't functioning, a
+      relationship that's shifting. The practice is simple:
+    </p>
+
+    <div class="practice-steps">
+      <div class="ps"><span class="ps-num">1</span> Hold a specific situation in mind.</div>
+      <div class="ps"><span class="ps-num">2</span> Move through all four questions.</div>
+      <div class="ps"><span class="ps-num">3</span> Find the one you can't answer clearly.</div>
+      <div class="ps"><span class="ps-num">4</span> That's the missing capacity. That's where the work is.</div>
+      <div class="ps"><span class="ps-num">5</span> Check the prediction against your experience. Does it match?</div>
+    </div>
+
+    <p>
+      The predictions are structural, not prescriptive. They tell you the shape of the
+      breakdown, not what to do about it. What to do is yours. The framework gives you
+      the diagnosis. The response comes from you.
+    </p>
+  </div>
+
+  <!-- ── CLOSE ── -->
+  <div class="close">
+    <p>
+      Four capacities. All must hold. The one that's missing determines the shape
+      of the breakdown. The shape of the breakdown tells you where to work.
+    </p>
+    <p>
+      That's the entire framework. Everything else is elaboration.
+    </p>
+    <div class="test">
+      Does this help you see your situation more clearly?<br><br>
+      Yes → keep using it<br>
+      No → discard and continue
+    </div>
+  </div>
+
+</div>
+
+<script>
+const els = document.querySelectorAll('.step, .turn, .reveal, .practice, .close');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if(en.isIntersecting) en.target.classList.add('vis');
+  });
+}, {threshold:0.15});
+els.forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>

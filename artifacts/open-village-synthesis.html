@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Open Village — A Living Architecture for Distributed Autonomy</title>
+<style>
+  :root {
+    --bg: #0a0e17;
+    --surface: #111827;
+    --surface2: #1a2332;
+    --border: #2a3a4f;
+    --text: #e2e8f0;
+    --text-dim: #8899aa;
+    --accent: #38bdf8;
+    --accent2: #818cf8;
+    --accent3: #a78bfa;
+    --gift: #34d399;
+    --transaction: #f87171;
+    --warn: #fbbf24;
+    --overflow: #22d3ee;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+
+  /* ── Navigation ── */
+  nav {
+    position: fixed; top: 33px; left: 0; right: 0; z-index: 100;
+    background: rgba(10,14,23,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; gap: 1.5rem;
+    height: 56px;
+    overflow-x: auto;
+  }
+  nav .logo {
+    font-weight: 700; font-size: 1rem; white-space: nowrap;
+    color: var(--accent);
+    letter-spacing: 0.5px;
+    margin-right: 1rem;
+  }
+  nav a {
+    color: var(--text-dim); text-decoration: none;
+    font-size: 0.8rem; white-space: nowrap;
+    padding: 0.4rem 0;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  nav a:hover, nav a.active { color: var(--text); border-bottom-color: var(--accent); }
+
+  /* ── Hero ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 6rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 30%, rgba(56,189,248,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 70%, rgba(129,140,248,0.06) 0%, transparent 50%);
+  }
+  .hero h1 {
+    font-size: clamp(2.4rem, 5.5vw, 4.5rem);
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero .subtitle {
+    font-size: clamp(1rem, 2vw, 1.35rem);
+    color: var(--text-dim);
+    max-width: 640px;
+    margin-bottom: 3rem;
+    position: relative;
+  }
+  .hero .tagline {
+    font-size: 0.85rem;
+    color: var(--accent3);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+
+  /* ── Tetrahedron Canvas ── */
+  #tetra-canvas {
+    width: 360px; height: 360px;
+    position: relative;
+    margin: 0 auto 2rem;
+  }
+
+  /* ── Sections ── */
+  section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 5rem 2rem;
+  }
+  section h2 {
+    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.5px;
+  }
+  section h2 span { color: var(--accent); }
+  section .section-sub {
+    color: var(--text-dim);
+    font-size: 1rem;
+    margin-bottom: 2.5rem;
+    max-width: 640px;
+  }
+  section h3 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--accent2);
+  }
+
+  .divider {
+    width: 100%; max-width: 1200px; margin: 0 auto;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+  }
+
+  /* ── Geometry Card Grid ── */
+  .vertex-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+  }
+  .v-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: border-color 0.25s, transform 0.25s;
+    cursor: default;
+  }
+  .v-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .v-card .v-label {
+    font-size: 0.72rem; text-transform: uppercase;
+    letter-spacing: 2px; color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+  .v-card .v-name {
+    font-size: 1.2rem; font-weight: 700; margin-bottom: 0.4rem;
+  }
+  .v-card .v-question {
+    font-style: italic; color: var(--text-dim); font-size: 0.9rem;
+    margin-bottom: 0.6rem;
+  }
+  .v-card .v-desc { font-size: 0.88rem; color: var(--text-dim); }
+  .v-card .v-fail {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.82rem; color: var(--transaction);
+  }
+  .v-card .v-fail strong { color: var(--warn); }
+
+  /* ── Two Logics ── */
+  .logics-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  @media (max-width: 700px) { .logics-wrap { grid-template-columns: 1fr; } }
+  .logic-col {
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 2rem;
+    border: 1px solid var(--border);
+  }
+  .logic-col.gift-col { border-color: var(--gift); }
+  .logic-col.trans-col { border-color: var(--transaction); }
+  .logic-col h3 { margin-bottom: 1rem; }
+  .logic-col ul {
+    list-style: none; padding: 0;
+  }
+  .logic-col li {
+    padding: 0.4rem 0;
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    padding-left: 1.2rem;
+    position: relative;
+  }
+  .logic-col li::before {
+    content: '';
+    position: absolute; left: 0; top: 0.72rem;
+    width: 6px; height: 6px; border-radius: 50%;
+  }
+  .gift-col li::before { background: var(--gift); }
+  .trans-col li::before { background: var(--transaction); }
+
+  /* ── Project Cards ── */
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 1.25rem;
+  }
+  .p-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.75rem;
+    display: flex; flex-direction: column;
+    transition: border-color 0.25s;
+  }
+  .p-card:hover { border-color: var(--accent2); }
+  .p-card .p-status {
+    font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px;
+    padding: 0.2rem 0.6rem;
+    border-radius: 6px;
+    display: inline-block;
+    margin-bottom: 0.75rem;
+    width: fit-content;
+  }
+  .p-card .p-status.deployed { background: rgba(52,211,153,0.15); color: var(--gift); }
+  .p-card .p-status.building { background: rgba(56,189,248,0.15); color: var(--accent); }
+  .p-card .p-status.design { background: rgba(167,139,250,0.15); color: var(--accent3); }
+  .p-card .p-status.concept { background: rgba(251,191,36,0.15); color: var(--warn); }
+  .p-card .p-title { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .p-card .p-desc { font-size: 0.88rem; color: var(--text-dim); flex: 1; margin-bottom: 1rem; }
+  .p-card .p-metrics {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    padding-top: 0.75rem; border-top: 1px solid var(--border);
+  }
+  .p-card .p-metric {
+    font-size: 0.78rem;
+  }
+  .p-card .p-metric .pm-val { font-weight: 700; color: var(--accent); font-size: 0.95rem; }
+  .p-card .p-metric .pm-label { color: var(--text-dim); }
+
+  /* ── IBC Nodes ── */
+  .ibc-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+  }
+  @media (max-width: 800px) { .ibc-grid { grid-template-columns: 1fr; } }
+  .ibc-card {
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 1.75rem;
+    border: 1px solid var(--border);
+    text-align: center;
+    transition: border-color 0.25s, transform 0.25s;
+  }
+  .ibc-card:hover { transform: translateY(-3px); }
+  .ibc-card.power { border-color: var(--warn); }
+  .ibc-card.water { border-color: var(--accent); }
+  .ibc-card.workshop { border-color: var(--accent3); }
+  .ibc-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+  .ibc-card h4 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .ibc-card .ibc-specs {
+    font-size: 0.82rem; color: var(--text-dim); text-align: left;
+    margin-top: 1rem;
+  }
+  .ibc-card .ibc-specs div {
+    padding: 0.3rem 0;
+    border-bottom: 1px solid rgba(42,58,79,0.5);
+  }
+
+  /* ── Deployment table ── */
+  .deploy-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.88rem;
+  }
+  .deploy-table th {
+    text-align: left; padding: 0.75rem 1rem;
+    background: var(--surface);
+    color: var(--accent);
+    font-size: 0.75rem; text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid var(--border);
+  }
+  .deploy-table td {
+    padding: 0.65rem 1rem;
+    border-bottom: 1px solid rgba(42,58,79,0.4);
+    color: var(--text-dim);
+  }
+
+  /* ── Succession Timeline ── */
+  .succession-track {
+    position: relative;
+    margin: 2rem 0;
+    padding-left: 2rem;
+  }
+  .succession-track::before {
+    content: '';
+    position: absolute; left: 8px; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--transaction), var(--warn), var(--gift), var(--accent));
+  }
+  .s-stage {
+    position: relative;
+    padding: 1.25rem 0 1.25rem 1.5rem;
+  }
+  .s-stage::before {
+    content: '';
+    position: absolute; left: -2rem; top: 1.55rem;
+    width: 18px; height: 18px; border-radius: 50%;
+    border: 3px solid var(--bg);
+  }
+  .s-stage:nth-child(1)::before { background: var(--transaction); left: calc(-2rem + 0px); }
+  .s-stage:nth-child(2)::before { background: var(--warn); left: calc(-2rem + 0px); }
+  .s-stage:nth-child(3)::before { background: var(--gift); left: calc(-2rem + 0px); }
+  .s-stage:nth-child(4)::before { background: var(--accent); left: calc(-2rem + 0px); }
+  .s-stage h4 { font-size: 1rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .s-stage p { font-size: 0.88rem; color: var(--text-dim); }
+
+  /* ── Economics Flow ── */
+  .econ-flow {
+    display: flex; flex-wrap: wrap; gap: 1rem;
+    margin: 1.5rem 0;
+    justify-content: center;
+  }
+  .econ-node {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem;
+    width: 200px;
+    text-align: center;
+    position: relative;
+    font-size: 0.85rem;
+  }
+  .econ-node .en-title {
+    font-weight: 700; font-size: 0.9rem; margin-bottom: 0.4rem;
+    color: var(--gift);
+  }
+  .econ-node .en-desc { color: var(--text-dim); font-size: 0.8rem; }
+
+  /* ── Field Conditions ── */
+  .field-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  @media (max-width: 700px) { .field-grid { grid-template-columns: 1fr; } }
+  .field-item {
+    background: var(--surface); border-radius: 10px;
+    padding: 1.25rem; border-left: 3px solid var(--gift);
+  }
+  .field-item h4 { font-size: 0.95rem; margin-bottom: 0.4rem; }
+  .field-item p { font-size: 0.85rem; color: var(--text-dim); }
+
+  /* ── Propagation ── */
+  .prop-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+    margin: 1.5rem 0;
+  }
+  .prop-box p { font-size: 0.92rem; color: var(--text-dim); margin-bottom: 0.75rem; }
+  .prop-box p:last-child { margin-bottom: 0; }
+
+  /* ── Waste Stream ── */
+  .waste-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem; margin: 1.5rem 0;
+  }
+  .waste-item {
+    background: var(--surface); border-radius: 10px;
+    padding: 1.25rem; border: 1px solid var(--border);
+  }
+  .waste-item .w-from {
+    font-size: 0.8rem; color: var(--transaction); text-decoration: line-through;
+    margin-bottom: 0.3rem;
+  }
+  .waste-item .w-arrow { color: var(--gift); margin: 0.2rem 0; font-size: 0.8rem; }
+  .waste-item .w-to {
+    font-size: 0.9rem; font-weight: 600; color: var(--gift);
+  }
+  .waste-item .w-desc { font-size: 0.8rem; color: var(--text-dim); margin-top: 0.3rem; }
+
+  /* ── Integration Diagram ── */
+  .integration-layers {
+    margin: 2rem 0;
+    display: flex; flex-direction: column; gap: 0;
+  }
+  .layer {
+    padding: 1.25rem 1.75rem;
+    border-left: 3px solid;
+    background: var(--surface);
+    position: relative;
+  }
+  .layer:first-child { border-radius: 12px 12px 0 0; }
+  .layer:last-child { border-radius: 0 0 12px 12px; }
+  .layer + .layer { border-top: 1px solid var(--border); }
+  .layer:nth-child(1) { border-left-color: var(--accent3); }
+  .layer:nth-child(2) { border-left-color: var(--accent2); }
+  .layer:nth-child(3) { border-left-color: var(--accent); }
+  .layer:nth-child(4) { border-left-color: var(--gift); }
+  .layer:nth-child(5) { border-left-color: var(--warn); }
+  .layer:nth-child(6) { border-left-color: var(--transaction); }
+  .layer:nth-child(7) { border-left-color: var(--overflow); }
+  .layer .l-name { font-weight: 700; font-size: 0.95rem; }
+  .layer .l-role { font-size: 0.82rem; color: var(--text-dim); margin-top: 0.2rem; }
+  .layer .l-feeds {
+    font-size: 0.75rem; color: var(--accent);
+    margin-top: 0.3rem;
+  }
+
+  /* ── Gift vs Extraction ── */
+  .gve-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;
+    margin: 1.5rem 0;
+  }
+  @media (max-width: 700px) { .gve-grid { grid-template-columns: 1fr; } }
+  .gve-card {
+    border-radius: 12px; padding: 1.75rem;
+    border: 1px solid;
+  }
+  .gve-card.gve-gift { background: rgba(52,211,153,0.04); border-color: var(--gift); }
+  .gve-card.gve-extract { background: rgba(248,113,113,0.04); border-color: var(--transaction); }
+  .gve-card h4 { margin-bottom: 0.75rem; }
+  .gve-card ul { list-style: none; padding: 0; }
+  .gve-card li {
+    font-size: 0.85rem; color: var(--text-dim);
+    padding: 0.35rem 0;
+  }
+
+  /* ── Scale Fractal ── */
+  .scale-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 0.75rem; margin: 1.5rem 0;
+  }
+  .scale-item {
+    background: var(--surface); border-radius: 10px;
+    padding: 1rem; text-align: center;
+    border: 1px solid var(--border);
+    font-size: 0.85rem;
+  }
+  .scale-item .si-scale { font-weight: 700; color: var(--accent2); margin-bottom: 0.3rem; }
+  .scale-item .si-desc { color: var(--text-dim); font-size: 0.78rem; }
+
+  /* ── Footer ── */
+  footer {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    border-top: 1px solid var(--border);
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  footer .lineage {
+    font-size: 0.75rem; margin-top: 1rem;
+    color: rgba(136,153,170,0.5);
+  }
+
+  /* ── Tetrahedron SVG ── */
+  .tetra-svg { display: block; margin: 0 auto 2rem; }
+
+  /* ── Scroll animations ── */
+  .fade-in {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── Tabs ── */
+  .tab-bar {
+    display: flex; gap: 0.5rem; margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    transition: all 0.2s;
+  }
+  .tab-btn:hover { border-color: var(--accent); color: var(--text); }
+  .tab-btn.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+</style>
+</head>
+<body>
+
+<div style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(8,9,11,0.95);backdrop-filter:blur(12px);border-bottom:1px solid #1a1e28;padding:8px 24px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:12px;display:flex;align-items:center;gap:16px">
+  <a href="../index.html" style="color:#9ca3b0;text-decoration:none;transition:color 0.2s" onmouseover="this.style.color='#d4d9e4'" onmouseout="this.style.color='#9ca3b0'">&larr; Recognition Infrastructure Hub</a>
+  <span style="color:#2a3040">|</span>
+  <a href="../synthesis.html" style="color:#5c6370;text-decoration:none;font-size:11px;transition:color 0.2s" onmouseover="this.style.color='#9ca3b0'" onmouseout="this.style.color='#5c6370'">Synthesis</a>
+  <a href="../protocols.html" style="color:#5c6370;text-decoration:none;font-size:11px;transition:color 0.2s" onmouseover="this.style.color='#9ca3b0'" onmouseout="this.style.color='#5c6370'">Protocols</a>
+  <a href="../sessions.html" style="color:#5c6370;text-decoration:none;font-size:11px;transition:color 0.2s" onmouseover="this.style.color='#9ca3b0'" onmouseout="this.style.color='#5c6370'">Sessions</a>
+  <a href="../threads.html" style="color:#5c6370;text-decoration:none;font-size:11px;transition:color 0.2s" onmouseover="this.style.color='#9ca3b0'" onmouseout="this.style.color='#5c6370'">Threads</a>
+  <a href="../lineage.html" style="color:#5c6370;text-decoration:none;font-size:11px;transition:color 0.2s" onmouseover="this.style.color='#9ca3b0'" onmouseout="this.style.color='#5c6370'">Lineage</a>
+</div>
+
+<!-- Nav -->
+<nav>
+  <div class="logo">OPEN VILLAGE</div>
+  <a href="#geometry">Geometry</a>
+  <a href="#exchange">Exchange</a>
+  <a href="#projects">Projects</a>
+  <a href="#nodes">Nodes</a>
+  <a href="#succession">Succession</a>
+  <a href="#economics">Economics</a>
+  <a href="#propagation">Propagation</a>
+</nav>
+
+<!-- ════════════════════ HERO ════════════════════ -->
+<div class="hero" id="top">
+  <!-- Tetrahedral SVG -->
+  <svg class="tetra-svg" width="320" height="300" viewBox="0 0 320 300">
+    <defs>
+      <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#38bdf8;stop-opacity:0.4"/>
+        <stop offset="100%" style="stop-color:#818cf8;stop-opacity:0.1"/>
+      </linearGradient>
+      <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#34d399;stop-opacity:0.3"/>
+        <stop offset="100%" style="stop-color:#38bdf8;stop-opacity:0.05"/>
+      </linearGradient>
+      <linearGradient id="g3" x1="0%" y1="100%" x2="100%" y2="0%">
+        <stop offset="0%" style="stop-color:#a78bfa;stop-opacity:0.25"/>
+        <stop offset="100%" style="stop-color:#818cf8;stop-opacity:0.05"/>
+      </linearGradient>
+      <filter id="glow">
+        <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+        <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+    <!-- Faces -->
+    <polygon points="160,30 60,260 260,260" fill="url(#g1)" stroke="none"/>
+    <polygon points="160,30 60,260 160,180" fill="url(#g2)" stroke="none"/>
+    <polygon points="160,30 260,260 160,180" fill="url(#g3)" stroke="none"/>
+    <!-- Edges -->
+    <line x1="160" y1="30" x2="60" y2="260" stroke="#38bdf8" stroke-width="1.5" opacity="0.6"/>
+    <line x1="160" y1="30" x2="260" y2="260" stroke="#818cf8" stroke-width="1.5" opacity="0.6"/>
+    <line x1="60" y1="260" x2="260" y2="260" stroke="#a78bfa" stroke-width="1.5" opacity="0.6"/>
+    <line x1="160" y1="30" x2="160" y2="180" stroke="#34d399" stroke-width="1.5" opacity="0.6"/>
+    <line x1="60" y1="260" x2="160" y2="180" stroke="#22d3ee" stroke-width="1.5" opacity="0.6"/>
+    <line x1="260" y1="260" x2="160" y2="180" stroke="#fbbf24" stroke-width="1.5" opacity="0.6"/>
+    <!-- Vertices -->
+    <circle cx="160" cy="30" r="8" fill="#38bdf8" filter="url(#glow)"/>
+    <circle cx="60" cy="260" r="8" fill="#a78bfa" filter="url(#glow)"/>
+    <circle cx="260" cy="260" r="8" fill="#818cf8" filter="url(#glow)"/>
+    <circle cx="160" cy="180" r="8" fill="#34d399" filter="url(#glow)"/>
+    <!-- Labels -->
+    <text x="160" y="16" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="600">DIFFERENTIATION</text>
+    <text x="28" y="272" text-anchor="start" fill="#a78bfa" font-size="11" font-weight="600">BOUNDARIES</text>
+    <text x="292" y="272" text-anchor="end" fill="#818cf8" font-size="11" font-weight="600">ARCHITECTURE</text>
+    <text x="160" y="210" text-anchor="middle" fill="#34d399" font-size="11" font-weight="600">CONNECTION</text>
+  </svg>
+
+  <div class="tagline">Recognition Infrastructure for Distributed Autonomy</div>
+  <h1>The <span>Open Village</span></h1>
+  <p class="subtitle">
+    A complete architecture for communities that own their own capacity — where infrastructure arrives as gift, propagates through use, and compounds through circulation. Not a theory. A build sequence.
+  </p>
+</div>
+
+<!-- ════════════════════ THE GEOMETRY ════════════════════ -->
+<div class="divider"></div>
+<section id="geometry" class="fade-in">
+  <h2>The <span>Geometry</span></h2>
+  <p class="section-sub">
+    Three points make a plane — it divides but cannot contain. Add a fourth point and inside and outside emerge simultaneously. The tetrahedron is the minimum system for coherent exchange: 4 vertices, 6 edges, 4 faces, 1 whole. Every system that works has all four. Every system that fails is missing one.
+  </p>
+
+  <div class="vertex-grid">
+    <div class="v-card">
+      <div class="v-label">Vertex 1</div>
+      <div class="v-name">Differentiation</div>
+      <div class="v-question">Am I maintaining my position or performing expected agreement?</div>
+      <div class="v-desc">Knowing what you are. Distinct identity before relationship. The center that doesn't move based on external weather.</div>
+      <div class="v-fail"><strong>Without it:</strong> Dissolved system — coordinates but serves something external, stands for nothing</div>
+    </div>
+    <div class="v-card">
+      <div class="v-label">Vertex 2</div>
+      <div class="v-name">Connection</div>
+      <div class="v-question">Am I in contact with what's present or anticipating what's wanted?</div>
+      <div class="v-desc">Genuine contact with what's outside. Circulation rather than merger. Exchange that leaves more than it found.</div>
+      <div class="v-fail"><strong>Without it:</strong> Isolated system — beautiful coherence with no circulation, structured but alone</div>
+    </div>
+    <div class="v-card">
+      <div class="v-label">Vertex 3</div>
+      <div class="v-name">Boundaries</div>
+      <div class="v-question">Are limits communicated as information or hidden as inadequacy?</div>
+      <div class="v-desc">Legible surface. Clarity about what holds and what doesn't. Constraints as navigation, not walls. The limit is the gift.</div>
+      <div class="v-fail"><strong>Without it:</strong> Overflowing system — flows without holding, relationships become enmeshment</div>
+    </div>
+    <div class="v-card">
+      <div class="v-label">Vertex 4</div>
+      <div class="v-name">Architecture</div>
+      <div class="v-question">Does this build capacity or just complete a transaction?</div>
+      <div class="v-desc">Building beyond yourself. Surplus that persists independently. Infrastructure that works whether you're present or not.</div>
+      <div class="v-fail"><strong>Without it:</strong> Ephemeral system — coherent but builds nothing, everything dissolves when the moment passes</div>
+    </div>
+  </div>
+
+  <div class="prop-box">
+    <p><strong>The six edges</strong> are where coherence holds or breaks: Differentiation↔Connection (distinct beings in genuine contact), Differentiation↔Boundaries (clear identity with legible surface), Differentiation↔Architecture (distinct contribution to lasting structure), Connection↔Boundaries (genuine contact within clear containers), Connection↔Architecture (relationship that builds something lasting), Boundaries↔Architecture (legible limits that enable lasting form).</p>
+    <p>When a system loses coherence, the diagnosis lives in the edges — which relationship degraded — not just which vertex weakened.</p>
+  </div>
+
+  <h3>Substrate Independence</h3>
+  <p style="font-size:0.9rem; color: var(--text-dim); margin-bottom: 1rem;">The same four dynamics appear independently across disciplines. Material changes; geometry persists.</p>
+  <div class="scale-grid">
+    <div class="scale-item"><div class="si-scale">Tensegrity</div><div class="si-desc">Compression distinct, tension continuous, geometry precise, structure modular</div></div>
+    <div class="scale-item"><div class="si-scale">Spiral Dynamics</div><div class="si-desc">Stage integrity, inter-stage flow, developmental containers, scaffolding</div></div>
+    <div class="scale-item"><div class="si-scale">NVC</div><div class="si-desc">Observation without evaluation, universal needs, clear requests, transferable practice</div></div>
+    <div class="scale-item"><div class="si-scale">Consent</div><div class="si-desc">Distinct agency, gift in serving, withdrawal clarifies will, framework architecture</div></div>
+    <div class="scale-item"><div class="si-scale">Polyvagal</div><div class="si-desc">Self-regulation, co-regulation, adaptive shutdown, building vagal tone</div></div>
+    <div class="scale-item"><div class="si-scale">Living Systems</div><div class="si-desc">Clear membranes, mycorrhizal networks, edge conditions, succession creates soil</div></div>
+  </div>
+</section>
+
+<!-- ════════════════════ ARCHITECTURE OF EXCHANGE ════════════════════ -->
+<div class="divider"></div>
+<section id="exchange" class="fade-in">
+  <h2>Architecture of <span>Exchange</span></h2>
+  <p class="section-sub">
+    Two operating systems run on the same hardware. One assumes scarcity and closes when accounts settle. The other assumes circulation generates capacity and leaves more than it found.
+  </p>
+
+  <div class="logics-wrap">
+    <div class="logic-col trans-col">
+      <h3 style="color: var(--transaction);">Transaction Logic</h3>
+      <ul>
+        <li>Giving depletes the giver</li>
+        <li>Receiving creates debt</li>
+        <li>Balance must be maintained</li>
+        <li>Exchange closes when accounts settle</li>
+        <li>Zero-sum by design</li>
+      </ul>
+    </div>
+    <div class="logic-col gift-col">
+      <h3 style="color: var(--gift);">Circulation Logic</h3>
+      <ul>
+        <li>Giving proves the source</li>
+        <li>Receiving opens capacity</li>
+        <li>Surplus flows where it serves</li>
+        <li>Exchange leaves more than it found</li>
+        <li>Value multiplies through movement</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Four Field Conditions for Non-Transactional Exchange</h3>
+  <div class="field-grid">
+    <div class="field-item">
+      <h4>Recognition Precedes Exchange</h4>
+      <p>You cannot exchange with what you haven't first recognized. Attempting to build recognition through transaction reverses causation and creates instability.</p>
+    </div>
+    <div class="field-item">
+      <h4>Gift Creates Unpayable Obligation</h4>
+      <p>Gift and transaction operate in different registers. Paying for a gift violates its nature. Gift obligation clears through receiving fully and letting circulation continue.</p>
+    </div>
+    <div class="field-item">
+      <h4>Surplus Flows Toward Coherence</h4>
+      <p>Systems maintaining all four vertices generate capacity beyond immediate consumption. Surplus naturally moves toward maintaining and expanding coherence.</p>
+    </div>
+    <div class="field-item">
+      <h4>Circulation Proves the Source</h4>
+      <p>Not belief in abundance — demonstration that the source runs deeper than the pour. The act of genuine circulation is evidence.</p>
+    </div>
+  </div>
+
+  <h3>Trace Deposits: How Non-Transactional Value Scales</h3>
+  <div class="prop-box">
+    <p>Value persists through <strong>environmental modification</strong>, not bilateral exchange. A documentation template, framework page, or practiced space left at a boundary where future agents encounter it.</p>
+    <p>This is <strong>stigmergy</strong> — coordination through environmental modification. It works because it doesn't require relationship between depositor and receiver. The trace either increases clarity through repeated use, or becomes debris requiring increasing explanation. The pattern compounds or it doesn't. No transmitter presence required.</p>
+  </div>
+</section>
+
+<!-- ════════════════════ PHYSICAL PROJECTS ════════════════════ -->
+<div class="divider"></div>
+<section id="projects" class="fade-in">
+  <h2>The <span>Build Sequence</span></h2>
+  <p class="section-sub">
+    Seven projects, each creating conditions for the next. Steel nurses trees into existence. Tools build tools. Waste from one context becomes critical infrastructure in another when someone recognizes the structural fit.
+  </p>
+
+  <div class="project-grid">
+    <div class="p-card">
+      <div class="p-status building">Infrastructure Buildout</div>
+      <div class="p-title">Mobile Crane Platform</div>
+      <div class="p-desc">1995 International Genesis school bus converted to living quarters + fabrication workshop + electric-over-hydraulic crane. DT466 mechanical diesel — no ECM, rebuildable indefinitely, runs B100 biodiesel. The tool that builds its own capacity: the workshop fabricates the crane, the crane enables construction the workshop can't do alone, the quarters sustain the operator through the build.</div>
+      <div class="p-metrics">
+        <div class="p-metric"><div class="pm-val">3,200 lb</div><div class="pm-label">Crane capacity</div></div>
+        <div class="p-metric"><div class="pm-val">10 kW</div><div class="pm-label">Power output</div></div>
+        <div class="p-metric"><div class="pm-val">~$36K</div><div class="pm-label">Total build cost</div></div>
+      </div>
+    </div>
+
+    <div class="p-card">
+      <div class="p-status deployed">Partial Deployment</div>
+      <div class="p-title">Hexagonal Microclimate</div>
+      <div class="p-desc">Six steel posts in hexagonal formation with elevator traction cable tensioned at height, supporting triangulated aircraft cable grid and 80% Aluminet shade cloth. Designed failure hierarchy: cheapest fails first (wood stakes), most expensive never (steel posts at 20,000 lbs breaking strength). Creates 0.6-acre growing zone in 75+ mph wind territory.</div>
+      <div class="p-metrics">
+        <div class="p-metric"><div class="pm-val">0.6 ac</div><div class="pm-label">Protected area</div></div>
+        <div class="p-metric"><div class="pm-val">75+ mph</div><div class="pm-label">Wind rating</div></div>
+        <div class="p-metric"><div class="pm-val">FREE</div><div class="pm-label">Primary cable (waste stream)</div></div>
+      </div>
+    </div>
+
+    <div class="p-card">
+      <div class="p-status building">In Development</div>
+      <div class="p-title">One-Acre Oasis</div>
+      <div class="p-desc">Complete regenerative site in four concentric zones at Laguna, NM (6,000 ft). Shipmast Black Locust windbreak → secondary drought-tolerant species → food forest canopy → central 25'×25' pond. Excavated clay becomes wind berms. The hex structure IS the pioneer species — fast-deploying mechanical protection until biological systems establish.</div>
+      <div class="p-metrics">
+        <div class="p-metric"><div class="pm-val">1 acre</div><div class="pm-label">Site + 160ac access</div></div>
+        <div class="p-metric"><div class="pm-val">4 zones</div><div class="pm-label">Concentric design</div></div>
+        <div class="p-metric"><div class="pm-val">8-10 yr</div><div class="pm-label">Full succession</div></div>
+      </div>
+    </div>
+
+    <div class="p-card">
+      <div class="p-status building">Structure Purchased</div>
+      <div class="p-title">Aquaponics Greenhouse</div>
+      <div class="p-desc">30×100 ft closed-loop food production. Deep water culture (888 head) + dual root zone ebb-and-flow beds + 5,000 gal fish system. Climate battery (22×80×4 ft buried pipe loop) eliminates the energy cost that kills most greenhouse operations at elevation. Isolation valve between fish and plants: if biology crashes, production continues.</div>
+      <div class="p-metrics">
+        <div class="p-metric"><div class="pm-val">$70-85K</div><div class="pm-label">Annual revenue target</div></div>
+        <div class="p-metric"><div class="pm-val">3,000 ft²</div><div class="pm-label">Production area</div></div>
+        <div class="p-metric"><div class="pm-val">888</div><div class="pm-label">DWC head capacity</div></div>
+      </div>
+    </div>
+
+    <div class="p-card">
+      <div class="p-status concept">Concept Design</div>
+      <div class="p-title">Solar Biochar</div>
+      <div class="p-desc">Solar-concentrated pyrolysis converts human waste into biochar (centuries-stable soil amendment), syngas (combustible fuel), and urine fertilizer. Two cast iron skillets, 16 mirror tiles, polar mount tracking. $150-400 from salvage. Biochar soaked in urine + inoculated with aquaponic solids = soil amendment that permanently improves capacity.</div>
+      <div class="p-metrics">
+        <div class="p-metric"><div class="pm-val">500-600°C</div><div class="pm-label">Pyrolysis temp</div></div>
+        <div class="p-metric"><div class="pm-val">$150-400</div><div class="pm-label">Build cost</div></div>
+        <div class="p-metric"><div class="pm-val">Centuries</div><div class="pm-label">Biochar persistence</div></div>
+      </div>
+    </div>
+
+    <div class="p-card">
+      <div class="p-status design">Design Development</div>
+      <div class="p-title">Deployable Architecture</div>
+      <div class="p-desc">2020 aluminum extrusion with five dimensional intervals cut from 1500mm stock at zero waste. Canvas panels + foam insulation. Same stock expresses geodesic dome (18 ft, deploys in 15 min), modular furniture, or four-season panel shelters. One material vocabulary, one unsolved connector problem.</div>
+      <div class="p-metrics">
+        <div class="p-metric"><div class="pm-val">254 ft²</div><div class="pm-label">Dome interior</div></div>
+        <div class="p-metric"><div class="pm-val">0</div><div class="pm-label">Waste cuts</div></div>
+        <div class="p-metric"><div class="pm-val">15 min</div><div class="pm-label">Solo deploy</div></div>
+      </div>
+    </div>
+
+    <div class="p-card" style="grid-column: 1 / -1;">
+      <div class="p-status design">Design Complete</div>
+      <div class="p-title">IBC Civilization Legos — The Distributed Nodes</div>
+      <div class="p-desc">The form factor is the innovation. Every forklift on Earth already handles IBC totes (275-330 gal on standard pallets). Solar panels, lithium batteries, water filtration, welding equipment — all existing technology. What's new is recognizing it all fits inside a container global logistics already moves. Three variants (Power, Water, Workshop) that connect to form autonomous community infrastructure. One C-130 flight establishes capacity for 50-100+ people.</div>
+      <div class="p-metrics">
+        <div class="p-metric"><div class="pm-val">1 m³</div><div class="pm-label">Per node</div></div>
+        <div class="p-metric"><div class="pm-val">~600 lbs</div><div class="pm-label">Loaded weight</div></div>
+        <div class="p-metric"><div class="pm-val">$3-4K</div><div class="pm-label">Per unit (salvage)</div></div>
+        <div class="p-metric"><div class="pm-val">12-15</div><div class="pm-label">Units per C-130</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Integration Diagram -->
+  <h3 style="margin-top: 2.5rem;">How They Feed Each Other</h3>
+  <div class="integration-layers">
+    <div class="layer">
+      <div class="l-name">Mobile Crane Platform</div>
+      <div class="l-role">Construction capacity that enables all other systems. Workshop fabricates IBC prototypes.</div>
+      <div class="l-feeds">→ Builds Hex infrastructure, Greenhouse, IBC prototypes</div>
+    </div>
+    <div class="layer">
+      <div class="l-name">Hexagonal Microclimate</div>
+      <div class="l-role">Pioneer species. Mechanical wind protection creating conditions for biology.</div>
+      <div class="l-feeds">→ Protects One-Acre Oasis plantings during establishment</div>
+    </div>
+    <div class="layer">
+      <div class="l-name">One-Acre Oasis</div>
+      <div class="l-role">Integration point. Four concentric zones demonstrating complete regenerative site.</div>
+      <div class="l-feeds">→ Uses IBC power/water nodes, feeds Greenhouse with wind protection</div>
+    </div>
+    <div class="layer">
+      <div class="l-name">Aquaponics Greenhouse</div>
+      <div class="l-role">Closed-loop food production at commercial scale. Revenue engine.</div>
+      <div class="l-feeds">→ $70-85K annual revenue supports platform development. Fish solids feed Biochar.</div>
+    </div>
+    <div class="layer">
+      <div class="l-name">Solar Biochar</div>
+      <div class="l-role">Waste→resource conversion. Permanently improves soil capacity.</div>
+      <div class="l-feeds">→ Biochar + urine + aquaponic solids = living soil amendment</div>
+    </div>
+    <div class="layer">
+      <div class="l-name">Deployable Architecture</div>
+      <div class="l-role">Material vocabulary expressing any needed structure from one stock.</div>
+      <div class="l-feeds">→ Shelter, furniture, shade structures for any deployment site</div>
+    </div>
+    <div class="layer">
+      <div class="l-name">IBC Distributed Nodes</div>
+      <div class="l-role">Standardized autonomy packages deployable anywhere globally.</div>
+      <div class="l-feeds">→ Any community, any context. Arrival = permanent capacity increase.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ DISTRIBUTED NODES ════════════════════ -->
+<div class="divider"></div>
+<section id="nodes" class="fade-in">
+  <h2>Distributed <span>Nodes</span></h2>
+  <p class="section-sub">
+    The IBC form factor is the innovation. Not the technology inside — the recognition that existing capacity fits inside a container every logistics system on Earth already handles. Node independence. Node connectivity. No central control required.
+  </p>
+
+  <div class="ibc-grid">
+    <div class="ibc-card power">
+      <div class="ibc-icon">⚡</div>
+      <h4>Power IBC</h4>
+      <p style="font-size:0.85rem; color: var(--text-dim);">Complete microgrid in a pallet</p>
+      <div class="ibc-specs">
+        <div>15 kWh LiFePO4 storage</div>
+        <div>10 kW continuous / 20 kW peak</div>
+        <div>2-4 kW solar array input</div>
+        <div>5-8.5 kW dual-fuel generator backup</div>
+        <div>120V/240V split-phase output</div>
+        <div>Runs welders, refrigeration, comms</div>
+      </div>
+    </div>
+    <div class="ibc-card water">
+      <div class="ibc-icon">💧</div>
+      <h4>Water IBC</h4>
+      <p style="font-size:0.85rem; color: var(--text-dim);">Source-to-potable in a pallet</p>
+      <div class="ibc-specs">
+        <div>Multi-stage filtration (sediment, carbon, UV)</div>
+        <div>5-10 GPM flow rate</div>
+        <div>Pressurized manifold distribution</div>
+        <div>Any source: well, stream, catchment, cistern</div>
+        <div>Drinking, cooking, sanitation, irrigation</div>
+        <div>Operational within hours of placement</div>
+      </div>
+    </div>
+    <div class="ibc-card workshop">
+      <div class="ibc-icon">🔧</div>
+      <h4>Workshop IBC</h4>
+      <p style="font-size:0.85rem; color: var(--text-dim);">Infrastructure that builds infrastructure</p>
+      <div class="ibc-specs">
+        <div>MIG/stick welding (140-180A)</div>
+        <div>Plasma cutting</div>
+        <div>Grinder, drill press, vise, saw</div>
+        <div>Fold-out work surface from cage</div>
+        <div>Repairs/maintains other nodes</div>
+        <div>The multiplier: builds what you need next</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Deployment Scale</h3>
+  <table class="deploy-table">
+    <tr><th>Method</th><th>Capacity</th><th>Requirement</th><th>Establishes</th></tr>
+    <tr><td>Forklift / pallet jack</td><td>1 unit</td><td>Level ground</td><td>Basic capacity for 1 family/team</td></tr>
+    <tr><td>Flatbed truck</td><td>4-8 units</td><td>Road access</td><td>Community power + water + fabrication</td></tr>
+    <tr><td>C-130 Hercules</td><td>12-15 units</td><td>Airdrop capable</td><td>Full autonomy for 50-100+ people</td></tr>
+    <tr><td>C-17 Globemaster</td><td>30+ units</td><td>Runway or airdrop</td><td>Regional infrastructure hub</td></tr>
+  </table>
+
+  <h3>Gift Pattern vs. Extraction Pattern</h3>
+  <p style="font-size: 0.88rem; color: var(--text-dim); margin-bottom: 1rem;">The hardware is identical. What determines the pattern is design choices <em>inside</em> the container.</p>
+
+  <div class="gve-grid">
+    <div class="gve-card gve-extract">
+      <h4 style="color: var(--transaction);">Extraction Pattern</h4>
+      <ul>
+        <li>Proprietary systems requiring specialist maintenance</li>
+        <li>Vendor lock-in for parts and consumables</li>
+        <li>Ongoing service contracts and software licensing</li>
+        <li>Warranty voided if modified</li>
+        <li>Documentation behind paywall</li>
+        <li>Delivers dependency in better packaging</li>
+      </ul>
+    </div>
+    <div class="gve-card gve-gift">
+      <h4 style="color: var(--gift);">Gift Pattern</h4>
+      <ul>
+        <li>Open source designs freely available</li>
+        <li>Standard off-the-shelf components sourceable anywhere</li>
+        <li>Simple maintenance anyone can learn</li>
+        <li>Complete documentation including failures</li>
+        <li>No licensing, contracts, or vendor dependencies</li>
+        <li>Transfers actual autonomy</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="prop-box" style="margin-top: 1.5rem;">
+    <p><strong>The only reason infrastructure isn't already like this</strong> is that scarcity is profitable and dependency is power. The technology exists. The economics favor it. Communities need it. What's been missing is recognition it's possible AND willingness to build it as gift rather than product.</p>
+  </div>
+</section>
+
+<!-- ════════════════════ SUCCESSION ════════════════════ -->
+<div class="divider"></div>
+<section id="succession" class="fade-in">
+  <h2>Ecological <span>Succession</span></h2>
+  <p class="section-sub">
+    Don't build on a layer that hasn't proven itself. The hex structure IS the pioneer species — fast-deploying mechanical protection that creates conditions for biological systems to establish. Steel nurses trees into existence until trees can protect themselves.
+  </p>
+
+  <div class="succession-track">
+    <div class="s-stage">
+      <h4 style="color: var(--transaction);">Pioneer Stage — Years 0-2</h4>
+      <p>Steel infrastructure dominates. All wind protection is mechanical. Hex cable ring deployed. Earthworks and pond excavation. Drip irrigation for locust seedlings. The mechanical system creates conditions the biological system needs. Power IBC provides energy. Water IBC irrigates. Workshop IBC builds and repairs.</p>
+    </div>
+    <div class="s-stage">
+      <h4 style="color: var(--warn);">Early Succession — Years 3-5</h4>
+      <p>Locust windbreak reaches functional height, begins taking primary wind protection role. Secondary species establishing. Food forest planted in protection shadow. Aquaponics nitrogen cycle proven, first harvests. Greenhouse climate battery absorbing summer heat. Living systems beginning to carry load.</p>
+    </div>
+    <div class="s-stage">
+      <h4 style="color: var(--gift);">Mid-Succession — Years 5-8</h4>
+      <p>Living windbreaks handling primary protection. Cable system becoming backup. Food forest canopy closing. Berry guilds producing. Full aquaponics production at commercial scale. Restaurant accounts established. Biochar permanently improving soil with each application. Locust heartwood providing fence posts — perpetual supply.</p>
+    </div>
+    <div class="s-stage">
+      <h4 style="color: var(--accent);">Climax — Years 8-10+</h4>
+      <p>Self-sustaining ecosystem. Cable infrastructure optional — can be removed and <strong>redeployed to the next site</strong>. Native ecosystem re-established. Production at scale. The mechanical pioneer has done its job and can propagate. One site's maturation seeds the next site's pioneer stage.</p>
+    </div>
+  </div>
+
+  <div class="prop-box">
+    <p><strong>The propagation cycle:</strong> Infrastructure deploys → creates growing conditions → biology establishes → biology takes over protection role → infrastructure becomes optional → infrastructure redeploys to next site → cycle repeats. Each mature site generates the surplus (revenue, materials, knowledge, practitioners) that seeds the next pioneer deployment.</p>
+  </div>
+</section>
+
+<!-- ════════════════════ ECONOMICS ════════════════════ -->
+<div class="divider"></div>
+<section id="economics" class="fade-in">
+  <h2>The <span>Economics</span></h2>
+  <p class="section-sub">
+    Value that's invisible in one context becomes essential in another when someone recognizes structural fit. The economics aren't theoretical — they're built on waste stream recognition, circulation logic, and infrastructure that compounds.
+  </p>
+
+  <h3>Waste Stream Recognition</h3>
+  <p style="font-size: 0.88rem; color: var(--text-dim); margin-bottom: 1rem;">The pattern: industry discards what it can't extract value from. Recognition converts waste to critical infrastructure.</p>
+  <div class="waste-grid">
+    <div class="waste-item">
+      <div class="w-from">Decommissioned elevator cable</div>
+      <div class="w-arrow">↓ recognized as</div>
+      <div class="w-to">20,000 lb structural cable (FREE)</div>
+      <div class="w-desc">Primary wind protection infrastructure that would cost thousands</div>
+    </div>
+    <div class="waste-item">
+      <div class="w-from">Retired school bus</div>
+      <div class="w-arrow">↓ recognized as</div>
+      <div class="w-to">Mobile construction platform</div>
+      <div class="w-desc">$36K build = $100K+ commercial equivalent</div>
+    </div>
+    <div class="waste-item">
+      <div class="w-from">Surplus IBC totes</div>
+      <div class="w-arrow">↓ recognized as</div>
+      <div class="w-to">Autonomous infrastructure nodes</div>
+      <div class="w-desc">$50-150 food-grade containers → civilization building blocks</div>
+    </div>
+    <div class="waste-item">
+      <div class="w-from">Excavated pond clay</div>
+      <div class="w-arrow">↓ recognized as</div>
+      <div class="w-to">Wind berms reinforcing windward side</div>
+      <div class="w-desc">Digging problem becomes building material</div>
+    </div>
+    <div class="waste-item">
+      <div class="w-from">Human waste</div>
+      <div class="w-arrow">↓ recognized as</div>
+      <div class="w-to">Biochar + syngas + fertilizer</div>
+      <div class="w-desc">Centuries-stable soil amendment from $150-400 in salvage</div>
+    </div>
+    <div class="waste-item">
+      <div class="w-from">Fish tank settling sludge</div>
+      <div class="w-arrow">↓ recognized as</div>
+      <div class="w-to">Microbial inoculant for biochar</div>
+      <div class="w-desc">Nitrifying bacteria colonize biochar's internal surface area</div>
+    </div>
+  </div>
+
+  <h3>Circulation Economics</h3>
+  <div class="econ-flow">
+    <div class="econ-node">
+      <div class="en-title">Recognition Consulting</div>
+      <div class="en-desc">Structural diagnosis generates revenue AND portfolio evidence</div>
+    </div>
+    <div class="econ-node">
+      <div class="en-title">Portfolio Evidence</div>
+      <div class="en-desc">Applied cases attract practitioners and program applicants</div>
+    </div>
+    <div class="econ-node">
+      <div class="en-title">Practitioner Programs</div>
+      <div class="en-desc">Cohorts produce people who use the framework independently</div>
+    </div>
+    <div class="econ-node">
+      <div class="en-title">Framework Adoption</div>
+      <div class="en-desc">Practitioners generate visibility and new consulting inquiries</div>
+    </div>
+    <div class="econ-node">
+      <div class="en-title">Commons Growth</div>
+      <div class="en-desc">Each paid cycle produces documentation entering the free tier</div>
+    </div>
+  </div>
+  <p style="font-size: 0.85rem; color: var(--text-dim); text-align: center; margin-top: 0.5rem;">Pattern is gift. Skilled practice carries a price. Both are true simultaneously.</p>
+
+  <h3 style="margin-top: 2rem;">Revenue Streams</h3>
+  <table class="deploy-table">
+    <tr><th>System</th><th>Investment</th><th>Revenue Model</th><th>Status</th></tr>
+    <tr><td>Aquaponics Greenhouse</td><td>Structure + build</td><td>$70-85K/yr restaurant wholesale</td><td>Structure purchased</td></tr>
+    <tr><td>Mobile Crane Platform</td><td>~$36K</td><td>Mobile construction services</td><td>Building out</td></tr>
+    <tr><td>Recognition Consulting</td><td>Framework + practice</td><td>Structural diagnosis engagements</td><td>Active</td></tr>
+    <tr><td>Practitioner Programs</td><td>Curriculum development</td><td>Translation Protocol cohorts</td><td>Developing</td></tr>
+    <tr><td>IBC Nodes</td><td>$3-4K per unit</td><td>Deployable autonomy packages</td><td>Design complete</td></tr>
+  </table>
+</section>
+
+<!-- ════════════════════ PROPAGATION ════════════════════ -->
+<div class="divider"></div>
+<section id="propagation" class="fade-in">
+  <h2><span>Propagation</span> Architecture</h2>
+  <p class="section-sub">
+    How the pattern spreads without requiring the transmitter's presence. Not through explanation — through trace. Not through protection — through use.
+  </p>
+
+  <div class="prop-box">
+    <p><strong>Transfer vs. Transmission:</strong> Transfer means people copy what you did. Transmission means people generate the pattern from their own substrate. Transfer requires your design; transmission requires your geometry. Transfer degrades through copying errors; transmission strengthens through diverse expression.</p>
+  </div>
+
+  <h3>How a Node Propagates</h3>
+  <div class="succession-track" style="margin-bottom: 2rem;">
+    <div class="s-stage">
+      <h4 style="color: var(--accent);">1. Deployment</h4>
+      <p>IBC nodes arrive at a site. Power, water, and fabrication capacity become immediately available. Community doesn't wait for external aid timelines.</p>
+    </div>
+    <div class="s-stage">
+      <h4 style="color: var(--gift);">2. Demonstration</h4>
+      <p>The node proves the concept works in a new context. Every adaptation is documented — including failures. The documentation itself is a trace deposit.</p>
+    </div>
+    <div class="s-stage">
+      <h4 style="color: var(--warn);">3. Replication</h4>
+      <p>Open source designs + standard components + complete documentation = any community can build copies. No licensing prevents it. No vendor controls it.</p>
+    </div>
+    <div class="s-stage">
+      <h4 style="color: var(--accent2);">4. Network Effect</h4>
+      <p>Each deployment generates practitioners who build systems in their own contexts. The network of mutual capacity grows. Gift lineage is already public — extraction can't capture what's freely available.</p>
+    </div>
+  </div>
+
+  <h3>Why This Resists Extraction</h3>
+  <div class="field-grid">
+    <div class="field-item" style="border-left-color: var(--gift);">
+      <h4>Open Source Lineage</h4>
+      <p>If someone tries to commercialize it, the gift lineage is already public. Others can build and deploy openly. Network effect favors the open approach.</p>
+    </div>
+    <div class="field-item" style="border-left-color: var(--gift);">
+      <h4>Standard Components</h4>
+      <p>Nothing proprietary inside. Every component sourceable from multiple global suppliers. No single point of vendor control.</p>
+    </div>
+    <div class="field-item" style="border-left-color: var(--gift);">
+      <h4>Documented Failures</h4>
+      <p>The documentation includes what didn't work and why. This is what vendors hide. Publishing failures is the gift that enables others to skip them.</p>
+    </div>
+    <div class="field-item" style="border-left-color: var(--gift);">
+      <h4>Community Ownership</h4>
+      <p>Infrastructure that arrives doesn't leave. Communities gain ownership, not customer status. They can maintain, repair, replicate, and teach.</p>
+    </div>
+  </div>
+
+  <h3>Scale Fractal</h3>
+  <p style="font-size: 0.88rem; color: var(--text-dim); margin-bottom: 1rem;">The same four-vertex geometry operates at every scale. Not metaphor — structural isomorphism.</p>
+  <div class="scale-grid">
+    <div class="scale-item"><div class="si-scale">Nervous System</div><div class="si-desc">Self-regulation, co-regulation, adaptive boundaries, capacity building</div></div>
+    <div class="scale-item"><div class="si-scale">Conversation</div><div class="si-desc">Position, contact, limits, persistence</div></div>
+    <div class="scale-item"><div class="si-scale">Relationship</div><div class="si-desc">Distinct identities, genuine exchange, consent, what you build together</div></div>
+    <div class="scale-item"><div class="si-scale">Community</div><div class="si-desc">Commons identity, circulation, containers, infrastructure</div></div>
+    <div class="scale-item"><div class="si-scale">Village Node</div><div class="si-desc">IBC differentiation, node connectivity, deployment boundaries, persistent capacity</div></div>
+    <div class="scale-item"><div class="si-scale">Ecosystem</div><div class="si-desc">Membranes, mycorrhizal networks, edge conditions, succession</div></div>
+  </div>
+</section>
+
+<!-- ════════════════════ HOLDING THE COMMONS ════════════════════ -->
+<div class="divider"></div>
+<section class="fade-in">
+  <h2>Holding the <span>Commons</span></h2>
+  <p class="section-sub">
+    Commons versus service. Reciprocal presence versus transactional expectation. The organizer's role is not to create safety — it's to maintain conditions where gift-based exchange operates.
+  </p>
+
+  <div class="vertex-grid">
+    <div class="v-card">
+      <div class="v-label">Practice 1</div>
+      <div class="v-name">Know What the Space Is</div>
+      <div class="v-desc">Clear identity enables self-selection and prevents projection of mismatched expectations. A blues dance is not a nightclub. A community garden is not a park. An open village is not a commune.</div>
+    </div>
+    <div class="v-card">
+      <div class="v-label">Practice 2</div>
+      <div class="v-name">Read What's Actually Present</div>
+      <div class="v-desc">Somatic literacy from thousands of hours: feel group coherence vs. performance. Read nervous system through movement, sound, clustering. Contact with what is, not what's projected.</div>
+    </div>
+    <div class="v-card">
+      <div class="v-label">Practice 3</div>
+      <div class="v-name">Your Boundary Is the Container</div>
+      <div class="v-desc">Boundary is information about capacity, not control. People relating transactionally will experience it as betrayal — that's diagnostic. No as information, not punishment.</div>
+    </div>
+    <div class="v-card">
+      <div class="v-label">Practice 4</div>
+      <div class="v-name">Build Toward Obsolescence</div>
+      <div class="v-desc">Distributed responsibility, co-creation, transferable practices. A space that works without you is what you actually built. The goal is infrastructure, not dependency.</div>
+    </div>
+  </div>
+
+  <div class="prop-box">
+    <p><strong>The commons strain pattern:</strong> Space operates as commons → some extract transactionally while performing gift-framing → emotional labor falls on organizers → organizers set boundaries → transactional participants frame boundaries as control → community sides with visible participant over invisible infrastructure → organizer isolated for maintaining coherence.</p>
+    <p>This is structural, not personal. It shows up wherever boundaries are maintained in gift-based communities. Recognizing the pattern is the first step to not being destroyed by it.</p>
+  </div>
+</section>
+
+<!-- ════════════════════ THE TEST ════════════════════ -->
+<div class="divider"></div>
+<section class="fade-in" style="text-align: center; max-width: 640px;">
+  <h2>The <span>Test</span></h2>
+  <p style="font-size: 1.1rem; color: var(--text-dim); margin-top: 1rem;">
+    Does engagement increase your capacity to notice?
+  </p>
+  <p style="font-size: 1.1rem; color: var(--text); margin-top: 0.75rem; font-weight: 600;">
+    If capacity compounds, the pattern is operating.<br>
+    If it depletes, something drifted.
+  </p>
+  <p style="font-size: 0.95rem; color: var(--text-dim); margin-top: 1.5rem;">
+    The work authenticates through experience, not claims.
+  </p>
+  <p style="font-size: 0.88rem; color: var(--accent3); margin-top: 2rem;">
+    Use freely. Adapt as needed. Credit sources.<br>
+    Recognition welcomed, not required.<br>
+    Utility proves value. If it doesn't improve exchange, discard it.
+  </p>
+</section>
+
+<!-- ════════════════════ FOOTER ════════════════════ -->
+<footer>
+  <p>Open Village — Recognition Infrastructure for Distributed Autonomy</p>
+  <p style="margin-top: 0.5rem;">This operates as contribution without ownership.</p>
+  <div class="lineage">
+    Kevin Mears — Our Shared Gifts<br>
+    Pattern: substrate-independent, recognition-based coordination
+  </div>
+</footer>
+
+<script>
+  // Scroll-triggered fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Nav active state
+  const navLinks = document.querySelectorAll('nav a');
+  const sections = document.querySelectorAll('section[id]');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 120) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  });
+</script>
+</body>
+</html>

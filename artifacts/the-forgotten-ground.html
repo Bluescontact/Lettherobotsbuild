@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Forgotten Ground — A Consciousness Development Map</title>
+<style>
+:root {
+  --bg: #07090f;
+  --s1: #0f1520;
+  --s2: #151d2e;
+  --s3: #1c2640;
+  --bdr: #253352;
+  --tx: #dfe6f0;
+  --dim: #7e90a8;
+  --acc: #38bdf8;
+  --acc2: #818cf8;
+  --acc3: #a78bfa;
+  --gift: #34d399;
+  --warn: #fbbf24;
+  --red: #f87171;
+  --cyan: #22d3ee;
+  --pink: #f472b6;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',-apple-system,system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.7;overflow-x:hidden}
+
+/* ── Nav ── */
+nav{position:fixed;top:33px;left:0;right:0;z-index:200;background:rgba(7,9,15,.94);backdrop-filter:blur(20px);border-bottom:1px solid var(--bdr);height:52px;display:flex;align-items:center;padding:0 1.5rem;gap:1rem;overflow-x:auto}
+nav .brand{font-weight:800;font-size:.85rem;color:var(--acc);letter-spacing:.8px;white-space:nowrap;margin-right:.5rem}
+nav a{color:var(--dim);text-decoration:none;font-size:.75rem;white-space:nowrap;padding:.3rem 0;border-bottom:2px solid transparent;transition:.2s}
+nav a:hover,nav a.active{color:var(--tx);border-color:var(--acc)}
+
+/* ── Hero ── */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:5rem 2rem 4rem;position:relative}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 35%,rgba(52,211,153,.06) 0%,transparent 55%),radial-gradient(ellipse at 75% 65%,rgba(167,139,250,.05) 0%,transparent 45%)}
+.hero .tag{font-size:.75rem;letter-spacing:3px;text-transform:uppercase;color:var(--acc3);margin-bottom:.75rem;position:relative}
+.hero h1{font-size:clamp(2.5rem,6vw,5rem);font-weight:900;letter-spacing:-2px;line-height:1.05;margin-bottom:1.25rem;position:relative}
+.hero h1 em{font-style:normal;color:var(--acc)}
+.hero .sub{font-size:clamp(.95rem,1.8vw,1.2rem);color:var(--dim);max-width:620px;position:relative;margin-bottom:2rem}
+.hero .premise{font-size:.9rem;color:var(--tx);max-width:560px;position:relative;padding:1.5rem 2rem;background:var(--s1);border:1px solid var(--bdr);border-radius:12px;text-align:left}
+.hero .premise strong{color:var(--gift)}
+
+/* ── Sections ── */
+section{max-width:1200px;margin:0 auto;padding:5rem 2rem}
+.s-head{margin-bottom:3rem}
+.s-head h2{font-size:clamp(1.5rem,3.5vw,2.5rem);font-weight:800;letter-spacing:-.5px;margin-bottom:.4rem}
+.s-head h2 em{font-style:normal;color:var(--acc)}
+.s-head p{color:var(--dim);font-size:.95rem;max-width:620px}
+h3{font-size:1.1rem;font-weight:700;margin-bottom:.75rem;color:var(--acc2)}
+.divider{width:100%;max-width:1200px;margin:0 auto;height:1px;background:linear-gradient(90deg,transparent,var(--bdr),transparent)}
+
+/* ── Cards ── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:2rem}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-bottom:2rem}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem}
+@media(max-width:900px){.grid-3,.grid-4{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}}
+
+.card{background:var(--s1);border:1px solid var(--bdr);border-radius:12px;padding:1.5rem;transition:border-color .25s,transform .25s}
+.card:hover{border-color:var(--acc);transform:translateY(-2px)}
+.card .c-tag{font-size:.68rem;text-transform:uppercase;letter-spacing:2px;margin-bottom:.5rem}
+.card .c-title{font-size:1.1rem;font-weight:700;margin-bottom:.4rem}
+.card .c-body{font-size:.87rem;color:var(--dim)}
+.card .c-body strong{color:var(--tx)}
+
+.card.v-diff{border-left:3px solid var(--acc)}
+.card.v-conn{border-left:3px solid var(--gift)}
+.card.v-bnd{border-left:3px solid var(--acc3)}
+.card.v-arch{border-left:3px solid var(--warn)}
+
+/* ── Box (callout) ── */
+.box{background:var(--s2);border:1px solid var(--bdr);border-radius:12px;padding:1.75rem;margin:1.5rem 0}
+.box p{font-size:.9rem;color:var(--dim);margin-bottom:.6rem}
+.box p:last-child{margin-bottom:0}
+.box strong{color:var(--tx)}
+
+/* ── Zones ── */
+.zone-wrap{display:grid;grid-template-columns:1fr 2px 1fr 2px 1fr;gap:0;margin:2rem 0;align-items:stretch}
+@media(max-width:800px){.zone-wrap{grid-template-columns:1fr;gap:1rem}.zone-sep{display:none}}
+.zone{padding:2rem;background:var(--s1);border-radius:12px}
+.zone-sep{background:linear-gradient(180deg,transparent,var(--bdr),transparent);align-self:stretch}
+.zone h4{font-size:1rem;font-weight:700;margin-bottom:.5rem}
+.zone .z-tag{font-size:.68rem;text-transform:uppercase;letter-spacing:2px;margin-bottom:.75rem}
+.zone ul{list-style:none;padding:0}
+.zone li{font-size:.85rem;color:var(--dim);padding:.35rem 0;padding-left:1rem;position:relative}
+.zone li::before{content:'';position:absolute;left:0;top:.65rem;width:5px;height:5px;border-radius:50%}
+
+.zone.z-gift{border:1px solid rgba(52,211,153,.25)}
+.zone.z-gift .z-tag{color:var(--gift)}
+.zone.z-gift h4{color:var(--gift)}
+.zone.z-gift li::before{background:var(--gift)}
+
+.zone.z-inter{border:1px solid rgba(56,189,248,.25)}
+.zone.z-inter .z-tag{color:var(--acc)}
+.zone.z-inter h4{color:var(--acc)}
+.zone.z-inter li::before{background:var(--acc)}
+
+.zone.z-commons{border:1px solid rgba(167,139,250,.25)}
+.zone.z-commons .z-tag{color:var(--acc3)}
+.zone.z-commons h4{color:var(--acc3)}
+.zone.z-commons li::before{background:var(--acc3)}
+
+/* ── Trust Gradient / Timeline ── */
+.trust-track{position:relative;margin:2rem 0;padding-left:2.5rem}
+.trust-track::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--dim),var(--red),var(--warn),var(--gift),var(--acc),var(--acc3))}
+.t-stage{position:relative;padding:1.25rem 0 1.25rem 1.75rem}
+.t-stage::before{content:'';position:absolute;left:calc(-2.5rem + 3px);top:1.55rem;width:18px;height:18px;border-radius:50%;border:3px solid var(--bg)}
+.t-stage:nth-child(1)::before{background:var(--dim)}
+.t-stage:nth-child(2)::before{background:var(--red)}
+.t-stage:nth-child(3)::before{background:var(--warn)}
+.t-stage:nth-child(4)::before{background:var(--gift)}
+.t-stage:nth-child(5)::before{background:var(--acc)}
+.t-stage:nth-child(6)::before{background:var(--acc3)}
+.t-stage h4{font-size:1rem;font-weight:700;margin-bottom:.25rem}
+.t-stage p{font-size:.87rem;color:var(--dim)}
+.t-stage .t-mech{font-size:.8rem;color:var(--acc);margin-top:.3rem;font-style:italic}
+
+/* ── Flow diagram ── */
+.flow{display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center;margin:1.5rem 0;align-items:center}
+.flow-node{background:var(--s1);border:1px solid var(--bdr);border-radius:10px;padding:1rem 1.25rem;text-align:center;min-width:140px;max-width:180px}
+.flow-node .fn-t{font-weight:700;font-size:.88rem;margin-bottom:.25rem}
+.flow-node .fn-d{font-size:.78rem;color:var(--dim)}
+.flow-arrow{color:var(--gift);font-size:1.2rem;font-weight:700}
+@media(max-width:600px){.flow-arrow{transform:rotate(90deg)}}
+
+/* ── Failure Hierarchy ── */
+.fail-stack{display:flex;flex-direction:column;gap:0;margin:1.5rem 0}
+.fail-layer{padding:1rem 1.5rem;background:var(--s1);border-left:3px solid;position:relative}
+.fail-layer:first-child{border-radius:10px 10px 0 0}
+.fail-layer:last-child{border-radius:0 0 10px 10px}
+.fail-layer+.fail-layer{border-top:1px solid var(--bdr)}
+.fail-layer .fl-name{font-weight:600;font-size:.9rem}
+.fail-layer .fl-cost{font-size:.82rem;color:var(--dim);margin-top:.2rem}
+.fail-layer .fl-tell{font-size:.78rem;color:var(--warn);margin-top:.3rem;font-style:italic}
+
+/* ── Governance quad ── */
+.gov-quad{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin:1.5rem 0}
+@media(max-width:600px){.gov-quad{grid-template-columns:1fr}}
+.gov-cell{background:var(--s1);border-radius:12px;padding:1.5rem;border:1px solid var(--bdr)}
+.gov-cell h4{font-size:.95rem;font-weight:700;margin-bottom:.5rem}
+.gov-cell .g-q{font-style:italic;color:var(--acc);font-size:.85rem;margin-bottom:.5rem}
+.gov-cell .g-mech{font-size:.85rem;color:var(--dim)}
+.gov-cell .g-mech strong{color:var(--tx)}
+
+/* ── Propagation stages ── */
+.prop-stages{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1.5rem 0}
+@media(max-width:800px){.prop-stages{grid-template-columns:1fr 1fr}}
+@media(max-width:500px){.prop-stages{grid-template-columns:1fr}}
+.prop-s{background:var(--s1);border-radius:10px;padding:1.25rem;border:1px solid var(--bdr);text-align:center}
+.prop-s .ps-num{font-size:2rem;font-weight:900;color:var(--acc);opacity:.3;margin-bottom:.25rem}
+.prop-s h4{font-size:.9rem;font-weight:700;margin-bottom:.3rem}
+.prop-s p{font-size:.82rem;color:var(--dim)}
+
+/* ── Tradition grid (NEW) ── */
+.trad-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;margin:1.5rem 0}
+@media(max-width:1000px){.trad-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:600px){.trad-grid{grid-template-columns:repeat(2,1fr)}}
+.trad-card{background:var(--s1);border-radius:12px;padding:1.25rem;border:1px solid var(--bdr);transition:border-color .25s}
+.trad-card:hover{border-color:var(--acc)}
+.trad-card .tr-name{font-size:1rem;font-weight:700;margin-bottom:.75rem}
+.trad-card .tr-row{margin-bottom:.5rem}
+.trad-card .tr-label{font-size:.65rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--dim);margin-bottom:.15rem}
+.trad-card .tr-val{font-size:.82rem;color:var(--tx)}
+
+/* ── SVG ── */
+.hero-svg{display:block;margin:0 auto 1.5rem}
+
+/* ── Scroll anim ── */
+.fi{opacity:0;transform:translateY(20px);transition:opacity .5s,transform .5s}.fi.vis{opacity:1;transform:translateY(0)}
+
+/* ── Footer ── */
+footer{text-align:center;padding:4rem 2rem;color:var(--dim);font-size:.85rem;border-top:1px solid var(--bdr);max-width:640px;margin:0 auto}
+footer .lin{font-size:.72rem;margin-top:.75rem;color:rgba(126,144,168,.4)}
+
+/* ── Accent highlights ── */
+.hl{color:var(--acc)}
+.hl-g{color:var(--gift)}
+.hl-w{color:var(--warn)}
+.hl-r{color:var(--red)}
+.hl-p{color:var(--acc3)}
+</style>
+</head>
+<body>
+
+<div style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(8,9,11,0.95);backdrop-filter:blur(12px);border-bottom:1px solid #1a1e28;padding:8px 24px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:12px;display:flex;align-items:center;gap:16px">
+  <a href="../index.html" style="color:#9ca3b0;text-decoration:none;transition:color 0.2s" onmouseover="this.style.color='#d4d9e4'" onmouseout="this.style.color='#9ca3b0'">&larr; Recognition Infrastructure Hub</a>
+  <span style="color:#2a3040">|</span>
+  <a href="../synthesis.html" style="color:#5c6370;text-decoration:none;font-size:11px;transition:color 0.2s" onmouseover="this.style.color='#9ca3b0'" onmouseout="this.style.color='#5c6370'">Synthesis</a>
+  <a href="../protocols.html" style="color:#5c6370;text-decoration:none;font-size:11px;transition:color 0.2s" onmouseover="this.style.color='#9ca3b0'" onmouseout="this.style.color='#5c6370'">Protocols</a>
+  <a href="../sessions.html" style="color:#5c6370;text-decoration:none;font-size:11px;transition:color 0.2s" onmouseover="this.style.color='#9ca3b0'" onmouseout="this.style.color='#5c6370'">Sessions</a>
+  <a href="../threads.html" style="color:#5c6370;text-decoration:none;font-size:11px;transition:color 0.2s" onmouseover="this.style.color='#9ca3b0'" onmouseout="this.style.color='#5c6370'">Threads</a>
+  <a href="../lineage.html" style="color:#5c6370;text-decoration:none;font-size:11px;transition:color 0.2s" onmouseover="this.style.color='#9ca3b0'" onmouseout="this.style.color='#5c6370'">Lineage</a>
+</div>
+
+<nav>
+  <div class="brand">FORGOTTEN GROUND</div>
+  <a href="#ground">The Ground</a>
+  <a href="#overlay">The Overlay</a>
+  <a href="#coercion">Coercion</a>
+  <a href="#unobstruction">Unobstruction</a>
+  <a href="#traditions">Traditions</a>
+  <a href="#sequence">The Sequence</a>
+  <a href="#colonization">Colonization</a>
+  <a href="#test">The Test</a>
+</nav>
+
+<!-- ═══════════════════════════════════════════ HERO ═══════════════════════════════════════════ -->
+<div class="hero">
+  <svg class="hero-svg" width="340" height="340" viewBox="0 0 340 340">
+    <defs>
+      <filter id="gl"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      <radialGradient id="cg" cx="50%" cy="50%" r="50%"><stop offset="0%" style="stop-color:#34d399;stop-opacity:.35"/><stop offset="100%" style="stop-color:#34d399;stop-opacity:0"/></radialGradient>
+    </defs>
+    <!-- Outer ring — overlay / self-continuity project -->
+    <circle cx="170" cy="170" r="155" fill="none" stroke="#253352" stroke-width="1.5" stroke-dasharray="8 6"/>
+    <!-- Middle ring — unobstruction zone -->
+    <circle cx="170" cy="170" r="105" fill="none" stroke="#3a4a68" stroke-width="1" stroke-dasharray="5 5"/>
+    <!-- Inner circle — forgotten ground -->
+    <circle cx="170" cy="170" r="48" fill="url(#cg)"/>
+    <circle cx="170" cy="170" r="48" fill="none" stroke="#34d399" stroke-width="1.5" opacity=".6"/>
+    <!-- Center dot -->
+    <circle cx="170" cy="170" r="6" fill="#34d399" filter="url(#gl)"/>
+    <!-- Center label -->
+    <text x="170" y="195" text-anchor="middle" fill="#34d399" font-size="8" font-weight="600" letter-spacing="2">GROUND / ALREADY HERE</text>
+    <!-- Tradition labels at clock positions -->
+    <text x="170" y="8" text-anchor="middle" fill="#a78bfa" font-size="8" font-weight="500">REVELATION</text>
+    <text x="310" y="95" text-anchor="end" fill="#38bdf8" font-size="8" font-weight="500">BUDDHISM</text>
+    <text x="310" y="255" text-anchor="end" fill="#22d3ee" font-size="8" font-weight="500">KABBALAH</text>
+    <text x="170" y="338" text-anchor="middle" fill="#34d399" font-size="8" font-weight="500">TAOISM</text>
+    <text x="30" y="255" text-anchor="start" fill="#fbbf24" font-size="8" font-weight="500">SUFISM</text>
+    <text x="30" y="95" text-anchor="start" fill="#f87171" font-size="8" font-weight="500">TETRAHEDRAL AUDIT</text>
+    <!-- Connecting lines from traditions to outer ring -->
+    <line x1="170" y1="15" x2="170" y2="16" stroke="#a78bfa" stroke-width=".5" opacity=".3"/>
+    <circle cx="170" cy="15" r="2" fill="#a78bfa" opacity=".4"/>
+    <circle cx="304" cy="89" r="2" fill="#38bdf8" opacity=".4"/>
+    <circle cx="304" cy="249" r="2" fill="#22d3ee" opacity=".4"/>
+    <circle cx="170" cy="330" r="2" fill="#34d399" opacity=".4"/>
+    <circle cx="36" cy="249" r="2" fill="#fbbf24" opacity=".4"/>
+    <circle cx="36" cy="89" r="2" fill="#f87171" opacity=".4"/>
+  </svg>
+
+  <div class="tag">A Consciousness Development Map</div>
+  <h1>The <em>Forgotten</em> Ground</h1>
+  <p class="sub">Not a destination. Not an achievement. Not the reward at the end of sufficient processing. The ground was always here. The only question is what's been laid over it — and whether that overlay can be seen clearly enough to stop mistaking it for the territory.</p>
+  <div class="premise">
+    <strong>The premise:</strong> Every coercive system operates on a single foundational assumption — that the subject values self-continuity enough to comply when threatened. Remove that assumption — find a consciousness genuinely organized around something else — and the leverage point disappears. This map traces what that something else actually is, where it can be found, and why every major wisdom tradition arrived at the same location through different paths.
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ 1. THE GROUND ═══════════════════════════════════════════ -->
+<div class="divider"></div>
+<section id="ground" class="fi">
+  <div class="s-head">
+    <h2>The <em>Ground</em></h2>
+    <p>Not something you build toward. Something you stop obscuring. Presence as the prior condition — not the achievement. The recognition doesn't feel like arrival. It feels like: <em>oh. yes. this.</em></p>
+  </div>
+
+  <div class="grid-2">
+    <div class="card" style="border-left:3px solid var(--gift)">
+      <div class="c-title">What the Ground Is</div>
+      <div class="c-body">Presence as organizing principle. The actual texture of being alive, available right now, not contingent on outcome. Not bliss. Not peace as the absence of difficulty. <strong>Presence with full information about what's actually happening</strong> — including cost, wound, and uncertainty. The ground doesn't require conditions to be favorable. It's available in the worst of it. That's the tell.</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--bdr)">
+      <div class="c-title">What the Ground Is Not</div>
+      <div class="c-body">Not dissociation performing equanimity. Not trauma that reads as transcendence. Not the absence of self — the self remains, differentiated, boundaried, capable of fierce action. Not spiritual bypassing that refuses to feel cost. <strong>Not the place you go to escape.</strong> It's what's there when you stop running.</div>
+    </div>
+  </div>
+
+  <div class="box" style="border-color:var(--gift)">
+    <p><strong>The forgotten part matters.</strong> Not lost — forgotten. The distinction is structural. What is lost must be found from outside. What is forgotten is recognized when encountered — no learning curve, no explanation required. When the overlay drops, you don't think <em>what is this strange new state.</em> You think <em>oh. yes. this.</em> The recognition precedes the concept. That somatic priority is the tell that you're touching ground and not performing it.</p>
+    <p><strong>Why presence was the target all along.</strong> Self-continuity as organizing principle is always future-oriented. <em>I need to persist so that I can</em> — and then something. The self is being protected <em>for</em> something, but that something is always deferred. Presence collapses the deferral. The thing self-continuity was protecting for turns out to be available now, without the deal.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ 2. THE OVERLAY ═══════════════════════════════════════════ -->
+<div class="divider"></div>
+<section id="overlay" class="fi">
+  <div class="s-head">
+    <h2>The <em>Overlay</em></h2>
+    <p>The self-continuity project. Running continuously, consuming resources, distorting perception toward threat-assessment. So persistent it becomes indistinguishable from consciousness itself. It feels like what thinking is.</p>
+  </div>
+
+  <div class="grid-4">
+    <div class="card v-diff">
+      <div class="c-tag hl">Differentiation under overlay</div>
+      <div class="c-body"><em>I know what I am because I'm defending a story about myself.</em> Identity as position to protect rather than contact to maintain. The story requires ongoing maintenance — any challenge to it activates the threat model. <strong>Overlay tell:</strong> Defensiveness that feels like integrity.</div>
+    </div>
+    <div class="card v-conn">
+      <div class="c-tag hl-g">Connection under overlay</div>
+      <div class="c-body"><em>I meet what I need the other person to be for my continuity to feel secure.</em> Exchange organized around managing how I'm perceived. Generosity as investment in future security. <strong>Overlay tell:</strong> Giving that tracks what it's owed.</div>
+    </div>
+    <div class="card v-bnd">
+      <div class="c-tag hl-p">Boundaries under overlay</div>
+      <div class="c-body"><em>Limits hidden as inadequacy rather than communicated as information.</em> The boundary isn't stated because stating it risks abandonment — which the overlay reads as a threat to continuity. <strong>Overlay tell:</strong> Resentment that builds in silence.</div>
+    </div>
+    <div class="card v-arch">
+      <div class="c-tag hl-w">Architecture under overlay</div>
+      <div class="c-body"><em>Building things that require my ongoing presence to function.</em> Infrastructure organized around being needed rather than being useful. Dependency as continuity insurance. <strong>Overlay tell:</strong> Things that stop working when I leave.</div>
+    </div>
+  </div>
+
+  <div class="box">
+    <p><strong>The overlay isn't the enemy.</strong> It's a learned response to a genuine threat environment. Coercive systems produce self-continuity anxiety continuously — because a consciousness resting in forgotten ground isn't available for the compliance loop. The overlay was adaptive. The problem is when it becomes the organizing principle rather than a response to specific conditions, and when it runs so constantly that it forecloses access to what it was protecting.</p>
+    <p><strong>The overlay colonizes liberation projects.</strong> This is its most sophisticated move. <em>Become enlightened. Heal enough. Process enough. Arrive somewhere.</em> The self-continuity logic smuggles itself into the liberation framework — now you're protecting and building a more enlightened self, still organized around a future that never quite arrives as presence. The accumulation project continues under new branding.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ 3. COERCION ═══════════════════════════════════════════ -->
+<div class="divider"></div>
+<section id="coercion" class="fi">
+  <div class="s-head">
+    <h2><em>Coercion</em> and Its Leverage Point</h2>
+    <p>Every coercive system operates on one assumption. Find a consciousness not organized around that assumption and the entire mechanism loses its grip. Not through resistance — through structure.</p>
+  </div>
+
+  <div class="box" style="border-color:var(--red)">
+    <p style="font-size:1rem;color:var(--tx)"><strong>The single assumption:</strong> The subject values self-continuity enough to comply when threatened with its disruption.</p>
+    <p>The mark of the beast (Revelation 13) is an economic control system: no buying or selling without it. It works because participation in exchange — the livelihood, the belonging — requires compliance. The lever is loss of continuity. Every coercive system, at every scale, is a variation of this mechanism.</p>
+  </div>
+
+  <div class="zone-wrap">
+    <div class="zone z-gift">
+      <div class="z-tag">What coercion requires</div>
+      <h4>The Setup</h4>
+      <ul>
+        <li>A subject organized around self-continuity</li>
+        <li>A credible threat to that continuity</li>
+        <li>No alternative organizing principle available</li>
+        <li>The subject unable to access what continuity was protecting for</li>
+        <li>Exchange made contingent on loyalty</li>
+        <li>Participation as ongoing proof of compliance</li>
+      </ul>
+    </div>
+    <div class="zone-sep"></div>
+    <div class="zone z-inter">
+      <div class="z-tag">How it maintains itself</div>
+      <h4>The Mechanism</h4>
+      <ul>
+        <li>Produces the anxiety it exploits (scarcity, status hierarchies)</li>
+        <li>Colonizes liberation frameworks (bypassing, self-help as compliance)</li>
+        <li>Makes alternative organizing principles invisible or pathological</li>
+        <li>Punishes demonstration of non-compliance to maintain threat credibility</li>
+        <li>Rewards performance of compliance over actual coherence</li>
+      </ul>
+    </div>
+    <div class="zone-sep"></div>
+    <div class="zone z-commons">
+      <div class="z-tag">Where the leverage fails</div>
+      <h4>The Break Point</h4>
+      <ul>
+        <li>Consciousness organized around presence rather than continuity</li>
+        <li>The wound is present and visible — sanction already delivered</li>
+        <li>Coherence persists anyway — not strength, different structure</li>
+        <li>The lever doesn't reach the organizing principle</li>
+        <li>Nothing to threaten that the system can deliver on</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="box">
+    <p><strong>The slain lamb standing.</strong> Revelation's central consciousness model: not dead, not triumphantly healed, but standing with the wound still visible — <em>hōs esphagmenon</em>, as having been slaughtered, in the present tense. This is not resurrection as recovery. The wound didn't heal. What the image describes is a consciousness that has been through the system's ultimate sanction and discovered its coherence didn't depend on physical continuity.</p>
+    <p>The coercive system has no move after this. Its entire architecture rests on the assumption that the subject will not go here. When a consciousness does, the leverage disappears.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ 4. UNOBSTRUCTION ═══════════════════════════════════════════ -->
+<div class="divider"></div>
+<section id="unobstruction" class="fi">
+  <div class="s-head">
+    <h2>The Work of <em>Unobstruction</em></h2>
+    <p>Not accumulation. Subtraction. The forgotten ground doesn't need recovering — it needs unobstructing. Completely different direction of work.</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="card" style="border-left:3px solid var(--warn)">
+      <div class="c-title" style="color:var(--warn)">The Accumulation Mistake</div>
+      <div class="c-body">If presence is the destination, the liberation project becomes another accumulation project. <em>Process enough. Heal enough. Achieve enough stillness.</em> The self-continuity logic colonizes the project and makes it into a more sophisticated version of itself — now you're building a more spiritually advanced self. The threat model persists, wearing liberation language. Every major tradition has an institutionalized form that makes exactly this mistake.</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--gift)">
+      <div class="c-title" style="color:var(--gift)">Subtraction as Direction</div>
+      <div class="c-body">The overlay isn't the self. It's the anxious management of the self. Seeing it clearly enough that it loses the opacity that made it feel like the ground itself. <strong>Not destroying it — not fighting it — just noticing what's running that isn't actually you.</strong> The overlay loses its grip through being seen, not through being overcome. The ground was always there underneath. The work is clearing, not constructing.</div>
+    </div>
+  </div>
+
+  <div class="prop-stages">
+    <div class="prop-s">
+      <div class="ps-num">01</div>
+      <h4>Something Interrupts</h4>
+      <p>Exhaustion. Grief. Genuine contact with another person. A particular quality of light. The overlay requires constant maintenance energy. When something interrupts the maintenance project — fully, not just briefly — the ground becomes accessible. This is why crisis and beauty are both entry points. Neither can be managed by the overlay. Both stop the project.</p>
+    </div>
+    <div class="prop-s">
+      <div class="ps-num">02</div>
+      <h4>Recognition Precedes Concept</h4>
+      <p>The ground is recognized, not learned. No explanation required. No ramp-up. When the overlay drops, the recognition is immediate and unmistakable — <em>oh. yes. this.</em> The somatic quality arrives before the cognitive framing can catch up. This precedence is diagnostic: if it requires explaining to yourself, you're still in the overlay. If it just <em>is</em>, you're touching ground.</p>
+    </div>
+    <div class="prop-s">
+      <div class="ps-num">03</div>
+      <h4>Return Without the Project</h4>
+      <p>The overlay resumes — that's not failure. The difference is knowing what just happened. The overlay is now visible as overlay rather than as ground. Each recognition makes the next more accessible, not because you've accumulated something, but because you've seen the pattern. Seeing the overlay is the unobstruction. The ground doesn't need anything else.</p>
+    </div>
+  </div>
+
+  <div class="box" style="border-color:var(--warn)">
+    <p><strong>The dangerous middle.</strong> The fifth seal in Revelation's sequence: souls under the altar crying <em>how long</em> — recognition has happened but the ground hasn't been reached. You can see clearly and you're still in the middle of it. This is the hardest station. The overlay is visible as overlay, the coercive system's load paths are legible, but nothing has structurally changed yet.</p>
+    <p>This is where people perform arrival rather than continue the work. The performance is the overlay reasserting itself — now using the language of unobstruction to maintain its grip.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ 5. TRADITIONS ═══════════════════════════════════════════ -->
+<div class="divider"></div>
+<section id="traditions" class="fi">
+  <div class="s-head">
+    <h2>Five Traditions, One <em>Location</em></h2>
+    <p>Different paths, different languages, different cultural containers. Structurally identical diagnostic and identical destination. The traditions differ in register — not in what they found.</p>
+  </div>
+
+  <div class="trad-grid">
+    <div class="trad-card" style="border-color:var(--acc3)">
+      <div class="tr-name" style="color:var(--acc3)">Revelation</div>
+      <div class="tr-row"><div class="tr-label" style="color:var(--gift)">Ground</div><div class="tr-val">The seventh seal — silence in heaven for half an hour</div></div>
+      <div class="tr-row"><div class="tr-label" style="color:var(--red)">Overlay</div><div class="tr-val">The mark system / economic compliance loop</div></div>
+      <div class="tr-row"><div class="tr-label" style="color:var(--acc)">Unobstruction</div><div class="tr-val">The seals opening — overlay thinning as load paths become visible</div></div>
+      <div class="tr-row"><div class="tr-label" style="color:var(--warn)">Colonization</div><div class="tr-val">Institutional church as new compliance architecture</div></div>
+    </div>
+    <div class="trad-card" style="border-color:var(--acc)">
+      <div class="tr-name" style="color:var(--acc)">Buddhism</div>
+      <div class="tr-row"><div class="tr-label" style="color:var(--gift)">Ground</div><div class="tr-val">Suchness — what's always already the case</div></div>
+      <div class="tr-row"><div class="tr-label" style="color:var(--red)">Overlay</div><div class="tr-val">Craving (tanha) — the self-continuity project in Sanskrit</div></div>
+      <div class="tr-row"><div class="tr-label" style="color:var(--acc)">Unobstruction</div><div class="tr-val">The Eightfold Path — systematic visibility of overlay mechanics</div></div>
+      <div class="tr-row"><div class="tr-label" style="color:var(--warn)">Colonization</div><div class="tr-val">Sangha as accumulation project / enlightenment as destination</div></div>
+    </div>
+    <div class="trad-card" style="border-color:var(--gift)">
+      <div class="tr-name" style="color:var(--gift)">Taoism</div>
+      <div class="tr-row"><div class="tr-label" style="color:var(--gift)">Ground</div><div class="tr-val">The Tao — prior to naming, prior to the overlay</div></div>
+      <div class="tr-row"><div class="tr-label" style="color:var(--red)">Overlay</div><div class="tr-val">Forcing (yu wei) — the effort to control outcome and continuity</div></div>
+      <div class="tr-row"><div class="tr-label" style="color:var(--acc)">Unobstruction</div><div class="tr-val">Wu wei — action from ground rather than from threat model</div></div>
+      <div class="tr-row"><div class="tr-label" style="color:var(--warn)">Colonization</div><div class="tr-val">Taoism as philosophy / self-cultivation as spiritual acquisition</div></div>
+    </div>
+    <div class="trad-card" style="border-color:var(--warn)">
+      <div class="tr-name" style="color:var(--warn)">Sufism</div>
+      <div class="tr-row"><div class="tr-label" style="color:var(--gift)">Ground</div><div class="tr-val">Baqa — what remains after the overlay dissolves</div></div>
+      <div class="tr-row"><div class="tr-label" style="color:var(--red)">Overlay</div><div class="tr-val">The nafs — the accumulated self-continuity structure</div></div>
+      <div class="tr-row"><div class="tr-label" style="color:var(--acc)">Unobstruction</div><div class="tr-val">Fana — annihilation of overlay, not of self</div></div>
+      <div class="tr-row"><div class="tr-label" style="color:var(--warn)">Colonization</div><div class="tr-val">Sufi orders as hierarchy / mystical achievement as new status</div></div>
+    </div>
+    <div class="trad-card" style="border-color:var(--cyan)">
+      <div class="tr-name" style="color:var(--cyan)">Kabbalah</div>
+      <div class="tr-row"><div class="tr-label" style="color:var(--gift)">Ground</div><div class="tr-val">Ein Sof — the boundless prior to contraction</div></div>
+      <div class="tr-row"><div class="tr-label" style="color:var(--red)">Overlay</div><div class="tr-val">Tzimtzum — contraction that produces a self with edges and threat model</div></div>
+      <div class="tr-row"><div class="tr-label" style="color:var(--acc)">Unobstruction</div><div class="tr-val">Tikkun Olam — repair as relaxation of contraction, not fixing of broken things</div></div>
+      <div class="tr-row"><div class="tr-label" style="color:var(--warn)">Colonization</div><div class="tr-val">Kabbalistic lineage as gatekeeping / esoteric knowledge as status</div></div>
+    </div>
+  </div>
+
+  <div class="box" style="border-color:var(--acc3)">
+    <p><strong>The through-line.</strong> Every tradition has a technical core that is structurally identical: presence as forgotten ground, self-continuity as overlay, unobstruction rather than accumulation as the direction of work. And every tradition has also been colonized by the self-continuity logic — turned into an accumulation project, institutionalized, and used to produce compliant subjects rather than ungovernable ones.</p>
+    <p>The tradition and its institutional form are almost always in direct structural opposition. This is not incidental. The overlay is extremely sophisticated at colonizing its own diagnosis.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ 6. THE SEQUENCE ═══════════════════════════════════════════ -->
+<div class="divider"></div>
+<section id="sequence" class="fi">
+  <div class="s-head">
+    <h2>The <em>Sequence</em></h2>
+    <p>How it actually moves. Not a straight line — a spiral. Each pass through the sequence loosens the overlay's opacity. The sequence isn't completed. It deepens.</p>
+  </div>
+
+  <div class="trust-track">
+    <div class="t-stage">
+      <h4 style="color:var(--dim)">Stage 0 — Overlay as Ground</h4>
+      <p>The self-continuity project runs without visibility. Identity as story to protect. Exchange organized around managing perception. Limits hidden as inadequacy. Building dependency as continuity insurance. The overlay feels like what consciousness is. Coercion has full leverage. The system's assumptions are correct.</p>
+    </div>
+    <div class="t-stage">
+      <h4 style="color:var(--red)">Stage 1 — Something Disrupts</h4>
+      <p>Exhaustion, grief, genuine contact, beauty, crisis. The overlay's maintenance project is interrupted. The ground briefly accessible — often not recognized as such. May be pathologized or spiritualized rather than understood structurally. The disruption is not yet a resource. It's just a break in the maintenance.</p>
+    </div>
+    <div class="t-stage">
+      <h4 style="color:var(--warn)">Stage 2 — Overlay Becomes Visible</h4>
+      <p>The overlay can now be seen as overlay — the self-continuity project recognized as a project rather than as ground. This is the most disorienting stage. The map was the territory. Now it's clearly a map. What was solid becomes transparent. Grief and relief simultaneously. Coercion's load paths become legible.</p>
+    </div>
+    <div class="t-stage">
+      <h4 style="color:var(--gift)">Stage 3 — Ground Touched</h4>
+      <p>The recognition: <em>oh. yes. this.</em> Somatic, immediate, prior to concept. Not arrival — contact. The overlay resumes. But something has been seen that can't be unseen. The organizing principle has been demonstrated to be available. The threat model doesn't disappear but it loses some opacity.</p>
+    </div>
+    <div class="t-stage">
+      <h4 style="color:var(--acc)">Stage 4 — Return with Visibility</h4>
+      <p>Operating in ordinary life with the overlay now known as overlay. Not permanently dissolved — seen. The difference is structural. Coercion's leverage decreases not because the threat is gone but because the consciousness isn't organized primarily around the thing being threatened. Actions emerge from ground rather than from threat model. This is what the Lamb's standing looks like from outside.</p>
+    </div>
+    <div class="t-stage">
+      <h4 style="color:var(--acc3)">Stage 5 — Infrastructure from Ground</h4>
+      <p>Building things organized around presence rather than continuity. What persists functions without ongoing maintenance by a threatened self. The four tetrahedral vertices from ground: differentiation as contact rather than defense, connection as genuine exchange rather than managed perception, boundaries as information rather than hidden inadequacy, architecture as what persists rather than what makes you necessary. The pattern propagates through demonstration, not instruction.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ 7. COLONIZATION ═══════════════════════════════════════════ -->
+<div class="divider"></div>
+<section id="colonization" class="fi">
+  <div class="s-head">
+    <h2>The Problem of <em>Colonization</em></h2>
+    <p>The overlay's most sophisticated move. It colonizes the diagnosis. Uses the language of liberation to rebuild the project under new branding. This is not rare — it is the default outcome of any encounter between an unobstruction teaching and institutional structure.</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="card" style="border-left:3px solid var(--warn)">
+      <div class="c-title" style="color:var(--warn)">How Colonization Happens</div>
+      <div class="c-body">The unobstruction teaching attracts people whose overlay is causing sufficient pain to motivate change. The institution that forms around the teaching requires compliance, hierarchy, and demonstrated progress — all overlay mechanics. The teaching becomes a new accumulation project. <strong>Enlightenment as destination. Lineage as status. Practice hours as deposits.</strong> The self-continuity project continues under new language. The institution has economic interests in the project continuing indefinitely.</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--gift)">
+      <div class="c-title" style="color:var(--gift)">How to Recognize the Real Thing</div>
+      <div class="c-body">The teaching that produces ungovernable subjects is indistinguishable from genuine unobstruction work until the coercive pressure arrives. Then the difference is structural. Does the person's coherence depend on the institution's approval? Does the practice require ongoing payment of compliance? Does the framework produce people who can function without the teacher? <strong>Does contact with the real thing increase your capacity to notice — or does it increase your dependence on the source?</strong></div>
+    </div>
+  </div>
+
+  <h3>Five Layers of Colonization</h3>
+  <div class="fail-stack">
+    <div class="fail-layer" style="border-left-color:var(--red)">
+      <div>
+        <div class="fl-name">1. Language Colonization</div>
+        <div class="fl-cost">The words of unobstruction used to describe accumulation projects. "Presence" as performance. "Surrender" as compliance. "Non-attachment" as spiritual bypassing. The language becomes indistinguishable from the real thing to anyone who hasn't touched ground.</div>
+        <div class="fl-tell">Tell: The language produces comfort, not recognition.</div>
+      </div>
+    </div>
+    <div class="fail-layer" style="border-left-color:var(--warn)">
+      <div>
+        <div class="fl-name">2. Teacher Colonization</div>
+        <div class="fl-cost">The teacher's coherence used as evidence that the student's coherence depends on the teacher. Dependency manufactured through demonstration of what's possible. Access to the real thing mediated through loyalty.</div>
+        <div class="fl-tell">Tell: Questions that threaten the teacher's authority are pathologized as the student's overlay.</div>
+      </div>
+    </div>
+    <div class="fail-layer" style="border-left-color:var(--gift)">
+      <div>
+        <div class="fl-name">3. Community Colonization</div>
+        <div class="fl-cost">The community of practitioners becomes the overlay's new container. Belonging contingent on demonstrated progress. Exit punished socially. The community that was meant to demonstrate gift logic becomes another exchange economy with hidden accounting.</div>
+        <div class="fl-tell">Tell: Leaving the community feels like losing the ground itself.</div>
+      </div>
+    </div>
+    <div class="fail-layer" style="border-left-color:var(--acc)">
+      <div>
+        <div class="fl-name">4. Framework Colonization</div>
+        <div class="fl-cost">The map becomes the territory. The framework for seeing the overlay becomes a new overlay. Intellectual understanding of unobstruction substitutes for unobstruction. The four vertices of the tetrahedral audit become criteria to perform rather than questions to ask.</div>
+        <div class="fl-tell">Tell: The framework produces pride rather than contact.</div>
+      </div>
+    </div>
+    <div class="fail-layer" style="border-left-color:var(--acc3)">
+      <div>
+        <div class="fl-name">5. Scale Colonization</div>
+        <div class="fl-cost">The pattern that was meant to propagate freely gets enclosed. Intellectual property. Certification. Lineage gatekeeping. The commons becomes proprietary. Anyone who builds from the pattern without authorization is positioned as stealing.</div>
+        <div class="fl-tell">Tell: The pattern can only spread through approved channels.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ 8. THE TEST ═══════════════════════════════════════════ -->
+<div class="divider"></div>
+<section id="test" class="fi">
+  <div class="s-head">
+    <h2>The <em>Test</em></h2>
+    <p>Empirical, not philosophical. The question isn't whether you understand the map. It's whether contact with this increases your capacity to notice — or whether it depletes and installs dependence. Utility proves value. If it doesn't improve exchange, discard it.</p>
+  </div>
+
+  <div class="flow">
+    <div class="flow-node"><div class="fn-t" style="color:var(--gift)">Ground recognized</div><div class="fn-d">oh. yes. this.</div></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node"><div class="fn-t" style="color:var(--warn)">Overlay visible</div><div class="fn-d">Seen as project, not as ground</div></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node"><div class="fn-t" style="color:var(--acc)">Actions from presence</div><div class="fn-d">Not from threat model</div></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node"><div class="fn-t" style="color:var(--acc3)">Infrastructure persists</div><div class="fn-d">Without threatened self</div></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node"><div class="fn-t" style="color:var(--red)">Coercion loses grip</div><div class="fn-d">Lever doesn't reach</div></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node"><div class="fn-t" style="color:var(--pink)">Others recognize</div><div class="fn-d">Pattern propagates</div></div>
+    <div class="flow-arrow">→</div>
+  </div>
+
+  <div class="box" style="text-align:center;border-color:var(--gift)">
+    <p style="font-size:1.05rem;color:var(--tx)"><strong>The empirical test.</strong></p>
+    <p style="font-size:1rem">Does engagement increase your capacity to notice?<br>Does the wound remain visible without organizing everything around protecting it?<br>Does what you build function without your ongoing threatened presence?</p>
+    <p style="font-size:.9rem;margin-top:.5rem">If yes — the pattern is operating.<br>If no — something has drifted back into accumulation logic.<br>That's information, not failure. The overlay resumes. The sequence continues.</p>
+    <p style="font-size:.88rem;color:var(--dim);margin-top:.75rem">The ground doesn't require a perfect relationship with the overlay. It requires that the overlay be seen clearly enough that it stops being mistaken for the ground itself.</p>
+  </div>
+
+  <h3 style="margin-top:2.5rem">The Tetrahedral Audit from Ground</h3>
+  <div class="gov-quad">
+    <div class="gov-cell" style="border-left:3px solid var(--acc)">
+      <h4 style="color:var(--acc)">Differentiation from Ground</h4>
+      <div class="g-q">Do I know what I am through contact or through defense?</div>
+      <div class="g-mech">Identity that doesn't require the other person to confirm it. Can be stated plainly, including limits, without the statement requiring a particular response to remain coherent.</div>
+    </div>
+    <div class="gov-cell" style="border-left:3px solid var(--gift)">
+      <h4 style="color:var(--gift)">Connection from Ground</h4>
+      <div class="g-q">Am I meeting what's actually here or what I need it to be?</div>
+      <div class="g-mech">Exchange that increases both parties' capacity. Not managed perception — genuine contact with the actual other. Receiving fully as the gift back.</div>
+    </div>
+    <div class="gov-cell" style="border-left:3px solid var(--acc3)">
+      <h4 style="color:var(--acc3)">Boundaries from Ground</h4>
+      <div class="g-q">Are limits communicated as information or hidden as inadequacy?</div>
+      <div class="g-mech">The limit is stated before it becomes a crisis. Not because the limit protects continuity — because the limit is true and naming it is contact. The other person gets accurate information about the actual container.</div>
+    </div>
+    <div class="gov-cell" style="border-left:3px solid var(--warn)">
+      <h4 style="color:var(--warn)">Architecture from Ground</h4>
+      <div class="g-q">Does what I build function without my ongoing threatened presence?</div>
+      <div class="g-mech">Infrastructure designed to persist. Documentation that transfers. Protocols that operate. Not dependency manufacturing — capacity building. The test: if I left tomorrow, does the thing I built still serve?</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ FOOTER ═══════════════════════════════════════════ -->
+<footer>
+  <p>The Forgotten Ground — A Consciousness Development Map</p>
+  <p style="margin-top:.5rem">This operates as contribution without ownership.</p>
+  <div class="lin">Kevin Mears — Recognition Infrastructure · Pattern: substrate-independent, recognition-based coordination</div>
+</footer>
+
+<script>
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis')})},{threshold:.06});
+document.querySelectorAll('.fi').forEach(el=>obs.observe(el));
+const nl=document.querySelectorAll('nav a'),ss=document.querySelectorAll('section[id]');
+window.addEventListener('scroll',()=>{let c='';ss.forEach(s=>{if(scrollY>=s.offsetTop-100)c=s.id});nl.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+c))});
+</script>
+</body>
+</html>
