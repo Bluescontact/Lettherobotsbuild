@@ -1037,6 +1037,10 @@ p:last-child { margin-bottom: 0; }
   <div class="nav-group-label" style="margin-top:12px">The Domain</div>
   <a href="#domain" class="indent-2">Core Question</a>
   <a href="#gaviotas" class="indent-2">Gaviotas</a>
+  <div class="nav-group-label" style="margin-top:8px;font-size:8px;letter-spacing:1.5px;">Systems</div>
+  <a href="#system-power-ibc" class="indent-2">Power IBC</a>
+  <a href="#system-water-ibc" class="indent-2">Water IBC</a>
+  <a href="#system-workshop-ibc" class="indent-2">Workshop IBC</a>
   <a href="#system-sleeve-pump" class="indent-2">Sleeve Pump</a>
 </nav>
 
@@ -1574,8 +1578,8 @@ p:last-child { margin-bottom: 0; }
         <div class="stage-name" style="color:var(--diff)">Pioneer</div>
         <div class="stage-char">Dec 2025 &ndash; Jan 2026</div>
         <div class="stage-work">
-          Transmission Seed v1.0 &mdash; first documentation attempt. Twenty years of lived experience (partner dance, elevator construction, whistleblowing, gift economy) finding language for the first time. The framework didn&rsquo;t know what it was yet.<br>
-          <em style="color:var(--text-dim);font-size:13px;">The model says: identity clarification, first deposits. That matches. What the model doesn&rsquo;t capture: how much of the pioneer work was somatic before it was structural.</em>
+          First documentation attempt. Patterns recognized across multiple domains over two decades, but without shared language. The framework didn&rsquo;t know what it was yet. Identity unclear, terminology unstable, no artifact existed that could transfer without its author present.<br>
+          <em style="color:var(--text-dim);font-size:13px;">The model says: identity clarification, first deposits. That matches. What the model doesn&rsquo;t capture: how much pioneer work is somatic before it becomes structural.</em>
         </div>
       </div>
 
@@ -1584,8 +1588,8 @@ p:last-child { margin-bottom: 0; }
         <div class="stage-name" style="color:var(--conn)">Early</div>
         <div class="stage-char">Feb &ndash; Mar 2026</div>
         <div class="stage-work">
-          Theory of Gift v3.4 &mdash; patterns became communicable. First genuine bidirectional exchange: embodied knowledge meeting structural articulation across sessions. The podcast, the Substack essay &mdash; translation attempts, testing whether the signal binds to new substrates.<br>
-          <em style="color:var(--text-dim);font-size:13px;">The model says: small genuine exchanges, testing contact. That matches. The surprise: how much of the exchange was with an AI substrate, and how genuine it was.</em>
+          Patterns became communicable. First genuine bidirectional exchanges &mdash; testing whether the signal transfers across substrates, whether someone who didn&rsquo;t build the framework could use it. Translation attempts into different media.<br>
+          <em style="color:var(--text-dim);font-size:13px;">The model says: small genuine exchanges, testing contact. That matches. The surprise: how much genuine exchange can occur with an AI substrate.</em>
         </div>
       </div>
 
@@ -2149,6 +2153,20 @@ p:last-child { margin-bottom: 0; }
       <p style="color:var(--text-dim);font-size:14px;margin-top:8px"><strong>Operational:</strong> Every system entry must document secondary outputs explicitly. Undocumented secondary outputs are unclosed loops.</p>
     </div>
 
+    <div class="edge-card" style="margin-bottom:20px">
+      <h3 style="color:var(--diff)">Waste Stream Recognition</h3>
+      <p>Industry discards what it can&rsquo;t extract value from. Recognition converts waste to critical infrastructure. This is the design logic behind the salvage path:</p>
+      <ul style="margin-top:12px;padding-left:20px;font-size:14px;">
+        <li style="margin-bottom:6px;">Decommissioned elevator cable &rarr; 20,000 lb structural cable (free)</li>
+        <li style="margin-bottom:6px;">Retired school bus &rarr; mobile construction platform ($36K = $100K+ equivalent)</li>
+        <li style="margin-bottom:6px;">Surplus IBC totes &rarr; autonomous infrastructure nodes ($50&ndash;150 each)</li>
+        <li style="margin-bottom:6px;">Excavated pond clay &rarr; wind berm reinforcement</li>
+        <li style="margin-bottom:6px;">Human waste &rarr; biochar + syngas + fertilizer</li>
+        <li>Fish tank settling sludge &rarr; microbial inoculant for soil</li>
+      </ul>
+      <p style="color:var(--text-dim);font-size:14px;margin-top:12px"><strong>Operational:</strong> Every system entry includes a salvage path that applies this recognition. The waste stream of one industry is the bill of materials for the next system.</p>
+    </div>
+
     <div class="edge-card">
       <h3 style="color:var(--arch)">What This Is Not</h3>
       <p><strong style="color:var(--text-bright)">Not Appropedia</strong> &mdash; Appropedia documents everything. This documents the closed-loop path.<br>
@@ -2199,7 +2217,260 @@ p:last-child { margin-bottom: 0; }
     </div>
   </section>
 
-  <!-- FIRST SYSTEM ENTRY -->
+  <!-- SYSTEM: POWER IBC -->
+  <section class="section" id="system-power-ibc">
+    <h2>System Entry: Power IBC</h2>
+
+    <div class="system-entry">
+      <div class="system-header">Distributed Power Node</div>
+      <div class="system-function">Pallet-mountable autonomous power system providing 10 kW continuous / 20 kW peak from battery storage, solar input, and generator backup. 120V/240V split-phase output.</div>
+
+      <div class="system-field">
+        <div class="system-field-label">Origin Constraint</div>
+        <div class="system-field-value">Grid power is the single largest dependency tying communities to the general economy. A system that fits on a standard pallet, ships by existing logistics, and provides welding/refrigeration/communications-grade power from day one eliminates that dependency at the smallest possible scale.</div>
+      </div>
+
+      <div class="system-field">
+        <div class="system-field-label">Scale</div>
+        <div class="system-field-value"><strong style="color:var(--diff)">Pioneer</strong> (1&ndash;5 people) &mdash; enables everything else. Power is the first dependency after water.</div>
+      </div>
+
+      <div class="system-streams">
+        <div class="system-stream-box">
+          <h4>Inputs</h4>
+          <ul>
+            <li>Solar: 2&ndash;4 kW array</li>
+            <li>Backup: 5&ndash;8.5 kW dual-fuel generator (gasoline/propane)</li>
+            <li>Ambient: charge from any 120V/240V source when available</li>
+          </ul>
+        </div>
+        <div class="system-stream-box">
+          <h4>Outputs</h4>
+          <ul>
+            <li><strong style="color:var(--text-bright)">Primary:</strong> 120V/240V split-phase, 10 kW continuous</li>
+            <li><strong style="color:var(--text-bright)">Peak:</strong> 20 kW (welders, motors, surge loads)</li>
+            <li><strong style="color:var(--conn)">Secondary:</strong> 12V/24V DC bus for direct loads (lighting, pumps, communications)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="system-field">
+        <div class="system-field-label">Core Specifications</div>
+        <div class="system-field-value">15 kWh LiFePO4 battery bank. Form factor: 1 m&sup3; (standard pallet). Weight loaded: ~600 lbs. Forklift/pallet-jack deployable.</div>
+      </div>
+
+      <div class="system-field">
+        <div class="system-field-label">Operational Simplicity</div>
+        <div class="system-field-value">Plug-and-play at the output side. Charge controller manages solar/generator/grid input automatically. Non-expert operation: flip breaker, connect loads. Maintenance: battery monitoring (BMS handles cell balancing), generator oil changes, panel cleaning. A non-expert can operate this. Wiring modifications require electrical knowledge.</div>
+      </div>
+
+      <div class="system-paths">
+        <div class="system-path-box">
+          <h4 style="color:var(--text-bright)">Retail Path</h4>
+          <p style="font-size:13px;color:var(--text);">LiFePO4 cells (server rack pulls or new), hybrid inverter/charger, MPPT charge controller, breaker panel, solar panels, generator. Estimated: $4&ndash;6K new components.</p>
+        </div>
+        <div class="system-path-box">
+          <h4 style="color:var(--bound)">Salvage Path</h4>
+          <p style="font-size:13px;color:var(--text);">Salvaged server rack LiFePO4 cells (data center decomissions), used inverters from solar installers, surplus IBC tote cage as frame ($50&ndash;150), salvaged breaker panel, used solar panels. Estimated: $3&ndash;4K. Critical constraint: BMS must be functional &mdash; no salvage shortcut on battery management.</p>
+        </div>
+      </div>
+
+      <div class="system-field">
+        <div class="system-field-label">Loop Connections</div>
+        <div class="system-field-value">Power enables every other system. Without it, no welding (Workshop IBC), no UV sterilization (Water IBC), no refrigeration (food preservation), no communications.</div>
+      </div>
+
+      <div class="system-loop-viz">
+        <span class="loop-node" style="border-color:var(--arch)">Power IBC</span>
+        <span class="loop-arrow">&rarr;</span>
+        <span class="loop-node">Workshop IBC</span>
+        <span class="loop-arrow">&rarr;</span>
+        <span class="loop-node">Fabrication</span>
+        <span class="loop-arrow">&rarr;</span>
+        <span class="loop-node">More Infrastructure</span>
+      </div>
+      <div class="system-loop-viz" style="margin-top:8px;">
+        <span class="loop-node" style="border-color:var(--arch)">Power IBC</span>
+        <span class="loop-arrow">&rarr;</span>
+        <span class="loop-node">Water IBC</span>
+        <span class="loop-arrow">&rarr;</span>
+        <span class="loop-node">Clean Water</span>
+        <span class="loop-arrow">&rarr;</span>
+        <span class="loop-node">Food Production</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SYSTEM: WATER IBC -->
+  <section class="section" id="system-water-ibc">
+    <h2>System Entry: Water IBC</h2>
+
+    <div class="system-entry">
+      <div class="system-header">Distributed Water Node</div>
+      <div class="system-function">Pallet-mountable multi-stage water filtration and pressurized distribution from any source &mdash; well, stream, catchment, or cistern. 5&ndash;10 GPM. Operational within hours of placement.</div>
+
+      <div class="system-field">
+        <div class="system-field-label">Origin Constraint</div>
+        <div class="system-field-value">Clean water from unknown sources. Municipal water requires infrastructure dependency. Untreated surface water carries pathogen risk. A system that takes any water input and produces potable output, deployable in hours, eliminates the second-largest dependency after power.</div>
+      </div>
+
+      <div class="system-field">
+        <div class="system-field-label">Scale</div>
+        <div class="system-field-value"><strong style="color:var(--diff)">Pioneer</strong> (1&ndash;5 people) &mdash; water is the non-negotiable floor. Nothing else operates without it.</div>
+      </div>
+
+      <div class="system-streams">
+        <div class="system-stream-box">
+          <h4>Inputs</h4>
+          <ul>
+            <li>Raw water from any source (well, stream, rainwater catchment, cistern)</li>
+            <li>Electrical power for UV sterilization and pressure pump (from Power IBC)</li>
+          </ul>
+        </div>
+        <div class="system-stream-box">
+          <h4>Outputs</h4>
+          <ul>
+            <li><strong style="color:var(--text-bright)">Primary:</strong> Potable water at 5&ndash;10 GPM, pressurized</li>
+            <li><strong style="color:var(--conn)">Secondary:</strong> Greywater stream (post-use) &rarr; irrigation</li>
+            <li><strong style="color:var(--conn)">Secondary:</strong> Filter backwash &rarr; sediment for construction</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="system-field">
+        <div class="system-field-label">Core Specifications</div>
+        <div class="system-field-value">Multi-stage filtration: sediment pre-filter, activated carbon, UV sterilization. Pressurized manifold for distribution. Form factor: 1 m&sup3; (standard pallet). Weight loaded: ~600 lbs.</div>
+      </div>
+
+      <div class="system-field">
+        <div class="system-field-label">Operational Simplicity</div>
+        <div class="system-field-value">Connect source, connect power, open valve. Filter replacement is the primary maintenance task &mdash; indicator gauges show when pressure drops signal filter change. UV bulb replacement annually. A non-expert can operate and maintain this with written instructions.</div>
+      </div>
+
+      <div class="system-paths">
+        <div class="system-path-box">
+          <h4 style="color:var(--text-bright)">Retail Path</h4>
+          <p style="font-size:13px;color:var(--text);">Whole-house filtration components, UV sterilizer, pressure pump, manifold fittings, IBC tote. Estimated: $2&ndash;4K new components.</p>
+        </div>
+        <div class="system-path-box">
+          <h4 style="color:var(--bound)">Salvage Path</h4>
+          <p style="font-size:13px;color:var(--text);">Surplus IBC tote ($50&ndash;150), used RO membranes from commercial systems, salvaged UV sterilizers, used pressure tanks from well systems, food-grade plumbing from restaurant decommissions. Estimated: $3&ndash;4K. Critical constraint: filter media and UV bulbs are consumables &mdash; no salvage shortcut on what touches drinking water.</p>
+        </div>
+      </div>
+
+      <div class="system-field">
+        <div class="system-field-label">Loop Connections</div>
+        <div class="system-field-value">Clean water enables food production, sanitation, and construction (concrete mixing, tool cooling). Greywater output closes the irrigation loop.</div>
+      </div>
+
+      <div class="system-loop-viz">
+        <span class="loop-node" style="border-color:var(--conn)">Water IBC</span>
+        <span class="loop-arrow">&rarr;</span>
+        <span class="loop-node">Potable Water</span>
+        <span class="loop-arrow">&rarr;</span>
+        <span class="loop-node">Food Production</span>
+        <span class="loop-arrow">&rarr;</span>
+        <span class="loop-node">Compost</span>
+        <span class="loop-arrow">&rarr;</span>
+        <span class="loop-node">Soil</span>
+      </div>
+      <div class="system-loop-viz" style="margin-top:8px;">
+        <span class="loop-node" style="border-color:var(--conn)">Water IBC</span>
+        <span class="loop-arrow">&rarr;</span>
+        <span class="loop-node">Greywater</span>
+        <span class="loop-arrow">&rarr;</span>
+        <span class="loop-node">Irrigation</span>
+        <span class="loop-arrow">&rarr;</span>
+        <span class="loop-node">Food Production</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SYSTEM: WORKSHOP IBC -->
+  <section class="section" id="system-workshop-ibc">
+    <h2>System Entry: Workshop IBC</h2>
+
+    <div class="system-entry">
+      <div class="system-header">Distributed Workshop Node</div>
+      <div class="system-function">Pallet-mountable fabrication capability &mdash; MIG/stick welding, plasma cutting, grinding, drilling. The system that builds other systems. Fold-out work surface from IBC cage structure.</div>
+
+      <div class="system-field">
+        <div class="system-field-label">Origin Constraint</div>
+        <div class="system-field-value">Without fabrication capability, every repair and every new build requires external contractors or supply chain access. The Workshop IBC is the multiplier &mdash; the system that makes all other systems maintainable and extensible on-site. Without it, infrastructure degrades toward dependency.</div>
+      </div>
+
+      <div class="system-field">
+        <div class="system-field-label">Scale</div>
+        <div class="system-field-value"><strong style="color:var(--diff)">Pioneer</strong> (1&ndash;5 people) &mdash; the third node. Power and water enable survival. The workshop enables building.</div>
+      </div>
+
+      <div class="system-streams">
+        <div class="system-stream-box">
+          <h4>Inputs</h4>
+          <ul>
+            <li>Electrical power: 240V for welders, plasma (from Power IBC)</li>
+            <li>Welding consumables: wire, rod, gas, cutting tips</li>
+            <li>Raw materials: steel, aluminum, hardware</li>
+          </ul>
+        </div>
+        <div class="system-stream-box">
+          <h4>Outputs</h4>
+          <ul>
+            <li><strong style="color:var(--text-bright)">Primary:</strong> Fabrication and repair capability</li>
+            <li><strong style="color:var(--conn)">Secondary:</strong> External revenue (mobile construction services)</li>
+            <li><strong style="color:var(--conn)">Secondary:</strong> Skill transfer (apprenticeship capacity)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="system-field">
+        <div class="system-field-label">Core Specifications</div>
+        <div class="system-field-value">MIG/stick welding: 140&ndash;180A capacity. Plasma cutting capability. Grinder, drill press, vise, saw. Fold-out work surface from cage structure. Form factor: 1 m&sup3; (standard pallet). Weight loaded: ~600 lbs.</div>
+      </div>
+
+      <div class="system-field">
+        <div class="system-field-label">Operational Simplicity</div>
+        <div class="system-field-value">Operation requires welding and fabrication skills &mdash; this is the one IBC node where the operator needs training. Self-teachable: grinding, drilling, basic cutting. Requires experienced guidance: MIG welding (weeks), stick welding (months), plasma cutting (days). The Workshop IBC is the system where the skill IS the system.</div>
+      </div>
+
+      <div class="system-paths">
+        <div class="system-path-box">
+          <h4 style="color:var(--text-bright)">Retail Path</h4>
+          <p style="font-size:13px;color:var(--text);">MIG welder, stick welder, plasma cutter, grinder, drill press, vise, saw, work surface. IBC tote cage as frame. Estimated: $3&ndash;5K new components.</p>
+        </div>
+        <div class="system-path-box">
+          <h4 style="color:var(--bound)">Salvage Path</h4>
+          <p style="font-size:13px;color:var(--text);">Used welders from equipment auctions, plasma cutters from shop closures, salvaged drill presses and vises, surplus IBC cage ($50&ndash;150), scrap steel for work surface. Estimated: $3&ndash;4K. Critical constraint: welding leads and gas regulators must be functional &mdash; safety-critical components have no salvage shortcut.</p>
+        </div>
+      </div>
+
+      <div class="system-field">
+        <div class="system-field-label">Loop Connections</div>
+        <div class="system-field-value">The Workshop IBC is the meta-system. It builds, repairs, and extends every other node. Without fabrication, infrastructure can only be maintained through external dependency. With it, the community can build what it needs next.</div>
+      </div>
+
+      <div class="system-loop-viz">
+        <span class="loop-node" style="border-color:var(--arch)">Workshop IBC</span>
+        <span class="loop-arrow">&rarr;</span>
+        <span class="loop-node">Fabrication</span>
+        <span class="loop-arrow">&rarr;</span>
+        <span class="loop-node">Infrastructure Repair</span>
+        <span class="loop-arrow">&rarr;</span>
+        <span class="loop-node">Extended System Life</span>
+      </div>
+      <div class="system-loop-viz" style="margin-top:8px;">
+        <span class="loop-node" style="border-color:var(--arch)">Workshop IBC</span>
+        <span class="loop-arrow">&rarr;</span>
+        <span class="loop-node">Revenue (Services)</span>
+        <span class="loop-arrow">&rarr;</span>
+        <span class="loop-node">Materials</span>
+        <span class="loop-arrow">&rarr;</span>
+        <span class="loop-node">More Fabrication</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SYSTEM: SLEEVE PUMP -->
   <section class="section" id="system-sleeve-pump">
     <h2>System Entry: Sleeve Pump</h2>
     <p style="margin-bottom:8px;color:var(--text-dim);font-size:14px;font-style:italic;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;">First entry in the knowledge commons. This is the format every system follows.</p>
