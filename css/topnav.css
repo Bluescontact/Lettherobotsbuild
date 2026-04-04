@@ -1,0 +1,77 @@
+/* Top navigation bar — for node pages and satellite pages */
+
+.topnav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 52px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  z-index: 1000;
+  font-family: var(--font-nav);
+  font-size: 13px;
+}
+
+.topnav-brand {
+  color: var(--text-dim);
+  letter-spacing: 0.12em;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 10px;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+.topnav-brand:hover { color: var(--text); }
+
+.topnav-sep {
+  color: var(--border-lit);
+  margin: 0 16px;
+  font-size: 14px;
+  user-select: none;
+}
+
+.topnav-links {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-left: auto;
+}
+
+.topnav-links a {
+  color: var(--text-dim);
+  text-decoration: none;
+  padding: 4px 12px;
+  font-size: 12px;
+  transition: color 0.2s;
+  white-space: nowrap;
+}
+.topnav-links a:hover { color: var(--text-bright); }
+.topnav-links a.active { color: var(--text-white); }
+
+/* Node page main content area */
+.node-main {
+  min-height: 100vh;
+  padding-top: 52px;
+}
+
+.node-content {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: var(--content-pad);
+}
+
+@media (max-width: 840px) {
+  .topnav { padding: 0 16px; }
+  .topnav-links { gap: 0; }
+  .topnav-links a { padding: 4px 8px; font-size: 11px; }
+  .topnav-sep { margin: 0 8px; }
+  .node-content { padding: 24px 20px; }
+}
+
+@media (max-width: 520px) {
+  .topnav-links a { padding: 4px 6px; font-size: 10px; }
+  .node-content { padding: 20px 16px; }
+}

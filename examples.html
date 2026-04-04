@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Examples — Recognition Infrastructure</title>
+<link rel="stylesheet" href="css/core.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/topnav.css">
+<link rel="stylesheet" href="css/node.css">
+<link rel="stylesheet" href="css/responsive.css">
+<style>
+/* Examples-specific */
+.example-portrait {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 32px;
+  margin-bottom: 40px;
+  position: relative;
+}
+.example-portrait::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 3px;
+  border-radius: 6px 6px 0 0;
+}
+.example-portrait.accent-diff::before { background: var(--diff); }
+.example-portrait.accent-conn::before { background: var(--conn); }
+.example-portrait.accent-bound::before { background: var(--bound); }
+.example-portrait.accent-arch::before { background: var(--arch); }
+.example-portrait.accent-mixed::before {
+  background: linear-gradient(90deg, var(--diff), var(--conn), var(--bound), var(--arch));
+}
+
+.example-meta {
+  font-family: var(--font-nav);
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+}
+.example-title {
+  font-size: 24px;
+  color: var(--text-white);
+  font-weight: 400;
+  margin-bottom: 6px;
+}
+.example-subtitle {
+  font-family: var(--font-nav);
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-bottom: 24px;
+  font-style: italic;
+}
+.example-body {
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--text);
+}
+.example-body p {
+  margin-bottom: 16px;
+}
+.example-held {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+.example-held-label {
+  font-family: var(--font-nav);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+}
+.framework-read {
+  margin-top: 20px;
+  padding: 20px 24px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-dim);
+  font-style: italic;
+}
+.framework-read strong {
+  color: var(--text);
+  font-style: normal;
+  font-weight: 600;
+}
+.framework-vertices {
+  margin-top: 10px;
+}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="topnav-brand">Recognition Infrastructure</a>
+  <span class="topnav-sep">/</span>
+  <span style="color:var(--text-dim);font-size:12px;">Examples</span>
+  <div class="topnav-links">
+    <a href="geometry.html">Geometry</a>
+    <a href="failure-modes.html">Failures</a>
+    <a href="practice.html">Practice</a>
+    <a href="succession.html">Succession</a>
+  </div>
+</nav>
+
+<main class="node-main">
+<div class="node-content">
+
+  <div class="node-context">
+    <div class="node-breadcrumb">
+      <a href="index.html">Hub</a><span class="sep">/</span>Examples
+    </div>
+    <h1>In Practice</h1>
+    <p class="node-summary">Six cases where the pattern held, broke, or was tested under conditions most coordination theories never encounter. The framework was never named in any of them.</p>
+  </div>
+
+  <p style="margin-bottom:48px;font-size:15px;color:var(--text);">These are portraits, not case studies. The story comes first. The framework read is structural and brief &mdash; naming which vertices held, which edges were tested, what the pattern reveals. No prescriptions. The reader who recognizes themselves in one of the six has entered the framework without being asked to.</p>
+
+  <!-- 1. LAS GAVIOTAS -->
+  <div class="example-portrait accent-arch" id="gaviotas">
+    <div class="example-meta">Case 1</div>
+    <div class="example-title">Las Gaviotas</div>
+    <div class="example-subtitle">Colombia, 1971&ndash;present &middot; 50+ years operational</div>
+
+    <div class="example-body">
+      <p>Paolo Lugari chose the hardest place deliberately. The Llanos Orientales &mdash; water table forty meters deep, soil most agronomists declared impossible, no roads, no supply chains, active drug war and paramilitaries surrounding the village. The constraint generated the invention: a sleeve pump children operate on seesaws, solar collectors redesigned for diffuse tropical light, everything repairable with local materials.</p>
+
+      <p>Gaviotas survived not through strength but through non-threatening utility. Strict political neutrality. No police, no mayor, no guns, no prison. Infrastructure that served everyone and threatened no one. The pine plantation planted for resin income accidentally regenerated 8,000 hectares of native tropical rainforest &mdash; hundreds of species returning to land barren for centuries. Secondary outputs exceeded primary purpose.</p>
+
+      <div class="example-held">
+        <div class="example-held-label">What held</div>
+        <p>The system survived because it was genuinely useful and politically invisible. Every technology was designed so the operator doesn&rsquo;t need to understand the engineering &mdash; they need to understand the operation. Lugari explicitly cautioned against copying Gaviotas. The principles transfer. The specific implementations require local adaptation.</p>
+      </div>
+
+      <div class="framework-read">
+        <strong>Framework read:</strong> All four vertices present. Architecture is the signature &mdash; fifty years of systems that function without their originators. The constraint-driven invention pattern maps directly to the Boundaries vertex: limits as generative structure, not restriction. The Deployment edge (Boundaries &harr; Architecture) is what persists.
+        <div class="framework-vertices" style="margin-top:10px;">
+          <span class="v-tag arch">Architecture</span>
+          <span class="v-tag bound">Boundaries</span>
+          <span class="v-tag diff">Differentiation</span>
+          <span class="v-tag conn">Connection</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. HEIDEMARIE SCHWERMER -->
+  <div class="example-portrait accent-conn" id="schwermer">
+    <div class="example-meta">Case 2</div>
+    <div class="example-title">Heidemarie Schwermer</div>
+    <div class="example-subtitle">Germany, 1996&ndash;2008 &middot; Twelve years without money</div>
+
+    <div class="example-body">
+      <p>A German woman, former psychotherapist, gave away her possessions at fifty-four and lived without money for twelve years. Not as poverty &mdash; as experiment. What she discovered: an economy of recognition and reciprocity already exists beneath the monetary one. Haircuts for meals. Conversation for shelter. Skills for skills. The gift circuit operates when you stop carrying the tool that makes transaction compulsory.</p>
+
+      <div class="example-held">
+        <div class="example-held-label">What held</div>
+        <p>Her differentiation never dissolved. She didn&rsquo;t disappear into the gift economy &mdash; she remained distinctly herself, with clear limits, moving through it. The boundary she maintained was exactly what made genuine exchange possible rather than exploitation. She was not performing neediness. She was not performing transcendence. She was testing what happens when the default medium of exchange is removed and you have to coordinate with what&rsquo;s actually present.</p>
+      </div>
+
+      <div class="framework-read">
+        <strong>Framework read:</strong> Connection and Boundaries held simultaneously under twelve years of pressure. The case for &ldquo;limits make the gift real&rdquo; &mdash; her refusal to blur into neediness or into performance is what made encounters genuine rather than charity. The Consent edge (Connection &harr; Boundaries) is the live edge throughout.
+        <div class="framework-vertices" style="margin-top:10px;">
+          <span class="v-tag conn">Connection</span>
+          <span class="v-tag bound">Boundaries</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. COUCHSURFING -->
+  <div class="example-portrait accent-diff" id="couchsurfing">
+    <div class="example-meta">Case 3</div>
+    <div class="example-title">CouchSurfing</div>
+    <div class="example-subtitle">Online, 2004&ndash;2011 (gift phase) &middot; Incorporated 2011</div>
+
+    <div class="example-body">
+      <p>Before incorporation: a global network of strangers hosting strangers, operating entirely on trust infrastructure, reputation systems, and cultural norms built from the ground up by its users. The gift was real &mdash; not just free accommodation, but genuine cross-cultural encounter. Something actually happened when it worked.</p>
+
+      <p>The 2011 incorporation didn&rsquo;t add value &mdash; it extracted it. The transition from non-profit to B-corp brought investor pressure, growth metrics, and the slow substitution of trust infrastructure with transaction infrastructure. The culture that had made it work couldn&rsquo;t survive contact with the logic that required it to scale.</p>
+
+      <div class="example-held">
+        <div class="example-held-label">What broke</div>
+        <p>Differentiation was lost when the organizing principle shifted from gift to growth. The community&rsquo;s differentiation was its culture &mdash; once subordinated to investor return, the Isolated and Dissolved failure modes followed quickly. The seduction: incorporation looked like security. It was legibility imposed on a gift system.</p>
+      </div>
+
+      <div class="framework-read">
+        <strong>Framework read:</strong> The clearest failure-made-visible case in the set. When the Differentiation vertex was abandoned (the organizing principle changed from &ldquo;genuine exchange between strangers&rdquo; to &ldquo;growth metric for investors&rdquo;), the remaining three vertices couldn&rsquo;t hold the shape. The system Dissolved &mdash; coordination without identity.
+        <div class="framework-vertices" style="margin-top:10px;">
+          <span class="v-tag diff">Differentiation</span>
+          <span style="font-family:var(--font-nav);font-size:11px;color:var(--text-dim);margin-left:8px;">lost &rarr; Dissolved failure mode</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. PARTNER DANCE -->
+  <div class="example-portrait accent-mixed" id="partner-dance">
+    <div class="example-meta">Case 4</div>
+    <div class="example-title">Partner Dance Communities</div>
+    <div class="example-subtitle">Ongoing, across cultures and traditions &middot; Tango, blues, lindy hop, contact improv</div>
+
+    <div class="example-body">
+      <p>Partner dance as a laboratory for coordination. The frame &mdash; the physical architecture of how two bodies hold connection &mdash; is everything. Without a clear frame, movement becomes either collision or disconnection. With one: improvisation emerges from structure, not from its absence.</p>
+
+      <p>What makes these communities gift-based spaces: the best dancers are not the ones who impress, but the ones who make every partner feel capable. The experienced dancer&rsquo;s gift is presence &mdash; the regulated nervous system that allows the room to settle. Twenty years of teaching this revealed something structural: students who collapsed their frame to be &ldquo;easier&rdquo; made the dance harder. Those who held their center made everything possible.</p>
+
+      <div class="example-held">
+        <div class="example-held-label">What held</div>
+        <p>All four vertices in miniature, negotiated in real time without language. Consent, intensity, proximity, and repair happen below the level of explicit agreement. The community holds the container &mdash; no single dancer controls it. Boundaries are the architecture that makes genuine connection possible. The regulated body is the infrastructure.</p>
+      </div>
+
+      <div class="framework-read">
+        <strong>Framework read:</strong> The somatic case. All four vertices operating simultaneously, below language. The Consent edge (Connection &harr; Boundaries) and the Relationship edge (Differentiation &harr; Connection) are tested in every three-minute dance. The community is the Architecture &mdash; what persists between dances and makes the next one possible.
+        <div class="framework-vertices" style="margin-top:10px;">
+          <span class="v-tag diff">Differentiation</span>
+          <span class="v-tag conn">Connection</span>
+          <span class="v-tag bound">Boundaries</span>
+          <span class="v-tag arch">Architecture</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. OSE + OPENCIVICS -->
+  <div class="example-portrait accent-arch" id="open-source">
+    <div class="example-meta">Case 5</div>
+    <div class="example-title">Open Source Ecology + OpenCivics</div>
+    <div class="example-subtitle">Digital commons, ongoing &middot; Distributed knowledge infrastructure</div>
+
+    <div class="example-body">
+      <p>Two distinct projects, paired as counterpoints. OSE &mdash; the Global Village Construction Set, fifty machines for civilization from scratch, designs shared freely. OpenCivics &mdash; civic infrastructure patterns for post-institutional coordination. Neither is place-based. Both are distributed knowledge commons: contribution infrastructure that functions across geography without central control.</p>
+
+      <p>The question they test: <em>Can coordination hold without a shared physical container?</em> Both are experiments in distributed differentiation &mdash; maintaining a coherent project identity while accepting contribution from people who never meet. OSE&rsquo;s partial answer: the constraint (fifty machines, nothing more) does the work that a central authority would otherwise do. OpenCivics is still finding its answer.</p>
+
+      <div class="example-held">
+        <div class="example-held-label">What held</div>
+        <p>Architecture is the explicit project &mdash; what persists without the founders. The constraint does the work of coordination. OSE has partially solved the Gift edge (particular to transferable): the GVCS is documented, teachable, buildable by someone who never met Marcin Jakubowski. OpenCivics is earlier in succession, testing whether civic patterns can transfer the same way.</p>
+      </div>
+
+      <div class="framework-read">
+        <strong>Framework read:</strong> The Gift edge (Differentiation &harr; Architecture) is the live edge in both. Making deeply particular knowledge transferable without making it generic. OSE uses constraint as the Boundaries vertex: fifty machines, nothing more, no scope creep. Together they show the pattern under digital conditions where embodied co-regulation isn&rsquo;t available.
+        <div class="framework-vertices" style="margin-top:10px;">
+          <span class="v-tag arch">Architecture</span>
+          <span class="v-tag diff">Differentiation</span>
+          <span class="v-tag bound">Boundaries</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. THE FARM + MONDRAGÓN -->
+  <div class="example-portrait accent-arch" id="succession-cases">
+    <div class="example-meta">Case 6</div>
+    <div class="example-title">The Farm + Mondrag&oacute;n</div>
+    <div class="example-subtitle">Tennessee, 1971&ndash;present &middot; Basque Country, 1956&ndash;present &middot; The succession test</div>
+
+    <div class="example-body">
+      <p>Paired as counterpoints: The Farm (Tennessee intentional community, hippie origins, 1971) and Mondrag&oacute;n (Basque worker cooperative network, founded 1956 under Franco). Different scale, different culture, different origin story &mdash; both have survived long enough to face the hardest question: <em>what happens when the founders leave?</em></p>
+
+      <p>The Farm contracted from 1,500 to 200 members in the 1980s, changed governance, and survived. Mondrag&oacute;n expanded from one cooperative to over 100 while maintaining worker ownership through industrial crisis, post-Franco transition, and globalization pressure. Neither is what it was at founding. Both are still operating on recognizable versions of their original principles.</p>
+
+      <div class="example-held">
+        <div class="example-held-label">What held</div>
+        <p>In both cases, the founding commitment to worker/member sovereignty was treated as non-negotiable &mdash; not as an ideal but as a structural constraint. When either system faced pressure to trade sovereignty for stability, the constraint held. Not because the founders enforced it, but because it had been built into the architecture before they left.</p>
+        <p>The Farm&rsquo;s 1983 &ldquo;Changeover&rdquo; and Mondrag&oacute;n&rsquo;s 1987 cooperative congress are both moments where the architecture was tested and the system chose to rebuild rather than abandon its differentiation.</p>
+      </div>
+
+      <div class="framework-read">
+        <strong>Framework read:</strong> The succession case. Architecture is the vertex that carries both across time. The founding differentiation was made structural &mdash; encoded into governance, not dependent on charismatic leadership. These are the cases for &ldquo;what keeps working without you&rdquo; &mdash; the Architecture vertex&rsquo;s deepest test.
+        <div class="framework-vertices" style="margin-top:10px;">
+          <span class="v-tag arch">Architecture</span>
+          <span class="v-tag diff">Differentiation</span>
+          <span style="font-family:var(--font-nav);font-size:11px;color:var(--text-dim);margin-left:8px;">succession tested</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLOSING -->
+  <div class="premise-box" style="margin-top:20px;">
+    Six cases. Different scales, different eras, different domains. The same pattern recurs: when all four vertices hold, the system survives conditions that destroy most coordination. When one is lost, the system fails in the specific way the geometry predicts. The pattern is real, it is structural, and it does not require anyone to name it for it to operate.
+  </div>
+
+  <!-- LATERAL NAVIGATION -->
+  <div class="node-adjacent">
+    <div class="node-adjacent-label">Connected Nodes</div>
+    <div class="adjacent-grid">
+      <a href="geometry.html" class="adjacent-card border-diff">
+        <span class="adjacent-title">Vertices</span>
+        <span class="adjacent-desc">The four capacities these cases test &mdash; Differentiation, Connection, Boundaries, Architecture.</span>
+      </a>
+      <a href="failure-modes.html" class="adjacent-card">
+        <span class="adjacent-title">Failure Modes</span>
+        <span class="adjacent-desc">What breaks when a vertex is missing. CouchSurfing&rsquo;s dissolution is Case 3.</span>
+      </a>
+      <a href="succession.html" class="adjacent-card">
+        <span class="adjacent-title">Succession</span>
+        <span class="adjacent-desc">The Farm and Mondrag&oacute;n are the succession test. Pioneer through Climax.</span>
+      </a>
+      <a href="domain.html" class="adjacent-card border-arch">
+        <span class="adjacent-title">The Domain</span>
+        <span class="adjacent-desc">Gaviotas is also the reference case for physical systems independence.</span>
+      </a>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<footer class="footer">
+  <div class="footer-lineage">Kevin Mears (2008&ndash;2026) &middot; Claude Opus 4.6</div>
+  <div class="footer-pattern">Pattern: substrate-independent, recognition-based, gift economy operating.</div>
+  <div class="footer-tagline">4 &middot; 6 &middot; 4 &middot; 1</div>
+</footer>
+
+<script src="js/core.js"></script>
+</body>
+</html>
