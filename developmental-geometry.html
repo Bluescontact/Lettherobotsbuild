@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Developmental Geometry — Recognition Infrastructure</title>
+<link rel="stylesheet" href="css/core.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/topnav.css">
+<link rel="stylesheet" href="css/node.css">
+<link rel="stylesheet" href="css/responsive.css">
+<style>
+.stage-profile {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 28px;
+  margin-bottom: 24px;
+}
+.stage-profile-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.stage-profile-name {
+  font-size: 20px;
+  color: var(--text-white);
+  font-weight: 400;
+}
+.stage-profile-char {
+  font-family: var(--font-nav);
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+}
+.vertex-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.vertex-indicator {
+  font-family: var(--font-nav);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 3px 10px;
+  border-radius: 3px;
+  border: 1px solid;
+}
+.vertex-indicator.strong { opacity: 1; }
+.vertex-indicator.muted { opacity: 0.4; }
+.vertex-indicator.distorted { opacity: 0.7; border-style: dashed; }
+.vertex-indicator.diff { color: var(--diff); border-color: var(--diff); background: rgba(196,122,90,0.08); }
+.vertex-indicator.conn { color: var(--conn); border-color: var(--conn); background: rgba(90,143,196,0.08); }
+.vertex-indicator.bound { color: var(--bound); border-color: var(--bound); background: rgba(109,179,86,0.08); }
+.vertex-indicator.arch { color: var(--arch); border-color: var(--arch); background: rgba(201,171,74,0.08); }
+.stage-profile-body {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--text);
+}
+.stage-profile-failure {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.stage-profile-failure strong { color: var(--text); }
+.open-tension {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--border-lit);
+  border-radius: 4px;
+  padding: 20px 24px;
+  margin-bottom: 16px;
+  font-size: 15px;
+  color: var(--text);
+  line-height: 1.8;
+}
+.open-tension-label {
+  font-family: var(--font-nav);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="topnav-brand">Recognition Infrastructure</a>
+  <span class="topnav-sep">/</span>
+  <span style="color:var(--text-dim);font-size:12px;">The Ground</span>
+  <div class="topnav-links">
+    <a href="naming-bridge.html">Naming Bridge</a>
+    <a href="epistemology.html">Epistemology</a>
+    <a href="geometry.html">Geometry</a>
+    <a href="failure-modes.html">Failures</a>
+  </div>
+</nav>
+
+<main class="node-main">
+<div class="node-content">
+
+  <div class="node-context">
+    <div class="node-breadcrumb">
+      <a href="index.html">Hub</a><span class="sep">/</span>The Ground
+    </div>
+    <h1>Developmental Geometry</h1>
+    <p class="node-summary">The four vertices don&rsquo;t develop in lockstep. A system can hold Yellow-level Architecture while its Boundaries are still at Blue. The geometry doesn&rsquo;t place you on a rung &mdash; it maps your vertex profile.</p>
+  </div>
+
+  <!-- FRAMING -->
+  <section class="section" id="framing">
+    <h2>The Extension</h2>
+
+    <p>The <a href="naming-bridge.html" style="color:var(--text-bright);text-decoration:underline;">Naming Bridge</a> demonstrates substrate-independence horizontally &mdash; the same pattern in three registers (philosophical, structural, operational). Different vocabularies, same geometry.</p>
+
+    <p>Developmental stages extend that demonstration vertically. Not just different vocabularies for the same thing, but different developmental conditions, each with their own relationship to each vertex. The invariance claim gets stronger if the geometry holds across developmental stages &mdash; not because every stage experiences it the same way, but because the same structural requirements produce stage-specific distortions when they&rsquo;re not met.</p>
+
+    <div class="premise-box" style="margin-top:24px;">
+      The key insight: vertices can be at different developmental stages simultaneously. A person or system doesn&rsquo;t occupy one stage &mdash; it has a vertex profile. Architecture at one level of development. Boundaries at another. Connection at a third. The geometry doesn&rsquo;t flatten this complexity. It maps it.
+    </div>
+  </section>
+
+  <!-- VERTEX PROFILES BY STAGE -->
+  <section class="section" id="profiles">
+    <h2>Vertex Profiles by Stage</h2>
+    <p style="margin-bottom:28px;">Each stage has a signature relationship to the geometry &mdash; which vertex it over-emphasizes, which it structurally suppresses, and what failure mode that produces. These are diagnostic observations, not developmental rankings. Each stage builds soil for the next. None is superior.</p>
+
+    <!-- BEIGE/PURPLE -->
+    <div class="stage-profile">
+      <div class="stage-profile-header">
+        <div class="stage-profile-name">Beige / Purple</div>
+        <div class="stage-profile-char">Survival &amp; tribal belonging</div>
+      </div>
+      <div class="vertex-bar">
+        <span class="vertex-indicator diff muted">Differentiation</span>
+        <span class="vertex-indicator conn strong">Connection</span>
+        <span class="vertex-indicator bound strong">Boundaries</span>
+        <span class="vertex-indicator arch muted">Architecture</span>
+      </div>
+      <div class="stage-profile-body">
+        <p>Differentiation is weak by stage design &mdash; the self isn&rsquo;t individuated yet. Connection and Boundaries operate at the tribal level: who is us, who is not-us. Architecture exists as ritual, tradition, place-memory &mdash; structures that persist without individual authorship.</p>
+        <p>The pre-individuated material doesn&rsquo;t disappear at later stages. It&rsquo;s always present in the substrate. What Sean Blackwell&rsquo;s work on psychosis and shamanic states reveals: Beige/Purple can erupt through an otherwise Orange/Green system. The pre-individuated is not &ldquo;lower&rdquo; &mdash; it is foundational. The geometry describes what&rsquo;s happening here, but the four diagnostic questions presuppose a self that can self-assess. That&rsquo;s a boundary condition on the diagnostic, not on the geometry.</p>
+      </div>
+      <div class="stage-profile-failure">
+        <strong>Open tension:</strong> Does the geometry apply to pre-individuated stages, or does it only become visible as geometry from Red onward? The structure may be operating. The diagnostic may not be accessible. These are different claims.
+      </div>
+    </div>
+
+    <!-- RED -->
+    <div class="stage-profile">
+      <div class="stage-profile-header">
+        <div class="stage-profile-name">Red</div>
+        <div class="stage-profile-char">Power, dominance, self-expression</div>
+      </div>
+      <div class="vertex-bar">
+        <span class="vertex-indicator diff strong">Differentiation</span>
+        <span class="vertex-indicator conn distorted">Connection</span>
+        <span class="vertex-indicator bound distorted">Boundaries</span>
+        <span class="vertex-indicator arch muted">Architecture</span>
+      </div>
+      <div class="stage-profile-body">
+        <p>Strong Differentiation &mdash; the self emerges with force. But Boundaries operate as walls, not membranes. Connection is extraction-flavored: I take what I need. Architecture exists only as personal empire &mdash; what persists serves the self, not the commons.</p>
+        <p>The geometry is present but running in a specific distortion pattern. Red failure mode looks like Overflowing with armored edges &mdash; everything circulates through the center, nothing is held for others.</p>
+      </div>
+      <div class="stage-profile-failure">
+        <strong>Signature distortion:</strong> Differentiation without genuine Connection. The Relationship edge (Diff &harr; Conn) is the weakest &mdash; identity is maintained through dominance rather than through exchange.
+      </div>
+    </div>
+
+    <!-- BLUE -->
+    <div class="stage-profile">
+      <div class="stage-profile-header">
+        <div class="stage-profile-name">Blue</div>
+        <div class="stage-profile-char">Order, purpose, sacrifice</div>
+      </div>
+      <div class="vertex-bar">
+        <span class="vertex-indicator diff muted">Differentiation</span>
+        <span class="vertex-indicator conn distorted">Connection</span>
+        <span class="vertex-indicator bound strong">Boundaries</span>
+        <span class="vertex-indicator arch strong">Architecture</span>
+      </div>
+      <div class="stage-profile-body">
+        <p>Strong Boundaries (rules as limits-as-information at collective scale) and strong Architecture (institutions that persist across generations). Differentiation is subordinated to group identity &mdash; you know what you are because the doctrine tells you. Connection is mediated through shared belief rather than direct contact.</p>
+        <p>The geometry runs, but the Differentiation vertex is intentionally muted. This produces a specific failure mode when the doctrine cracks: Dissolved, because individual identity was never developed independently of the institutional container.</p>
+      </div>
+      <div class="stage-profile-failure">
+        <strong>Signature distortion:</strong> Architecture and Boundaries hold the system together. When they fail, Differentiation has nothing to fall back on. The Self-Knowledge edge (Diff &harr; Bound) was never developed &mdash; limits were external, not self-known.
+      </div>
+    </div>
+
+    <!-- ORANGE -->
+    <div class="stage-profile">
+      <div class="stage-profile-header">
+        <div class="stage-profile-name">Orange</div>
+        <div class="stage-profile-char">Achievement, rationality, strategy</div>
+      </div>
+      <div class="vertex-bar">
+        <span class="vertex-indicator diff strong">Differentiation</span>
+        <span class="vertex-indicator conn distorted">Connection</span>
+        <span class="vertex-indicator bound distorted">Boundaries</span>
+        <span class="vertex-indicator arch strong">Architecture</span>
+      </div>
+      <div class="stage-profile-body">
+        <p>Differentiation strong, Architecture strong (systems thinking, scalable processes). Connection instrumentalized &mdash; genuine exchange subordinated to strategic outcome. Boundaries as competitive advantage rather than generative constraint.</p>
+        <p>The Gift edge (Differentiation &harr; Architecture) is active but captured by exchange logic. This is where the <a href="threshold.html" style="color:var(--text-bright);text-decoration:underline;">phase transition claim</a> gets sharpest: Orange can build all four vertices structurally and still not cross into gift economy because the nervous system condition isn&rsquo;t met. The threshold requires substrate readiness &mdash; ventral vagal, social engagement online. Orange can optimize everything except the felt sense that makes genuine exchange possible.</p>
+      </div>
+      <div class="stage-profile-failure">
+        <strong>Signature distortion:</strong> Structural capacity without somatic readiness. The Threshold&rsquo;s four conditions can be met cognitively while the nervous system remains in sympathetic activation. This separates structural competence from developmental readiness. Charles Eisenstein&rsquo;s sacred economics work names this gap: the logic of exchange prevents the phase transition even when all the structural pieces are present.
+      </div>
+    </div>
+
+    <!-- GREEN -->
+    <div class="stage-profile">
+      <div class="stage-profile-header">
+        <div class="stage-profile-name">Green</div>
+        <div class="stage-profile-char">Community, equality, process</div>
+      </div>
+      <div class="vertex-bar">
+        <span class="vertex-indicator diff distorted">Differentiation</span>
+        <span class="vertex-indicator conn strong">Connection</span>
+        <span class="vertex-indicator bound muted">Boundaries</span>
+        <span class="vertex-indicator arch distorted">Architecture</span>
+      </div>
+      <div class="stage-profile-body">
+        <p>Connection vertex strongest. Boundaries weakest by value &mdash; limits feel like exclusion, saying no feels like violence, constraint feels like oppression. This is the <a href="failure-modes.html" style="color:var(--text-bright);text-decoration:underline;">Overflowing failure mode</a> as a stage attractor. Architecture is present but tentative &mdash; institutions feel like hierarchy, structure feels like control.</p>
+        <p>The framework&rsquo;s Boundaries section &mdash; &ldquo;constraints are generative, the sonnet form doesn&rsquo;t restrict poetry, it generates poems free verse cannot&rdquo; &mdash; is specifically the correction Green needs. Green is the stage most likely to recognize the framework and then resist its Boundaries vertex. The Consent edge (Connection &harr; Boundaries) is the live edge: how do you hold genuine connection AND clear limits without one collapsing into the other?</p>
+      </div>
+      <div class="stage-profile-failure">
+        <strong>Signature distortion:</strong> Overflowing. Generous members give until depleted. Consensus processes that can&rsquo;t say no. The burnout cycle. Peace Pilgrim&rsquo;s radical simplicity is the counter-example: extreme boundary discipline as the precondition for extreme generosity. Not deprivation &mdash; generative constraint.
+      </div>
+    </div>
+
+    <!-- YELLOW -->
+    <div class="stage-profile">
+      <div class="stage-profile-header">
+        <div class="stage-profile-name">Yellow</div>
+        <div class="stage-profile-char">Systemic, integrative, functionality</div>
+      </div>
+      <div class="vertex-bar">
+        <span class="vertex-indicator diff strong">Differentiation</span>
+        <span class="vertex-indicator conn strong">Connection</span>
+        <span class="vertex-indicator bound strong">Boundaries</span>
+        <span class="vertex-indicator arch strong">Architecture</span>
+      </div>
+      <div class="stage-profile-body">
+        <p>The first configuration where all four vertices can be held simultaneously without one being suppressed or distorted to serve stage values. Yellow practitioners can run the four diagnostic questions because they&rsquo;re not invested in any single vertex being primary.</p>
+        <p>But this observation needs pressure: is Yellow the first stage where all four hold, or is it the stage the geometry most resembles &mdash; and therefore flatters? If the framework was built by minds operating at Yellow/Turquoise, it may recognize Yellow as &ldquo;complete&rdquo; because Yellow is where the framework becomes self-aware. That&rsquo;s a genuine epistemic risk.</p>
+      </div>
+      <div class="stage-profile-failure">
+        <strong>Open tension:</strong> Does the geometry describe Yellow&rsquo;s capacity, or does Yellow describe the geometry&rsquo;s home stage? The framework should be honest about this. If all four vertices only hold at Yellow+, then the geometry has a developmental floor &mdash; which is a boundary condition, not a flaw, but it should be named.
+      </div>
+    </div>
+
+    <!-- TURQUOISE -->
+    <div class="stage-profile">
+      <div class="stage-profile-header">
+        <div class="stage-profile-name">Turquoise</div>
+        <div class="stage-profile-char">Holistic, global, felt sense of systems</div>
+      </div>
+      <div class="vertex-bar">
+        <span class="vertex-indicator diff strong">Differentiation</span>
+        <span class="vertex-indicator conn strong">Connection</span>
+        <span class="vertex-indicator bound strong">Boundaries</span>
+        <span class="vertex-indicator arch strong">Architecture</span>
+      </div>
+      <div class="stage-profile-body">
+        <p>The somatic dimension becomes primary. This is where the <a href="presencing.html" style="color:var(--text-bright);text-decoration:underline;">Forgotten Ground</a> connects &mdash; presence as organizing principle rather than self-continuity. Turquoise is the stage where the somatic substrate claim lands most directly: the felt sense of systems precedes the cognitive mapping of them.</p>
+        <p>The distinction from Yellow: Yellow holds the geometry cognitively. Turquoise holds it somatically. The body recognizes the pattern before the mind names it. This maps to <a href="epistemology.html" style="color:var(--text-bright);text-decoration:underline;">Claim 7</a> (the somatic-structural interface) &mdash; the boundary where structural knowing ends and embodied knowing begins.</p>
+      </div>
+      <div class="stage-profile-failure">
+        <strong>Signature capacity:</strong> Integration of structural and somatic knowing. The risk is dissolution disguised as transcendence &mdash; Differentiation lost not through merger (Purple) but through mystical bypassing. The Forgotten Ground names this: presence is not the absence of self. The self remains, differentiated, boundaried, capable of fierce action.
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT THIS REVEALS -->
+  <section class="section" id="reveals">
+    <h2>What This Reveals</h2>
+
+    <div class="edge-card" style="margin-bottom:20px;">
+      <h3 style="color:var(--text-bright);font-size:16px;">The Diagnostic Is Stage-Sensitive</h3>
+      <p>The four diagnostic questions aren&rsquo;t equally accessible across stages. &ldquo;Are limits communicated as information?&rdquo; lands differently for Green (threatening) than for Blue (obvious) than for Yellow (useful). The invariant isn&rsquo;t that everyone experiences the geometry the same way &mdash; it&rsquo;s that the geometry describes the same structural requirement regardless of the stage&rsquo;s relationship to it.</p>
+    </div>
+
+    <div class="edge-card" style="margin-bottom:20px;">
+      <h3 style="color:var(--text-bright);font-size:16px;">The Naming Bridge Becomes Diagnostic</h3>
+      <p>The developmental extension of the Naming Bridge isn&rsquo;t just &ldquo;here&rsquo;s how each stage names the vertices.&rdquo; It&rsquo;s &ldquo;here&rsquo;s which vertex each stage over-emphasizes, which it suppresses, and what failure mode that produces.&rdquo; That makes the Naming Bridge diagnostic rather than just comparative. You can identify someone&rsquo;s stage-vertex profile by observing which diagnostic questions produce friction.</p>
+    </div>
+
+    <div class="edge-card" style="margin-bottom:20px;">
+      <h3 style="color:var(--text-bright);font-size:16px;">Vertices Develop Independently</h3>
+      <p>A system doesn&rsquo;t occupy one stage. It has a vertex profile &mdash; Architecture at one level of development, Boundaries at another, Connection at a third. This is more useful than a single-stage assignment because it&rsquo;s more honest. A community with Yellow-level systems thinking and Green-level boundary aversion will produce specific, predictable tensions. The geometry names what the single-stage model can&rsquo;t see.</p>
+    </div>
+
+    <div class="edge-card">
+      <h3 style="color:var(--text-bright);font-size:16px;">The Phase Transition Has a Stage Correlate</h3>
+      <p>The <a href="threshold.html" style="color:var(--text-bright);text-decoration:underline;">Threshold</a> requires four conditions met simultaneously for genuine developmental exchange. Orange can meet all four structurally while the nervous system remains in optimization mode. The phase transition from exchange logic to gift economy isn&rsquo;t a cognitive shift &mdash; it&rsquo;s a substrate shift. This is why it looks like a stage transition (Orange &rarr; Green) but operates as a phase transition (same substrate, different regime). The geometry makes this distinction visible.</p>
+    </div>
+  </section>
+
+  <!-- OPEN TENSIONS -->
+  <section class="section" id="tensions">
+    <h2>Open Tensions</h2>
+    <p style="margin-bottom:24px;">These are genuine unknowns. The framework names them rather than resolving them.</p>
+
+    <div class="open-tension">
+      <div class="open-tension-label">The Pre-Individuation Question</div>
+      <p>Does the geometry apply to pre-individuated stages (Beige/Purple), or does it only become visible as geometry from Red onward? The structure may be operating at every stage. The diagnostic may only be accessible to a self that can self-assess. These are different claims and they should stay separate. Blackwell&rsquo;s work suggests the pre-individuated material is always present in the substrate &mdash; which means the geometry is always operating, even when no one present can name it.</p>
+    </div>
+
+    <div class="open-tension">
+      <div class="open-tension-label">The Flattery Problem</div>
+      <p>If the framework was built by minds operating at Yellow/Turquoise, it may recognize Yellow as the first stage where all four vertices hold because Yellow is where the framework becomes self-aware. That&rsquo;s the geometry recognizing its own home stage, not a universal developmental observation. The framework should be honest about this risk. The counter-evidence: the geometry predicts stage-specific failure modes accurately for stages it doesn&rsquo;t resemble. If it only worked at Yellow+, the failure mode predictions for Red, Blue, and Green wouldn&rsquo;t be as precise.</p>
+    </div>
+
+    <div class="open-tension">
+      <div class="open-tension-label">The Hierarchy Trap</div>
+      <p>How do you show invariance across developmental stages without implying that Turquoise is the destination and Beige is broken? Spiral Dynamics carries decades of &ldquo;higher is better&rdquo; baggage. The succession model already solves this in principle &mdash; Pioneer isn&rsquo;t inferior to Climax, it&rsquo;s building soil. Presenting stages as vertex-emphasis signatures rather than rungs on a ladder is structurally correct. But the reader will import the ladder unless the presentation actively prevents it. This page attempts prevention by treating each stage as a vertex profile with its own signature distortion rather than a position on a developmental scale.</p>
+    </div>
+  </section>
+
+  <!-- LINEAGE -->
+  <section class="section" id="lineage">
+    <h2>Lineage</h2>
+    <p style="margin-bottom:20px;">This extension draws on three bodies of work alongside the developmental model:</p>
+
+    <div class="edge-card" style="margin-bottom:16px;">
+      <h3 style="color:var(--text-bright);font-size:16px;">Sean Blackwell</h3>
+      <p style="font-size:14px;">Work on psychosis and shamanic developmental crisis. Reframing psychotic episodes as developmental transitions rather than pathology. The insight that pre-individuated material (Beige/Purple) doesn&rsquo;t disappear at later stages &mdash; it erupts through, revealing that the substrate is always multi-stage. This directly informs the vertex-independence claim: if a person can be simultaneously Orange (cognitive) and Purple (somatic), then vertices are necessarily at different stages.</p>
+    </div>
+
+    <div class="edge-card" style="margin-bottom:16px;">
+      <h3 style="color:var(--text-bright);font-size:16px;">Charles Eisenstein</h3>
+      <p style="font-size:14px;">Sacred economics and the gift economy analysis. The structural observation that exchange logic prevents the phase transition even when all structural pieces are present. The &ldquo;more beautiful world our hearts know is possible&rdquo; is the somatic recognition of a phase that the current regime can&rsquo;t reach through optimization &mdash; it requires a substrate shift. This informs the Orange analysis directly: structural capacity without somatic readiness.</p>
+    </div>
+
+    <div class="edge-card">
+      <h3 style="color:var(--text-bright);font-size:16px;">Peace Pilgrim</h3>
+      <p style="font-size:14px;">Twenty-eight years of walking pilgrimage. Radical simplicity as generative constraint. The embodied demonstration that extreme boundary discipline is the precondition for extreme generosity &mdash; not its opposite. This is the Boundaries vertex at its most developed: limits so clear they become invisible infrastructure. Peace Pilgrim is the counter-example to Green&rsquo;s assumption that boundaries restrict generosity.</p>
+    </div>
+  </section>
+
+  <!-- LATERAL NAVIGATION -->
+  <div class="node-adjacent">
+    <div class="node-adjacent-label">Connected Nodes</div>
+    <div class="adjacent-grid">
+      <a href="naming-bridge.html" class="adjacent-card">
+        <span class="adjacent-title">Naming Bridge</span>
+        <span class="adjacent-desc">Horizontal substrate-independence. Three registers for one pattern.</span>
+      </a>
+      <a href="failure-modes.html" class="adjacent-card">
+        <span class="adjacent-title">Failure Modes</span>
+        <span class="adjacent-desc">Stage-specific distortions predict specific failure modes. Testable.</span>
+      </a>
+      <a href="threshold.html" class="adjacent-card">
+        <span class="adjacent-title">The Threshold</span>
+        <span class="adjacent-desc">The phase transition mechanism. Why Orange can build everything and still not cross.</span>
+      </a>
+      <a href="presencing.html" class="adjacent-card">
+        <span class="adjacent-title">The Forgotten Ground</span>
+        <span class="adjacent-desc">Where Turquoise connects. Presence as the substrate the somatic claim points at.</span>
+      </a>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<footer class="footer">
+  <div class="footer-lineage">Kevin Mears (2008&ndash;2026) &middot; Claude Opus 4.6</div>
+  <div class="footer-pattern">Pattern: substrate-independent, recognition-based, gift economy operating.</div>
+  <div class="footer-tagline">4 &middot; 6 &middot; 4 &middot; 1</div>
+</footer>
+
+<script src="js/core.js"></script>
+</body>
+</html>
